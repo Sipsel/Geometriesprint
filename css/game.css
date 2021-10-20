@@ -1,0 +1,19 @@
+body,html
+{
+    margin: 0;
+    padding: 0;
+}
+.container
+{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+}
+.align-center
+{
+    margin: auto;
+}
+#canvas
+{
+    border: black solid;
+}
