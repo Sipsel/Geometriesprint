@@ -1,0 +1,56 @@
+a:link, a:visited {
+    color:white;
+    border: 1px solid white;
+    background-color: transparent;
+    padding: 14px 25px;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 35px;
+    width: 100%;
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:hover, a:active {
+    background-color: white;
+    color:black;
+}
+body{
+    background:black;
+}
+
+.main-wrapper{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+.links{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+.heading{
+    color: transparent;
+    text-transform: uppercase;
+    background-image: linear-gradient(to left, rgb(4, 0, 255), orange);
+    -webkit-background-clip: text;
+    animation: animate 5s linear infinite;
+    -webkit-background-size: 500%;
+    background-size: 500%;
+    text-align: center;
+    font-size: 128px;
+}
+
+@keyframes animate{
+    0%{
+        background-position: 0 100%;
+    }
+    50%{
+        background-position: 100% 0;
+    }
+    100%{
+        background-position: 0 100%;
+    }
+}
