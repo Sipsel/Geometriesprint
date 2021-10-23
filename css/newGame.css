@@ -1,0 +1,74 @@
+input[type=text]{
+    background-image: linear-gradient(to left, rgb(4, 0, 255), orange);
+    -webkit-background-clip: text;
+    animation: animate 5s linear infinite;
+    -webkit-background-size: 500%;
+    background-size: 500%;
+    font-family: "Lucida Handwriting",Calligraphic,Arial;;
+    font-size: 64px;
+    border: 2px solid white;
+    background-color: black;
+    color: transparent;
+    height: 100px;
+    text-align: center;
+}
+
+
+.startGameOrleave{
+    display: grid;
+    grid-template-columns: repeat(4, 250);
+    grid-template-rows: repeat(4, 250);
+    height: 500px;
+    width: 1000px;
+    gap: 10px;
+    grid-template-areas:
+    "a a a a"
+    "b b b b"
+    "c c c c";
+}
+
+#playername{
+    grid-area: a;
+    border-radius: 25px;
+    width: 992px;
+}
+
+#chooseCharacter{
+    grid-area: b;
+    border-radius: 25px;
+    padding: 2px 1px;
+    border: 2px solid white;
+    width: 994px;
+}
+
+.buttons{
+    width: 1000px;
+    grid-area: c;
+    grid-auto-flow: column;
+    display: grid;
+    gap: px;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: 
+    "a b";
+
+
+    background-image: linear-gradient(to left, rgb(4, 0, 255), orange);
+    -webkit-background-clip: text;
+    animation: animate 5s linear infinite;
+    -webkit-background-size: 500%;
+    background-size: 500%;
+}
+
+#startGame{
+    width: 490px;
+    padding:14px 0px;
+    justify-self: center;
+    grid-area: b;
+}
+
+#backToMenu{
+    width: 490px;
+    padding: 14px 0px;
+    justify-self: center;
+    grid-area: a;
+}

@@ -1,0 +1,65 @@
+a:link, a:visited {
+    color:white;
+    border-radius: 25px;
+    background-color: transparent;
+    padding: 14px 0px;
+    text-align: center;
+    font-size: 35px;
+    width: 1000px;
+    text-decoration: none;
+    display: inline-block;
+    cursor:pointer;
+}
+
+a:hover, a:active {
+    color: transparent;
+}
+
+body{
+    background:black;
+    font-family: "Lucida Handwriting",Calligraphic,Arial;
+}
+
+.gradient-border{
+    width: 1000px;
+}
+
+
+
+.main-wrapper{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    color: transparent;
+    text-transform: uppercase;
+    background-image: linear-gradient(to left, rgb(4, 0, 255), orange);
+    -webkit-background-clip: text;
+    animation: animate 5s linear infinite;
+    -webkit-background-size: 500%;
+    background-size: 500%;
+    text-align: center;
+}
+
+.links{
+    margin-top:100px;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+.heading{
+    font-size: 128px;
+    }
+
+@keyframes animate{
+    0%{
+            background-position: 0 100%;
+    }
+    50%{
+        background-position: 100% 0;
+    }
+    100%{
+        background-position: 0 100%;
+    }
+}
+

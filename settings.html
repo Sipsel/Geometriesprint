@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geometriesprint</title>
-    <link rel="stylesheet" href="/css/index.css">
-    <script src="/js/main.js"></script>
-</head>
-<body>
-    <H1>Einstellungen</H1>
-    <a href="/menu.html" id="newGame" class="button">Hauptmenü</a>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Geometriesprint</title>
+        <link rel="stylesheet" href="/css/standard.css">
+        <link rel="stylesheet" href="/css/settings.css">
+    </head>
+    <body>
+        <div class="main-wrapper">
+            <div class="heading">
+                Einstellungen
+            </div>
+            <div class="settings">
+                <div class="volume">
+                        <div class="range-slider">
+                            <input type="range" min="0" max="100" value="50" class="slider">
+                            <div class="slider-thumb">
+                                <div class="tooltip">
+                                    <div class="tooltipNumber"></div>
+                                </div>
+                            </div>
+                            <div class="progress"></div>
+                        </div>
+                        <script src="/js/settings.js"></script>
+                    <div class="volumeText">Lautstärke</div>
+                </div>
+                <div class="backToMenu">
+                    <div class="buttons">
+                        <a href="/menu.html" id="reset" class="button" onclick="return confirm('Möchten Sie die Einstellungen nicht speichern?')">Abbrechen</a>
+                        <a href="/menu.html" id="save" class="button" onclick="return alert('Einstellungen wurden übernommen.')">Speichern</a>
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </body>
 </html>

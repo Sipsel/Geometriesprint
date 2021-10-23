@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geometriesprint</title>
-    <link rel="stylesheet" href="/css/index.css">
-    <script src="/js/main.js"></script>
-</head>
-<body>
-    <H1>newGame</H1>
-    <a href="/menu.html" id="newGame" class="button">Hauptmenü</a>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Geometriesprint</title>
+        <link rel="stylesheet" href="/css/standard.css">
+        <link rel="stylesheet" href="/css/newGame.css">
+        <script src="/js/main.js"></script>
+    </head>
+    <body>
+        <div class="main-wrapper">
+            <div class="heading">
+                Neues Spiel
+            </div>
+            <div class="startGameOrleave">
+                <input type="text" id="playername" name="Name" placeholder="Name">
+                <canvas id="chooseCharacter"></canvas>
+                <div class="buttons">
+                    <a href="/menu.html" id="backToMenu" class="button">Hauptmenü</a>
+                    <a href="/gameloop.html" id="startGame" class="button">Start</a>
+                </div>
+            </div>   
+        </div>
+    </body>
 </html>
