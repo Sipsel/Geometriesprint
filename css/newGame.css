@@ -1,13 +1,13 @@
 input[type=text]{
-    background-image: linear-gradient(to left, rgb(4, 0, 255), orange);
+    background-image: linear-gradient(to left, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     animation: animate 5s linear infinite;
     -webkit-background-size: 500%;
     background-size: 500%;
     font-family: "Lucida Handwriting",Calligraphic,Arial;;
     font-size: 64px;
-    border: 2px solid white;
-    background-color: black;
+    border: 2px solid var(--invertedbackground);
+    background-color: var(--background-color);
     color: transparent;
     height: 100px;
     text-align: center;
@@ -37,7 +37,7 @@ input[type=text]{
     grid-area: b;
     border-radius: 25px;
     padding: 2px 1px;
-    border: 2px solid white;
+    border: 2px solid var(--invertedbackground);
     width: 994px;
 }
 
@@ -52,7 +52,7 @@ input[type=text]{
     "a b";
 
 
-    background-image: linear-gradient(to left, rgb(4, 0, 255), orange);
+    background-image: linear-gradient(to left, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     animation: animate 5s linear infinite;
     -webkit-background-size: 500%;

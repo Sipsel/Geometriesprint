@@ -7,6 +7,7 @@
         <title>Geometriesprint</title>
         <link rel="stylesheet" href="/css/standard.css">
         <link rel="stylesheet" href="/css/settings.css">
+        <script src="/js/standard.js"></script>
     </head>
     <body>
         <div class="main-wrapper">
@@ -16,7 +17,7 @@
             <div class="settings">
                 <div class="volume">
                         <div class="range-slider">
-                            <input type="range" min="0" max="100" value="50" class="slider">
+                            <input type="range" min="0" max="100" value="50" id="volume-slider" class="slider">
                             <div class="slider-thumb">
                                 <div class="tooltip">
                                     <div class="tooltipNumber"></div>
@@ -24,16 +25,36 @@
                             </div>
                             <div class="progress"></div>
                         </div>
-                        <script src="/js/settings.js"></script>
+                        
                     <div class="volumeText">Lautstärke</div>
                 </div>
+                <div class="colorPicker">
+                    <div class="primaryColorPicker">
+                        <input type="color" id="primary-color-indicator" class="color-indicator" value="#FFFFFF">
+                        Primäre Farbe
+                    </div>
+                    <div class="secondaryColorPicker">
+                        <input type="color" id="secondary-color-indicator" class="color-indicator" value="#FFFFFF">
+                        Sekundäre Farbe
+                    </div>
+                    <div class="backgroundColorPicker">
+                        <input type="color" id="background-color-indicator" class="color-indicator" value="#FFFFFF">
+                        Hintergrund
+                    </div>
+                </div>
+                
+                
+                
+
                 <div class="backToMenu">
                     <div class="buttons">
-                        <a href="/menu.html" id="reset" class="button" onclick="return confirm('Möchten Sie die Einstellungen nicht speichern?')">Abbrechen</a>
-                        <a href="/menu.html" id="save" class="button" onclick="return alert('Einstellungen wurden übernommen.')">Speichern</a>
+                        <a href="/menu.html" id="reset" class="button">Abbrechen</a>
+                        <a href="/menu.html" id="saveButton" class="button">Speichern</a>
                     </div>
                 </div>
             </div>   
         </div>
+
+        <script src="/js/settings.js"></script>
     </body>
 </html>

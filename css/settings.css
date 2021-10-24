@@ -43,8 +43,8 @@
     height: 0.4em;
     outline: none;
     border-radius: 3px;
-    background: #1f1f1f;
-    box-shadow: 3px 3px 6px #000,
+    background: var(--invertedbackground);
+    box-shadow: 3px 3px 6px var(--background-color),
     inset 1px 1px 1px #909090;
 }
 
@@ -61,7 +61,7 @@
     position: absolute;
     width: 1.7em;
     height: 1.7em;
-    background: #090909;
+    background: var(--background-color);
     border-radius: 50%;
     position: absolute;
     top: 50%;
@@ -79,13 +79,13 @@
     transform: translate(-50%,-50%);
     width: 1em;
     height: 1em;
-    background: white;
+    background: var(--invertedbackground);
     border-radius: inherit;
     transition: 0.3s;
 }
 
 .range-slider:hover .slider-thumb:before {
-    background: linear-gradient( to left, rgb(4, 0, 255), orange 100%);
+    background: linear-gradient( to left, var(--primary-color), var(--secondary-color));
     background-size: 500%;
     animation: animate 5s linear infinite;
 
@@ -98,11 +98,11 @@
     top: -2em;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-image: linear-gradient( to left, rgb(4, 0, 255), orange 100%);
-    background: black;
+    background-image: linear-gradient( to left, var(--primary-color), var(--secondary-color));
+    background: var(--background-color);
     text-align: center;
-    line-height: 35px;
-    color: orange;
+    line-height: 70px;
+    color: var(--invertedbackground);
     border-radius: 3px;
     box-shadow: 0px 3px 10px #1f1f1f,
     inset 0px 1px 2px #909090;
@@ -127,7 +127,7 @@
     width: 50%;
     height: 0.4em;
     border-radius: 3px;
-    background: linear-gradient( to left, rgb(4, 0, 255), orange 100%);
+    background: linear-gradient( to left, var(--primary-color), var(--secondary-color));
     position: absolute;
     top:50%;
     transform: translateY(-50%);
@@ -160,4 +160,34 @@
     width: 490px;
     padding:14px 0px;
     justify-self: center;
+}
+
+.color-indicator {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    vertical-align: middle;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.primaryColorPicker .color-indicator {
+    background-color: var(--primary-color);
+}
+
+
+.secondaryColorPicker .color-indicator {
+    background-color: var(--secondary-color);
+}
+
+.backgroundColorPicker .color-indicator {
+    background-color: var(--background-color);
+}
+
+.colorPicker{
+    padding: 10px;
+    border: 2px solid var(--invertedbackground);
+    font-size: 32px;
+    text-align: left;
 }

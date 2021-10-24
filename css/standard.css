@@ -1,5 +1,12 @@
+:root{
+    --primary-color: #0000FF;
+    --secondary-color: #FFAF00;
+    --background-color: #000000;
+    --invertedbackground: #FFFFFF;
+}
+
 a:link, a:visited {
-    color:white;
+    color:var(--invertedbackground);
     border-radius: 25px;
     background-color: transparent;
     padding: 14px 0px;
@@ -16,7 +23,8 @@ a:hover, a:active {
 }
 
 body{
-    background:black;
+    padding-top: 4em;
+    background:var(--background-color);
     font-family: "Lucida Handwriting",Calligraphic,Arial;
 }
 
@@ -32,7 +40,7 @@ body{
     align-content: center;
     color: transparent;
     text-transform: uppercase;
-    background-image: linear-gradient(to left, rgb(4, 0, 255), orange);
+    background-image: linear-gradient(to left, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     animation: animate 5s linear infinite;
     -webkit-background-size: 500%;
