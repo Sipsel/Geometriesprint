@@ -1,29 +1,64 @@
 ;
 "use strict";
+//classes.js
+class Vector {
+    constructor(x,y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    add([x,y])
+    //x,y for vector to add
+    {
+        this.x+=x;
+        this.y+=y;
+
+        this.x = this.x;
+        this.y = this.y; 
+    }
+    get_position()
+    {
+        return [this.x,this.y];
+    }
+}
+// end of file
+
+
+const tile_size = 32
 
 var game;
 
 let window_height = Math.floor(window.screen.availHeight/32);
 let window_width = Math.floor(window.screen.availWidth/32);
 
-console.log(window_height,window_width,window_height-window_width);
+//console.log(window_height,window_width,window_height-window_width);
+
+let margin_width = 8;
+let margin_height = 8;
+
+var map_height = window_height-margin_height;
+var map_width = window_width-margin_width;
+
+map_height = 16;
+map_width = 16;
+console.log(`hoehe:${map_height},breite:${map_width}`)
 
 var canvas = document.getElementById('canvas');
 
 //32 as the basis for a tile
-canvas.height = `${window_height*(32-8)}`;
-canvas.width = `${window_width*(32-3)}`;
+canvas.height = `${window_height*(32)-(margin_height*tile_size)}`;
+canvas.width = `${window_width*(32)-(margin_width*tile_size)}`;
+
 
 var ctx = canvas.getContext("2d");
 //32*3 as the bottom is 32*2
-const gravity = 15;
+const gravity = 20;
 const drag = 0.9;
 class Map
 {
     constructor(width,height)
     {
-        this.width=width;
-        this.height=height;
+        this.tiles = [range_array(width),range_array(height)];
         this.assets = [];
     }
     add_asset(asset)
@@ -32,7 +67,45 @@ class Map
     }
     stroke_assets()
     {
-        this.assets.forEach((asset) => asset.draw());
+        this.assets.forEach(asset => asset.draw());
+    }
+    stroke_lines()
+    {
+
+       // console.log(this.width,this.height);
+        for(let x = 0;x < this.width;x++){
+            //console.log(x);
+            for(let y = 0; y <this.height;y++){
+                //console.log(x,y,y*tile_size,tile_size,tile_size);
+                this.tiles.push[x,y];
+                ctx.rect(x*tile_size,y*tile_size,tile_size,tile_size);
+                ctx.font = "10px bold arial";
+                ctx.strokeText(`${x},${y-1}`,x*tile_size+8,y*tile_size-8);
+                ctx.stroke();
+            }
+        }
+    }
+    get width()
+    {
+        return this.tiles[0].length;
+    }
+    get height()
+    {
+        return this.tiles[1].length;
+    }
+    preload()
+    {
+        //prepare bottom
+        this.add_asset(new Rectangle('bottom',0,this.height-2,this.width*tile_size,2*tile_size));
+        this.add_asset(new Player('player',0,this.height-3,tile_size,tile_size));
+        
+        
+        let player = this.assets[1];
+
+
+
+        player.set_color('red');
+        player.velocity.add([10,0]);
     }
 }
 
@@ -40,126 +113,110 @@ class Asset {
     constructor(name, x, y, width, height)
     {
         this.name   =   name;
-        this.x      =   x;
-        this.y      =   y;
+        this.position = new Vector(x,y);
+        this.velocity = new Vector(0,0);
         this.width  =   width;
         this.height =   height;
         this.on_map =   false;
         this.color  =   'black';
         this.gravity =  gravity;
-        this.dx     =   0;
-        this.dy     =   0;
         this.on_ground = true;
     }
     set_color(color)
     {
         this.color = color;
     }
+    get x()
+    {
+        return this.position.get_position()[0];
+    }
+    get y()
+    {
+        return this.position.get_position()[1];
+    }
 }
 class Rectangle extends Asset {
     draw()
     {
-        if(this.on_map){
-            return;
-        }else
-        {
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.x,this.y,this.width,this.height);
-            ctx.stroke;
+            ctx.fillRect(this.position.x*tile_size,this.position.y*tile_size,this.width,this.height);
+            ctx.stroke();
             this.on_map = true;
-        }
-        
     }
     clear()
     {
-        ctx.clearRect(this.x,this.y,this.width,this.height);
+        ctx.clearRect(this.position.x*tile_size,this.position.y*tile_size,this.width,this.height);
         this.on_map = false;
     }
 }
 class Player extends Rectangle
 {
-    move()
+    move(dt)
     {
+        
         this.clear();
-        //console.log(this.x,this.y,this.dy);
-        
-        
-        this.dy+=(this.gravity/10);
-        
-        //check for collision with bottom
-        console.log(this.on_ground)
-        if((this.collision(bottom)) && ( this.dy > 0) ){
+
+        //y addition velocity
+        this.velocity.add([0,(gravity*dt)]);
+        //console.log(this.velocity);
+
+            
+        this.position.add(
+            [this.velocity.x * dt,
+            this.velocity.y *dt]
+        )
+        if(this.position.y > 13)
+        {
             this.on_ground = true;
-            this.dy = 0;
-        }
-        else{
+            this.position.y = 13;
+            //console.log("collision")
+        }else
+        {
             this.on_ground = false;
         }
-        this.dy = Math.round(this.dy);
-
-        this.x+=this.dx;
-        this.y+=this.dy;
-        this.y=Math.round(this.y);
-
         this.draw();
     }
     jump()
     {
-        console.log(this.on_ground);
         if(this.on_ground == true)
         {
-            this.jump_height = 20;
-            this.dy = -this.jump_height*drag;
-            this.dy = Math.round(this.dy);
-            this.on_ground = false;
-        }  
-    }
-    collision(other_asset)
-    {
-        var bottom = canvas.height-other_asset.height - this.height;
-        if((this.y >= bottom) || (this.on_ground==false))
-        {
-            //console.log(bottom,this.y)
-            return true;   
-        }else
-        {
-            return false;
+            this.jump_height = 6;
+            this.velocity.y = -this.jump_height;
+            this.velocity.y = Math.round(this.velocity.y);
+            console.log(this.velocity);
         }
-        
+       
     }
 }
 
-var player = new Player('player',0,canvas.height-(32*3),32,32);
-player.set_color('red');
-player.draw();
-
-player.dx = 2;
-player.dy = 0; // - equals up
-
-var bottom = new Rectangle('bottom',0,canvas.height-64,canvas.width,32*2);
-bottom.draw();
-
-function draw()
-{
-    
-}
+const map = new Map(map_width,map_height,32);
+map.preload();
+//map.stroke_lines();
+map.stroke_assets();
 
 
 
+var last_time = 0;
 
+start();
 
-var flPreviousTime = 0;
-var flCurrentTime = Date.now();
-
-mainloop();
-function mainloop()
+function mainloop(time)
 {
     game = undefined;
-  
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    map.stroke_assets();
+    if(last_time!= 0)
+    {   
+        var dt = (time - last_time)/1000;
+        let player = map.assets[1];
+        //console.log(dt,time,last_time);
+        player.move(dt);
+    }
 
 
-    player.move();
 
+    //console.log(dt);
+    last_time = time;
 
     start();
 }
@@ -176,23 +233,50 @@ function stop() {
     }
 }
 //debug function
+/*
+
 function debug()
 {
+    const map = new Map(map_width,map_height,32);
+    map.preload();
+    console.log(map)
+
+    map.stroke_lines();
     //player.dy = -20;
-    for(i=0;i<20;i++)
+    
+    map.stroke_assets();
+    let player = map.assets[1];
+    for(let i = 0;i<10;i++)
     {
         player.move();
     }
+    //console.log(map.width,map.height)
 }
+*/
 
 //player input
 document.body.onkeydown = (e) => {
     //console.log(e);
     if(e.keyCode == 32){
-        player.jump();
+        map.assets[1].jump();
     }
     if(e.keyCode == 27)
     {
         stop();
     }
+    if(e.keyCode == 84)
+    {
+        debug();
+    }
 };
+
+
+// helper functions
+function range_array(max) {
+    let result = []
+    for(let i = 0; i<max;i++)
+    {
+        result.push(i);
+    }
+    return result;
+}
