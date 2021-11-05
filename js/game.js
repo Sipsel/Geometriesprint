@@ -144,7 +144,7 @@ class Map
         let player = this.assets[1];
 
         player.set_color('red');
-        player.velocity.add([10,0]);
+        player.velocity.add([0,0]);
     }
 }
 
@@ -175,14 +175,14 @@ class Asset {
         return this.position.get_position()[1];
     }
 }
-class Rectangle extends Asset {
+class Rectangle extends Asset { 
     draw(dt)
     {
         ctx.fillStyle = this.color;
         if(this.on_ground == false)
         {
             this.degree+= (dt) ? dt*1000*0.09833*2 : 0;
-            draw_quadrat(this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.degree);
+            draw_rectangle(ctx,this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.height*tile_size,this.degree);
         }else
         {
             ctx.fillRect(this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.height*tile_size);
@@ -278,13 +278,11 @@ function stop() {
 }
 //debug function
 /*
-
 function debug()
 {
     const map = new Map(map_width,map_height,32);
     map.preload();
     console.log(map)
-
     map.stroke_lines();
     //player.dy = -20;
     
@@ -326,7 +324,7 @@ function range_array(max) {
     return result;
 }
 
-function draw_quadrat(x,y,w,rotation)
+function draw_rectangle(ctx,x,y,w,h,rotation)
 {
     //https://en.wikipedia.org/wiki/Rotation_matrix#In_two_dimensions
     /*if(rotation>=180)
@@ -335,40 +333,49 @@ function draw_quadrat(x,y,w,rotation)
     }*/
     
     let sv = new Vector(x,y);
-    let ad = new Vector(w,0);
+    let av = new Vector(w,0);
+    let ah = new Vector(0,h);
 
-    let rect = new Path2D();
+    let path = new Path2D();
     let rotationmatrix = new RotationMatrix(rotation);
 
+
+
+
+
+    //move to top left corner
     
+    //adds vertical vector to move to top right corner
+    sv.add(rotationmatrix.multvector(av.vector()).vector());
+    //draws line to right corner
+    path.lineTo(sv.x,sv.y);
+   
 
-    rect.moveTo(sv.x,sv.y);
-    sv.add(rotationmatrix.multvector(ad.vector()).vector());
-    //adds the rotatet additv vector
 
-    rect.lineTo(sv.x,sv.y);
-    rect.moveTo(sv.x,sv.y);
+    //move to top right corner
+   
+    //adds horizontal vector to move to bottom right
+    sv.add(rotationmatrix.multvector(ah.vector()).vector());
+    //draws line to bottom corner
+    path.lineTo(sv.x,sv.y);
 
-    rotationmatrix.change_rotation_vector(rotation+90);
-    sv.add(rotationmatrix.multvector(ad.vector()).vector());
 
-    rect.lineTo(sv.x,sv.y);
-    //rect.moveTo(sv.x,sv.y);
-
-    rotationmatrix.change_rotation_vector(rotation+90*2);
-    sv.add(rotationmatrix.multvector(ad.vector()).vector());
-
-    rect.lineTo(sv.x,sv.y);
-    //rect.moveTo(sv.x,sv.y);
-
-    rotationmatrix.change_rotation_vector(rotation+90*3);
-    sv.add(rotationmatrix.multvector(ad.vector()).vector());
-
-    rect.lineTo(sv.x,sv.y);
-    //rect.moveTo(sv.x,sv.y);
+    //rotate rotation matrix by 180 degrees
+    rotationmatrix.change_rotation_vector(rotation+180);
     
     
-    rect.closePath();
-    ctx.fill(rect);
-    ctx.stroke();    
+   
+    sv.add(rotationmatrix.multvector(av.vector()).vector());
+    path.lineTo(sv.x,sv.y);
+ 
+    //path.moveTo(sv.x,sv.y);
+    sv.add(rotationmatrix.multvector(ah.vector()).vector());
+    path.lineTo(sv.x,sv.y);
+   
+
+    
+
+    path.closePath();
+    ctx.fill(path);
+    ctx.stroke(path);  
 }
