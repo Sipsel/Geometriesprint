@@ -1,8 +1,6 @@
 ;
 "use strict";
 //classes.js
-let sin = Math.sin;
-let cos = Math.cos;
 class Vector {
     constructor(x=0,y=0)
     {
@@ -32,35 +30,6 @@ class Vector {
         return this.matrix[1];
     }
 }
-//https://en.wikipedia.org/wiki/Rotation_matrix#In_two_dimensions
-class RotationMatrix
-{
-    constructor(degree)
-    {
-        let deg = -degree*Math.PI/180;
-        //https://en.wikipedia.org/wiki/Rotation_matrix#Non-standard_orientation_of_the_coordinate_system
-        this.matrix = [
-            [parseFloat(cos(deg).toFixed(6)),parseFloat(-sin(deg).toFixed(6))],
-            [parseFloat(sin(deg).toFixed(6)),parseFloat(cos(deg).toFixed(6))]
-        ];
-    }
-    multvector([x,y])
-    {
-        return new Vector(
-            x*this.matrix[0][0]+y*this.matrix[1][0],
-            x*this.matrix[0][1]+y*this.matrix[1][1]
-            );
-    }
-    change_rotation_vector(degree)
-    {
-        let deg = -degree*Math.PI/180;
-        this.matrix = [
-            [cos(deg).toFixed(6),-sin(deg).toFixed(6)],
-            [sin(deg).toFixed(6),cos(deg).toFixed(6)]
-        ];
-    }
-}
-
 
 // end of file
 
@@ -138,13 +107,13 @@ class Map
     {
         //prepare bottom
         this.add_asset(new Rectangle('bottom',0,this.height-2,this.width,2));
-        this.add_asset(new Player('player',0,this.height-3,1,1));
+        this.add_asset(new Player('player',0,this.height-2,1,1));
         
         
         let player = this.assets[1];
 
         player.set_color('red');
-        player.velocity.add([0,0]);
+        player.velocity.add([10,0]);
     }
 }
 
@@ -175,20 +144,27 @@ class Asset {
         return this.position.get_position()[1];
     }
 }
-class Rectangle extends Asset { 
+class Rectangle extends Asset {
     draw(dt)
     {
+        let degree = Math.PI/180;
         ctx.fillStyle = this.color;
+        ctx.save();
+        ctx.translate(this.position.x*tile_size,this.position.y*tile_size);
+
+        ctx.translate(this.width*tile_size/2,this.height*tile_size/2);
+
+
+        let time = dt //elapsed time since last frame
         if(this.on_ground == false)
         {
-            this.degree+= (dt) ? dt*1000*0.09833*2 : 0;
-            draw_rectangle(ctx,this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.height*tile_size,this.degree);
-        }else
-        {
-            ctx.fillRect(this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.height*tile_size);
+            this.degree += (dt) ? time*0.09833333333*1000*2 : 0;
+            ctx.rotate(this.degree*degree);
         }
         
+        ctx.fillRect(-this.width*tile_size/2,-this.height*tile_size/2,this.width*tile_size,this.height*tile_size);
         ctx.stroke();
+        ctx.restore();
         this.on_map = true;
     }
 }
@@ -276,25 +252,7 @@ function stop() {
        game = undefined;
     }
 }
-//debug function
-/*
-function debug()
-{
-    const map = new Map(map_width,map_height,32);
-    map.preload();
-    console.log(map)
-    map.stroke_lines();
-    //player.dy = -20;
-    
-    map.stroke_assets();
-    let player = map.assets[1];
-    for(let i = 0;i<10;i++)
-    {
-        player.move();
-    }
-    //console.log(map.width,map.height)
-}
-*/
+
 
 //player input
 document.body.onkeydown = (e) => {
@@ -322,60 +280,4 @@ function range_array(max) {
         result.push(i);
     }
     return result;
-}
-
-function draw_rectangle(ctx,x,y,w,h,rotation)
-{
-    //https://en.wikipedia.org/wiki/Rotation_matrix#In_two_dimensions
-    /*if(rotation>=180)
-    {
-        rotation = rotation % 180;
-    }*/
-    
-    let sv = new Vector(x,y);
-    let av = new Vector(w,0);
-    let ah = new Vector(0,h);
-
-    let path = new Path2D();
-    let rotationmatrix = new RotationMatrix(rotation);
-
-
-
-
-
-    //move to top left corner
-    
-    //adds vertical vector to move to top right corner
-    sv.add(rotationmatrix.multvector(av.vector()).vector());
-    //draws line to right corner
-    path.lineTo(sv.x,sv.y);
-   
-
-
-    //move to top right corner
-   
-    //adds horizontal vector to move to bottom right
-    sv.add(rotationmatrix.multvector(ah.vector()).vector());
-    //draws line to bottom corner
-    path.lineTo(sv.x,sv.y);
-
-
-    //rotate rotation matrix by 180 degrees
-    rotationmatrix.change_rotation_vector(rotation+180);
-    
-    
-   
-    sv.add(rotationmatrix.multvector(av.vector()).vector());
-    path.lineTo(sv.x,sv.y);
- 
-    //path.moveTo(sv.x,sv.y);
-    sv.add(rotationmatrix.multvector(ah.vector()).vector());
-    path.lineTo(sv.x,sv.y);
-   
-
-    
-
-    path.closePath();
-    ctx.fill(path);
-    ctx.stroke(path);  
 }
