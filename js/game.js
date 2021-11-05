@@ -181,7 +181,7 @@ class Rectangle extends Asset {
         ctx.fillStyle = this.color;
         if(this.on_ground == false)
         {
-            this.degree+= (dt) ? dt*1000*0.165 : 0;
+            this.degree+= (dt) ? dt*1000*0.09833*2 : 0;
             draw_quadrat(this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.degree);
         }else
         {
@@ -223,7 +223,7 @@ class Player extends Rectangle
     {
         if(this.on_ground == true)
         {
-            this.jump_height = 6;
+            this.jump_height = 8;
             this.velocity.vector()[1] = -this.jump_height;
             this.velocity.vector()[1] = Math.round(this.velocity.y);
             console.log(this.velocity);
@@ -335,7 +335,7 @@ function draw_quadrat(x,y,w,rotation)
     }*/
     
     let sv = new Vector(x,y);
-    let ad = new Vector(-w,0);
+    let ad = new Vector(w,0);
 
     let rect = new Path2D();
     let rotationmatrix = new RotationMatrix(rotation);
