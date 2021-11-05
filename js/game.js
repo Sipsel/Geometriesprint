@@ -1,26 +1,66 @@
 ;
 "use strict";
 //classes.js
+let sin = Math.sin;
+let cos = Math.cos;
 class Vector {
-    constructor(x,y)
+    constructor(x=0,y=0)
     {
-        this.x = x;
-        this.y = y;
+        this.matrix = [x,y];
     }
     add([x,y])
     //x,y for vector to add
     {
-        this.x+=x;
-        this.y+=y;
-
-        this.x = this.x;
-        this.y = this.y; 
+        this.matrix[0]+=x;
+        this.matrix[1]+=y;
     }
-    get_position()
+    subtract([x,y])
     {
-        return [this.x,this.y];
+        this.matrix[0]-=x;
+        this.matrix[1]-=y;
+    }
+    vector()
+    {
+        //console.log(this.matrix)
+        return this.matrix;
+    }
+    get x(){
+        return this.matrix[0]
+    }
+    get y()
+    {
+        return this.matrix[1];
     }
 }
+//https://en.wikipedia.org/wiki/Rotation_matrix#In_two_dimensions
+class RotationMatrix
+{
+    constructor(degree)
+    {
+        let deg = -degree*Math.PI/180;
+        //https://en.wikipedia.org/wiki/Rotation_matrix#Non-standard_orientation_of_the_coordinate_system
+        this.matrix = [
+            [parseFloat(cos(deg).toFixed(6)),parseFloat(-sin(deg).toFixed(6))],
+            [parseFloat(sin(deg).toFixed(6)),parseFloat(cos(deg).toFixed(6))]
+        ];
+    }
+    multvector([x,y])
+    {
+        return new Vector(
+            x*this.matrix[0][0]+y*this.matrix[1][0],
+            x*this.matrix[0][1]+y*this.matrix[1][1]
+            );
+    }
+    change_rotation_vector(degree)
+    {
+        let deg = -degree*Math.PI/180;
+        this.matrix = [
+            [cos(deg).toFixed(6),-sin(deg).toFixed(6)],
+            [sin(deg).toFixed(6),cos(deg).toFixed(6)]
+        ];
+    }
+}
+
 
 // end of file
 
@@ -136,43 +176,17 @@ class Asset {
     }
 }
 class Rectangle extends Asset {
-    draw()
+    draw(dt)
     {
         ctx.fillStyle = this.color;
-        
         if(this.on_ground == false)
         {
-            
-            this.degree += 10;
-
-            let x1 = this.width/2 * Math.cos(this.degree);
-            let y1 = this.width/2 * Math.sin(this.degree);
-
-            let x2 = (this.width/2+tile_size)* Math.cos(this.degree);
-            let y2 = (this.width/2) * Math.sin(this.degree);
-
-            let x3 = (this.width/2+tile_size) * Math.cos(this.degree);
-            let y3 = (this.width/2+tile_size) * Math.sin(this.degree);
-
-            let x4 = (this.width/2) * Math.cos(this.degree);
-            let y4 = (this.width/2+tile_size) * Math.sin(this.degree);
-            let rect = new Path2D();
-            rect.moveTo(this.position.x*tile_size +x1 ,this.position.y*tile_size + y1);
-            rect.lineTo(this.position.x*tile_size +x2 ,this.position.y*tile_size + y2);
-            rect.lineTo(this.position.x*tile_size +x3 ,this.position.y*tile_size + y3);
-            rect.lineTo(this.position.x*tile_size +x4 ,this.position.y*tile_size + y4);
-
-        
-            rect.closePath();
-            ctx.fill(rect)
-            ctx.stroke();
-           
+            this.degree+= (dt) ? dt*1000*0.165 : 0;
+            draw_quadrat(this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.degree);
         }else
         {
             ctx.fillRect(this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.height*tile_size);
         }
-        
-       
         
         ctx.stroke();
         this.on_map = true;
@@ -195,7 +209,7 @@ class Player extends Rectangle
         if(this.position.y > 13)
         {
             this.on_ground = true;
-            this.position.y = 13;
+            this.position.vector()[1] = 13;
             this.degree = 0;
             //console.log("collision")
         }else
@@ -203,15 +217,16 @@ class Player extends Rectangle
             this.on_ground = false;
         }
         this.draw(dt);
+        //console.log(this.velocity);
     }
     jump()
     {
         if(this.on_ground == true)
         {
             this.jump_height = 6;
-            this.velocity.y = -this.jump_height;
-            this.velocity.y = Math.round(this.velocity.y);
-            //console.log(this.velocity);
+            this.velocity.vector()[1] = -this.jump_height;
+            this.velocity.vector()[1] = Math.round(this.velocity.y);
+            console.log(this.velocity);
         }
        
     }
@@ -311,5 +326,49 @@ function range_array(max) {
     return result;
 }
 
+function draw_quadrat(x,y,w,rotation)
+{
+    //https://en.wikipedia.org/wiki/Rotation_matrix#In_two_dimensions
+    /*if(rotation>=180)
+    {
+        rotation = rotation % 180;
+    }*/
+    
+    let sv = new Vector(x,y);
+    let ad = new Vector(-w,0);
 
+    let rect = new Path2D();
+    let rotationmatrix = new RotationMatrix(rotation);
 
+    
+
+    rect.moveTo(sv.x,sv.y);
+    sv.add(rotationmatrix.multvector(ad.vector()).vector());
+    //adds the rotatet additv vector
+
+    rect.lineTo(sv.x,sv.y);
+    rect.moveTo(sv.x,sv.y);
+
+    rotationmatrix.change_rotation_vector(rotation+90);
+    sv.add(rotationmatrix.multvector(ad.vector()).vector());
+
+    rect.lineTo(sv.x,sv.y);
+    //rect.moveTo(sv.x,sv.y);
+
+    rotationmatrix.change_rotation_vector(rotation+90*2);
+    sv.add(rotationmatrix.multvector(ad.vector()).vector());
+
+    rect.lineTo(sv.x,sv.y);
+    //rect.moveTo(sv.x,sv.y);
+
+    rotationmatrix.change_rotation_vector(rotation+90*3);
+    sv.add(rotationmatrix.multvector(ad.vector()).vector());
+
+    rect.lineTo(sv.x,sv.y);
+    //rect.moveTo(sv.x,sv.y);
+    
+    
+    rect.closePath();
+    ctx.fill(rect);
+    ctx.stroke();    
+}
