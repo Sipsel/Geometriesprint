@@ -21,6 +21,7 @@ class Vector {
         return [this.x,this.y];
     }
 }
+
 // end of file
 
 
@@ -96,13 +97,11 @@ class Map
     preload()
     {
         //prepare bottom
-        this.add_asset(new Rectangle('bottom',0,this.height-2,this.width*tile_size,2*tile_size));
-        this.add_asset(new Player('player',0,this.height-3,tile_size,tile_size));
+        this.add_asset(new Rectangle('bottom',0,this.height-2,this.width,2));
+        this.add_asset(new Player('player',0,this.height-3,1,1));
         
         
         let player = this.assets[1];
-
-
 
         player.set_color('red');
         player.velocity.add([10,0]);
@@ -121,6 +120,7 @@ class Asset {
         this.color  =   'black';
         this.gravity =  gravity;
         this.on_ground = true;
+        this.degree = 0;
     }
     set_color(color)
     {
@@ -138,23 +138,50 @@ class Asset {
 class Rectangle extends Asset {
     draw()
     {
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.position.x*tile_size,this.position.y*tile_size,this.width,this.height);
+        ctx.fillStyle = this.color;
+        
+        if(this.on_ground == false)
+        {
+            
+            this.degree += 10;
+
+            let x1 = this.width/2 * Math.cos(this.degree);
+            let y1 = this.width/2 * Math.sin(this.degree);
+
+            let x2 = (this.width/2+tile_size)* Math.cos(this.degree);
+            let y2 = (this.width/2) * Math.sin(this.degree);
+
+            let x3 = (this.width/2+tile_size) * Math.cos(this.degree);
+            let y3 = (this.width/2+tile_size) * Math.sin(this.degree);
+
+            let x4 = (this.width/2) * Math.cos(this.degree);
+            let y4 = (this.width/2+tile_size) * Math.sin(this.degree);
+            let rect = new Path2D();
+            rect.moveTo(this.position.x*tile_size +x1 ,this.position.y*tile_size + y1);
+            rect.lineTo(this.position.x*tile_size +x2 ,this.position.y*tile_size + y2);
+            rect.lineTo(this.position.x*tile_size +x3 ,this.position.y*tile_size + y3);
+            rect.lineTo(this.position.x*tile_size +x4 ,this.position.y*tile_size + y4);
+
+        
+            rect.closePath();
+            ctx.fill(rect)
             ctx.stroke();
-            this.on_map = true;
-    }
-    clear()
-    {
-        ctx.clearRect(this.position.x*tile_size,this.position.y*tile_size,this.width,this.height);
-        this.on_map = false;
+           
+        }else
+        {
+            ctx.fillRect(this.position.x*tile_size,this.position.y*tile_size,this.width*tile_size,this.height*tile_size);
+        }
+        
+       
+        
+        ctx.stroke();
+        this.on_map = true;
     }
 }
 class Player extends Rectangle
 {
     move(dt)
     {
-        
-        this.clear();
 
         //y addition velocity
         this.velocity.add([0,(gravity*dt)]);
@@ -169,12 +196,13 @@ class Player extends Rectangle
         {
             this.on_ground = true;
             this.position.y = 13;
+            this.degree = 0;
             //console.log("collision")
         }else
         {
             this.on_ground = false;
         }
-        this.draw();
+        this.draw(dt);
     }
     jump()
     {
@@ -183,7 +211,7 @@ class Player extends Rectangle
             this.jump_height = 6;
             this.velocity.y = -this.jump_height;
             this.velocity.y = Math.round(this.velocity.y);
-            console.log(this.velocity);
+            //console.log(this.velocity);
         }
        
     }
@@ -222,7 +250,8 @@ function mainloop(time)
 }
 function start() {
     if (!game) {
-       game = window.requestAnimationFrame(mainloop);
+       
+        game = window.requestAnimationFrame(mainloop);
     }
 }
 
@@ -258,7 +287,8 @@ function debug()
 document.body.onkeydown = (e) => {
     //console.log(e);
     if(e.keyCode == 32){
-        map.assets[1].jump();
+
+            map.assets[1].jump();
     }
     if(e.keyCode == 27)
     {
@@ -280,3 +310,6 @@ function range_array(max) {
     }
     return result;
 }
+
+
+
