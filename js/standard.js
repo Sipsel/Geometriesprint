@@ -13,12 +13,12 @@ window.addEventListener("load", initialize, false);
 
 
 function initialize() {
-    if(localStorage[initialization] != true){
+    if(localStorage["initialization"] != 'true'){
     localStorage['primary-color'] = '#0000FF';
     localStorage['secondary-color'] = '#0000FF';
     localStorage['background-color'] = '#000000';
     localStorage['invertedbackground'] = '#FFFFFF';
-    localStorgae['initialization'] = 'true'; 
+    localStorage['initialization'] = 'true'; 
     }
 }
 

@@ -5,11 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geometriesprint</title>
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/standard.css">
+
     <script src="/js/main.js"></script>
+    <script src="/js/standard.js"></script>
+    
 </head>
 <body>
-    <H1>Map-Editor</H1>
-    <a href="/menu.html" id="newGame" class="button">Hauptmenü</a>
+    <div class="main-wrapper">
+        <div class="heading">Map-Editor</div>
+        <input type="file" accept="audio/*" capture id="recorder"> 
+        <audio id="player" ></audio>
+        <button id="audioAnalysis">Starte Audio Analyse</button>
+        <a href="/menu.html" id="newGame" class="button">Hauptmenü</a>
+
+    </div>
+<script src="/js/map-editor.js"></script>
 </body>
 </html>
