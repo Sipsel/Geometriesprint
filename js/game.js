@@ -6,29 +6,35 @@ const sqrt = Math.sqrt;
 const pow = Math.pow;
 
 
+
+const gravity = 40;
+const drag = 0.9;
+
+
 class Vector {
     constructor(x=0,y=0)
     {
         this.matrix = [x,y];
     }
-    add([x,y])
+    add(_vector)
     //x,y for vector to add
     {
-        this.matrix[0]+=x;
-        this.matrix[1]+=y;
+        return new Vector(this.matrix[0]+_vector.x,this.matrix[1]+_vector.y);
     }
-    subtract([x,y])
+    subtract(_vector)
     {
-        this.matrix[0]-=x;
-        this.matrix[1]-=y;
+        return new Vector(this.matrix[0]-_vector.x,this.matrix[1]-_vector.y);
     }
-    vector()
+    set x(_x)
     {
-        //console.log(this.matrix)
-        return this.matrix;
+        this.matrix = [_x,this.y];
+    }
+    set y(_y)
+    {
+        this.matrix = [this.x,_y];
     }
     get x(){
-        return this.matrix[0]
+        return this.matrix[0];
     }
     get y()
     {
@@ -55,7 +61,7 @@ var map_height = window_height-margin_height;
 var map_width = window_width-margin_width;
 
 map_height = 16;
-map_width = 16;
+map_width = 30;
 console.log(`hoehe:${map_height},breite:${map_width}`)
 
 var canvas = document.getElementById('canvas');
@@ -67,8 +73,7 @@ canvas.width = `${window_width*(32)-(margin_width*tile_size)}`;
 
 var ctx = canvas.getContext("2d");
 //32*3 as the bottom is 32*2
-const gravity = 40;
-const drag = 0.9;
+
 class Map
 {
     constructor(width,height)
@@ -80,9 +85,9 @@ class Map
     {
         this.assets.push(asset);
     }
-    stroke_assets()
+    stroke_assets(dt)
     {
-        this.assets.forEach(asset => asset.draw());
+        this.assets.forEach(asset => asset.draw(dt));
     }
     stroke_lines()
     {
@@ -115,53 +120,63 @@ class Map
         
         this.add_asset(new Player('player',0,this.height-3,1,1));
 
+        
         this.add_asset(new Rectangle('1',5,13,1,1));
-        this.add_asset(new Rectangle('2',7,12,1,1));
-        this.add_asset(new Rectangle('3',9,11,1,1));
+        this.add_asset(new Rectangle('2',9,12,1,1));
+        this.add_asset(new Rectangle('3',13,11,1,1));
+
         this.assets[2].set_color('green')
         
         this.player = this.assets[1];
 
         this.player.set_color('red');
-        this.player.velocity.add([5,0]);
+        this.player.velocity = new Vector(6,0);
+
         this.player.alive = true;
     }
     play(dt)
     {
-        //console.log(this.assets[0])
-        if(this.player.alive)
-        {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            map.stroke_assets();
-            //console.log(dt,time,last_time);
+        
+       if(this.player.alive)
+       {
             this.player.move(dt);
+            let collision_any_asset = false;
+
             this.assets.forEach(asset => {
                 if(this.player != asset)
                 {
                     if(in_proximity(this.player,asset))
                     {   
-                        //console.log("in proxmity")
-                        if(collision_bottom(this.player,asset))
+                    
+                        let collision_with_asset = collision(this.player,asset);
+
+                        if(collision_with_asset)
                         {
-                            //console.log("collision")
-                            this.player.on_ground = true;
-                            this.player.position.vector()[1] = asset.position.vector()[1]-this.player.height;
-                            this.player.degree = 0;
-                        }
-                        else if(collision_right(this.player,asset))
-                        {
-                            //this.player.alive = false;
-                        }
-                        else
-                        {
-                            this.player.on_ground = false;
+
+                            this.player.set_color("blue")
+                            collision_any_asset = true;
+
                         }
                     }
                 }
-                
+
             })
-            this.player.draw(dt);
-        }
+
+            if(!collision_any_asset)
+            {
+                this.player.set_color("red")
+                this.player.on_ground = false;
+            }
+       }
+        
+        
+
+
+        
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //console.log(dt);
+        map.stroke_assets(dt);
     }
 }
 class Asset {
@@ -199,17 +214,17 @@ class Rectangle extends Asset {
         ctx.save();
         ctx.translate(this.position.x*tile_size,this.position.y*tile_size);
 
-        ctx.translate(this.width*tile_size/2,this.height*tile_size/2);
-
-
-        let time = dt //elapsed time since last frame
-        if(this.on_ground == false)
-        {
-            //console.log("drehen")
-            this.degree += (dt) ? time*0.09833333333*1000*2 : 0;
-            ctx.rotate(this.degree*degree);
-        }
+        ctx.translate(this.width*tile_size/2,this.height*tile_size/2);        
         
+        if(this.on_ground == false && this.alive)
+        {
+            this.degree += (dt) ? dt*180/.9833333333 : 0;
+        }else
+        {
+            this.degree = Math.round(this.degree/90)*90;
+        }
+
+        ctx.rotate(this.degree*degree);
         ctx.fillRect(-this.width*tile_size/2,-this.height*tile_size/2,this.width*tile_size,this.height*tile_size);
         ctx.stroke();
         ctx.restore();
@@ -222,45 +237,23 @@ class Player extends Rectangle
     {
 
         //y addition velocity
-        this.velocity.add([0,(gravity*dt)]);
+        this.velocity = this.velocity.add(new Vector(0,(gravity*dt)));
+        //console.log(this.velocity);
         //console.log(this.velocity);
 
             
-        this.position.add(
-            [this.velocity.x * dt,
-            this.velocity.y *dt]
-        )
-
-        //colision detection bruda
-        /* 
-        if(this.position.y > 13)
-        {
-            this.on_ground = true;
-            this.position.vector()[1] = 13;
-            this.degree = 0;
-            //console.log("collision")
-        }else
-        {
-            this.on_ground = false;
-        }
-*/
-
-        /*ablauf 
-
-        move -> collision -> draw
-
-        */
-        //this.draw(dt);
-        //console.log(this.velocity);
+        this.position = this.position.add(
+            new Vector(this.velocity.x * dt,
+            this.velocity.y *dt)
+        );
     }
     jump()
     {
         if(this.on_ground == true)
         {
-            this.jump_height = 10;
-            this.velocity.vector()[1] = -this.jump_height;
-            this.velocity.vector()[1] = Math.round(this.velocity.y);
-            console.log(this.velocity);
+            this.jump_velocity = 11;
+            this.velocity.y = -this.jump_velocity;
+
         }
        
     }
@@ -268,8 +261,7 @@ class Player extends Rectangle
 
 const map = new Map(map_width,map_height,32);
 map.preload();
-//map.stroke_lines();
-//map.stroke_assets();
+
 
 
 
@@ -344,19 +336,13 @@ function in_proximity(asset1,asset2)
         p1y = asset1.y+asset1.height/2;
         r1 = sqrt(pow(asset1.height,2)+pow(asset1.width,2))/2;
         //console.log(asset2.width,asset2.height)
-        ctx.moveTo(p1x*tile_size,p1y*tile_size);
-        ctx.beginPath()
-        ctx.arc(p1x*tile_size,p1y*tile_size,r1*tile_size,0,2*Math.PI);
-        ctx.closePath();
+        
         p2x = asset2.x+asset2.width/2;
         p2y = asset2.y+asset2.height/2;
         //console.log(p2x*32,p2y*32);
         r2 = sqrt(pow(asset2.height,2)+pow(asset2.width,2))/2;
-        ctx.beginPath()
-        ctx.moveTo(p2x*tile_size,p2y*tile_size);
-        ctx.arc(p2x*tile_size,p2y*tile_size,r2*tile_size,0,2*Math.PI);
-        ctx.closePath();
-
+        
+        
         a = r1+r2;
 
         x = p1x-p2x;
@@ -371,56 +357,119 @@ function in_proximity(asset1,asset2)
         
 
     }
-function collision_bottom(asset1,asset2)
+function collision(player,asset)
 {
+    //check if collision exits
+    //check for flickering
     
-    let y1 = asset1.y;
-    let y2 = asset1.y+asset1.height;
-    let y3 = asset2.y;
+    //min max x-achse
+    
    
+
+    let player_x_min = player.position.x;
+    let player_x_max = player.position.x+player.width;
+
+    let player_y_min = player.position.y;
+    let player_y_max = player.position.y+player.height;
+
+    let asset_x_min = asset.position.x;
+    let asset_x_max = asset.position.x+asset.width;
+
+    //y min
+    let asset_y_min = asset.position.y;
+    let asset_y_max = asset.position.y+asset.height;
+
+
+    
+
+    let col_top, col_right,col_bottom;
+    col_top  = col_right = col_bottom = false;
+
+
+
+    //check for collision
     if(
-        (y1<y3)
+        !(player_x_min<asset_x_max
         &&
-        (y2>y3)
+        player_x_max>asset_x_min
+        && player_y_min<asset_y_max
+        &&
+        player_y_max>asset_y_min)
     )
-    {
-        if(asset2.name == '1')
-        {
-            console.log("hit")
-        }
-        //console.log("hit")
-        //asset1 hits left side of asset2
-        return true;
-    }else
     {
         return false;
     }
-    //console.log(asset1.y,asset1.height,asset1.y+asset1.height,asset2.y)
-  
+
+
+    //handle collision
+
+    let d_right = player_x_max-asset_x_min;
+
+    let d_bottom = (player_y_max-asset_y_min)*.8;
+
+    let  d_left = asset_x_max-player_x_min;
+
+    let  d_top = asset_y_max-player_y_min*.8;
+
+
+    let directions = [d_right,d_left,d_top,d_bottom];
+    let lowest_value = Math.min(d_right,d_top,d_left,d_bottom);
+    
+
+    switch(directions.indexOf(lowest_value))
+    {
+        //fallthrough
+
+        case 0:
+            col_right = true;
+        ; 
+        
+        case 2:
+            col_top = true;    
+        ;
+        
+        case 3:
+            col_bottom = true;
+
+
+    }
+
+
+
+    //console.log(col_right)
+    if(col_right || col_top)
+    {
+        console.log("beaifn q")
+        player.alive = false;
+        return true;
+        
+    }
+    if(col_bottom)
+    {
+        
+        player.on_ground = true;
+        player.position.y = asset.position.y-player.height;
+        player.velocity.y = 0;
+        
+        return true;
+    }
+   
+    return false;   
 }
-function collision_right(asset1,asset2)
+
+function drawTo(ctx,vec1,vec2)
 {
-    let x1 = asset1.x;
-    let x2 = asset1.x+asset1.width;
-    let x3 = asset2.x;
+    let temp_style = ctx.strokeStyle;
+    let line_width = ctx.lineWidth
+    ctx.lineWidth  = 5;
+    ctx.strokeStyle = "green";
+    ctx.beginPath();
+    //console.log(vec1.x,vec2.x)
+    ctx.moveTo(vec1.x*tile_size,vec1.y*tile_size);
+    ctx.lineTo(vec2.x*tile_size,vec2.y*tile_size);
+    ctx.stroke();
+    ctx.closePath();
+    ctx.strokeStyle = temp_style;
+    ctx.lineWidth  = line_width;
 
-    let y1 = asset1.y;
-    let y2 = asset1.y+asset1.height;
-    let y3 = asset2.y;
-
-    if(
-        (x1<x3)
-        &&
-        (x2>x3)
-        &&
-        (!collision_bottom(asset1,asset2))
-    )
-    {
-        console.log("hit")
-        //asset1 hits left side of asset2
-        return true;
-    }else
-    {
-        return false;
-    }
 }
