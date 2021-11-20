@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geometriesprint</title>
     <link rel="stylesheet" href="/css/standard.css">
+    <link rel="stylesheet" href="/css/editor.css">
 
     <script src="/js/main.js"></script>
     <script src="/js/standard.js"></script>
@@ -14,9 +15,25 @@
 <body>
     <div class="main-wrapper">
         <div class="heading">Map-Editor</div>
-        <input type="file" accept="audio/*" capture id="recorder"> 
-        <audio id="player" ></audio>
-        <button id="audioAnalysis">Starte Audio Analyse</button>
+        <div class="content" id="divContent">
+            <label class="labelOwnSong" id = "labelOwnSong">
+            <input type="file" accept="audio/*"  id="ownSong"> 
+                Eigenen Song hochladen
+            </label>
+            <canvas id="showMap" width="1000vw" height="80vw"></canvas>
+
+
+            <label class="decideAutoOrCustomMap" id="customMap">
+                <input type="file" accept=".csv" id="csvMap">
+                Eigene Map hochladen
+            </label>
+            <div class="seperator"></div>
+            <button class="decideAutoOrCustomMap" id="autoMap">
+                Map Automatisch generieren
+            </button>
+            <button id="createMap">Map speichern</button>
+            
+        </div>
         <a href="/menu.html" id="newGame" class="button">Hauptmenü</a>
 
     </div>

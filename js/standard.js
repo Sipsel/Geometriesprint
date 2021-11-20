@@ -10,15 +10,18 @@ function invertColor(hexTripletColor) {
 }
 
 window.addEventListener("load", initialize, false);
-
+//localStorage["initialization"] = 'false';
 
 function initialize() {
     if(localStorage["initialization"] != 'true'){
     localStorage['primary-color'] = '#0000FF';
-    localStorage['secondary-color'] = '#0000FF';
+    localStorage['secondary-color'] = '#FF0000';
     localStorage['background-color'] = '#000000';
     localStorage['invertedbackground'] = '#FFFFFF';
     localStorage['initialization'] = 'true'; 
+    localStorage['customSong'] = '';
+    localStorage["MapId"] = 1;
+    localStorage.setItem("customMaps", JSON.stringify([]));
     }
 }
 
