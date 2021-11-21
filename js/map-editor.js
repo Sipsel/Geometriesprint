@@ -51,6 +51,7 @@ inputCSV.addEventListener('change', (e)=> {
   reader.onload = function (e){
     const text = e.target.result;
     const data = csvToArray(text);
+    data.pop(); //to drop the last array (just because of wrong csv coding)
     mapLayout = getMapTile(data);
     drawMap(data);
   };
@@ -82,6 +83,7 @@ saveMap.addEventListener('click', function(e){
 
  })
 
+ 
 //Hier wird eine csv Datei zu einem zweidimensionalen Array zusammengeführt.
 function csvToArray(str){
   const rows = str.split("\n");
@@ -128,7 +130,7 @@ function drawMap(data) {
       if(data[k][i] != 0){
 
         let x = i*cubeThickness;
-        let y = (k*cubeThickness) + (ctx.canvas.height-(data.length-1)*cubeThickness);
+        let y = (k*cubeThickness) + (ctx.canvas.height-(data.length)*cubeThickness);
 
         if(data[k][i] == 1){
           ctx.fillStyle = localStorage['primary-color'];
@@ -154,39 +156,164 @@ function buildMap(duration) {
   var secOneSecondsLimit = Math.round(duration / 2);
   var secTwoSecondsLimit = Math.round(secOneSecondsLimit + ((duration - secOneSecondsLimit) / 2));
   var secThrSecondsLimit = duration;
-
-
+  console.log("secTwoSecondsLimit: " + secTwoSecondsLimit);
+  let pointOfMap = 0;
+  let sector;
+  let blocksLeft;
   
   var mapArr = new Array(10);
   for(let i = 0; i < 10; i++){
     mapArr[i] = new Array(duration);
   }
-  
-  
-  
-   //getTextFromFile("csvMapTiles/secOne.txt", duration, secOneArr);
-   //secTwoArr = getTextFromFile("csvMapTiles/secTwo.txt", duration);
-   //secThrArr = getTextFromFile("csvMapTiles/secThr.txt", duration);
+    
+  getTextFromFile("csvMapTiles/secOne.txt", duration, 1);
+  getTextFromFile("csvMapTiles/secTwo.txt", duration, 2);
+  getTextFromFile("csvMapTiles/secThr.txt", duration, 3);
 
   
 
+  
+  let built = 0;
+  let k = 0;
+  var tempArr = [];
+
+  while(pointOfMap < duration){
+
+    if(pointOfMap < secOneSecondsLimit){
+      blocksLeft = secOneSecondsLimit;
+      sector = 0;
+    } else if (pointOfMap < secTwoSecondsLimit){
+      blocksLeft = secTwoSecondsLimit- secOneSecondsLimit;
+      sector = 1;
+    } else{
+      blocksLeft = secThrSecondsLimit - secTwoSecondsLimit;
+      sector = 3;
+    }
+
+    while(blocksLeft > 0){
+      tempArr = [];
+
+      if(built+1 % 3 == 0){
+
+      if(sector == 0){
+
+        if(Math.round(Math.random())){
+          for(let m = 0; m< secTwoArr.length; m++){
+            if(secTwoArr[m].length/10 <= blocksLeft){
+              tempArr.push(secTwoArr[m]);
+            }else{
+              m = secTwoArr.length;
+            }
+          }
+
+        }else{
+
+          for(let m = 0; m< secThrArr.length; m++){
+            if(secThrArr[m].length/10 <= blocksLeft){
+              tempArr.push(secThrArr[m]);
+            }else{
+              m = secThrArr.length;
+            }
+          }
+        }
+      }else{
+        for(let m = 0; m< secThrArr.length; m++){
+          if(secThrArr[m].length/10 <= blocksLeft){
+            tempArr.push(secThrArr[m]);
+          }else{
+            m = secThrArr.length;
+          }
+        }
+      } 
+
+        
+
+
+      }else{
+        if(sector == 0){
+          for(let m = 0; m< secOneArr.length; m++){
+            if(secOneArr[m].length/10 <= blocksLeft){
+              tempArr.push(secOneArr[m]);
+            }else{
+              m = secOneArr.length;
+            }
+          }
+        } else if(sector == 1){
+          for(let m = 0; m< secTwoArr.length; m++){
+            if(secTwoArr[m].length/10 <= blocksLeft){
+              tempArr.push(secTwoArr[m]);
+            }else{
+              m = secTwoArr.length;
+            }
+          }
+        } else{
+          for(let m = 0; m< secThrArr.length; m++){
+            if(secThrArr[m].length/10 <= blocksLeft){
+              tempArr.push(secThrArr[m]);
+            }else{
+              m = secThrArr.length;
+            }
+          }
+        }
+        
+      }
+    
+
+      for(let z = 0; z< 9; z++){
+        
+        for(let u = 0; u< 2; u++){
+          mapArr[z][pointOfMap+u] = "0";
+        }
+      }
+      mapArr[9][pointOfMap] = "1";
+      mapArr[9][pointOfMap+1] = "1";
+
+      blocksLeft = blocksLeft - 2;
+      pointOfMap = pointOfMap + 2;
+      
+      if(tempArr.length){
+        let randomObstacle = Math.floor(Math.random() * tempArr.length);
+        let y = 0;
+              
+        for(let x = 0; x < 10; x++){
+          for(let n = 0; n < tempArr[randomObstacle].length/10;n++){
+
+            mapArr[x][pointOfMap+n] = tempArr[randomObstacle][y]
+            y++;
+          }
+        }
+        built++;
+        blocksLeft = blocksLeft - (y/10);
+        pointOfMap = pointOfMap + (y/10);
+      }
+      
+    }
+
+  }
+  drawMap(mapArr);
 }
 
 
 
 
-function getTextFromFile(filePath, duration,){
+function getTextFromFile(filePath, duration, whereToSave){
   var mapArr = new Array(10);
   for(let i = 0; i < 10; i++){
     mapArr[i] = new Array(duration);
   }
   var rawFile = new XMLHttpRequest();
-  rawFile.open("GET", filePath, true);
+  rawFile.open("GET", filePath, false);
   rawFile.onreadystatechange = function() {
      if (rawFile.readyState === 4) {
         if (rawFile.status === 200 || rawFile.status == 0) {
            var allText = rawFile.responseText;
-           secOneArr = splitAndSortArrays(allText);
+           if(whereToSave == 1){
+             secOneArr = splitAndSortArrays(allText);
+           } else if(whereToSave == 2){
+            secTwoArr = splitAndSortArrays(allText);
+           } else{
+            secThrArr = splitAndSortArrays(allText);
+           }
            return;
         }
      }
