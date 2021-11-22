@@ -60,7 +60,7 @@ inputCSV.addEventListener('change', (e)=> {
   saveMap.style.display = 'grid';
   automap.style.display = 'none';
   ownMap.style.display = 'none';
-})
+});
 
 saveMap.addEventListener('click', function(e){
 
@@ -75,13 +75,17 @@ saveMap.addEventListener('click', function(e){
 });
 
  automap.addEventListener('click', function(e) {
+  automap.disabled = true;
   var audio = new Audio(localStorage['customSong']);
   audio.onloadedmetadata = function() {
-    buildMap(audio.duration);
+    let duration = parseInt(audio.duration);
+    getTextFromFile("csvMapTiles/secOne.txt", duration, 1);
+    getTextFromFile("csvMapTiles/secTwo.txt", duration, 2);
+    getTextFromFile("csvMapTiles/secThr.txt", duration, 3);
+    buildMap(duration);
     }
-  
-
- })
+  automap.disabled = false;
+ });
 
  
 //Hier wird eine csv Datei zu einem zweidimensionalen Array zusammengeführt.
@@ -152,7 +156,6 @@ function drawMap(data) {
 
 
 function buildMap(duration) {
-  duration = parseInt(duration);
   var secOneSecondsLimit = Math.round(duration / 2);
   var secTwoSecondsLimit = Math.round(secOneSecondsLimit + ((duration - secOneSecondsLimit) / 2));
   var secThrSecondsLimit = duration;
@@ -166,34 +169,38 @@ function buildMap(duration) {
     mapArr[i] = new Array(duration);
   }
     
-  getTextFromFile("csvMapTiles/secOne.txt", duration, 1);
-  getTextFromFile("csvMapTiles/secTwo.txt", duration, 2);
-  getTextFromFile("csvMapTiles/secThr.txt", duration, 3);
+  
 
   
 
   
   let built = 0;
   let k = 0;
+  let randomObstacle;
+  let lastObstacle;
   var tempArr = [];
+
 
   while(pointOfMap < duration){
 
     if(pointOfMap < secOneSecondsLimit){
       blocksLeft = secOneSecondsLimit;
+      built = 0;
       sector = 0;
     } else if (pointOfMap < secTwoSecondsLimit){
       blocksLeft = secTwoSecondsLimit- secOneSecondsLimit;
+      built = 0;
       sector = 1;
     } else{
       blocksLeft = secThrSecondsLimit - secTwoSecondsLimit;
+      built = 0;
       sector = 3;
     }
 
     while(blocksLeft > 0){
       tempArr = [];
 
-      if(built+1 % 3 == 0){
+      if((built+1) % 3 == 0){
 
       if(sector == 0){
 
@@ -272,7 +279,11 @@ function buildMap(duration) {
       pointOfMap = pointOfMap + 2;
       
       if(tempArr.length){
-        let randomObstacle = Math.floor(Math.random() * tempArr.length);
+        do{
+          randomObstacle = Math.floor(Math.random() * tempArr.length);
+        }while(randomObstacle == lastObstacle && tempArr.length > 1);
+        
+        lastObstacle = randomObstacle;
         let y = 0;
               
         for(let x = 0; x < 10; x++){
@@ -330,117 +341,3 @@ function splitAndSortArrays(arr){
   mapArr.sort(function(a,b){return a.length - b.length});
   return mapArr;
 }
-
-
-
-/*
-// Die Datei wird in den temporären speicher geladen. 
-  button.addEventListener('click', function(e) {
-    var audio = new Audio(localStorage['customSong']);
-    audio.volume = localStorage['volume']/1000;
-    //audio.playbackRate = 16;
-    audio.play();
-    audio.onloadedmetadata = function() {
-      let arrLength = highestOutputArr.length;
-      for(let i = 0; i < (audio.duration/2 - arrLength);i++){
-        highestOutputArr[highestOutputArr.length] = 0;
-        highestOutputTimestamp[highestOutputTimestamp.length] = 0;
-      }
-
-  };
-    
-    audioAnalysis(audio);
-  });
-
-function audioAnalysis(audio){
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const audioElement = audio;
-    const canvasElement = document.querySelector('canvas');
-    const canvasCtx = canvasElement.getContext('2d');
-
-
-    const WIDTH = canvasElement.clientWidth;
-    const HEIGHT = canvasElement.clientHeight;
-
-    const source = audioCtx.createMediaElementSource(audioElement);
-    const analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-
-    const bufferLength = analyser.frequencyBinCount;
-    //console.log(bufferLength);
-    const dataArray = new Uint8Array(bufferLength);
-
-    //console.log(dataArray.length);
-    analyser.getByteFrequencyData(dataArray);
-    //console.log(dataArray);
-
-    
-
-    function draw(){
-      //console.log(songDuration);
-      analyser.getByteFrequencyData(dataArray);
-      canvasCtx.fillStyle = 'rgb(2,2,2)';
-      canvasCtx.fillRect(0,0, WIDTH, HEIGHT);
-      getHighOutput(dataArray, audio.currentTime);
-      const barWidth = (WIDTH/bufferLength) * 0.8;
-      let barHeigth;
-      let x = 0;
-
-      for(let i = 0; i< bufferLength;i++){
-        barHeigth = dataArray[i] / 1.5;
-        canvasCtx.fillStyle = localStorage['primary-color'];
-        canvasCtx.fillRect(x, HEIGHT - barHeigth, barWidth, barHeigth);
-
-        x += barWidth + 1;
-      }
-
-      requestAnimationFrame(draw);
-
-    }
-   draw();
-
-
-  }
-
-function getHighOutput(arr, audioCurrTime)
-{
-  let sum = 0;
-  for(let i = 0; i<arr.length; i++){
-
-    if(i >= 0 && i <= arr.length*0.05){
-      sum += arr[i] * 16;
-    } else if (i>= arr.length*0.05 && i <= arr.length*0.25){
-      sum += arr[i] * 8;
-    }else if (i>= arr.length*0.25 && i <= arr.length*0.5){
-      sum += arr[i] * 4;
-    }else{
-      sum += arr[i] * 2;
-    }
-  }
-
-
-  if(sum > highestOutputArr[highestOutputArr.length - 1]){
-    for(let k = 0; k<highestOutputArr.length;k++)
-    {
-      if(sum > highestOutputArr[k]){
-        highestOutputArr.pop();
-        highestOutputArr.splice(k, 0, sum);
-        highestOutputTimestamp.pop();
-        highestOutputTimestamp.splice(k, 0, audioCurrTime);
-        k = highestOutputArr.length;
-        console.log(Date.now()/1000)
-        //console.log(highestOutputArr);
-        //console.log(highestOutputTimestamp);
-      }
-      
-    }
-
-
-    }
-  
-  
-  }
-  */
