@@ -1,6 +1,46 @@
 ;
 "use strict";
 //classes
+
+//constants
+
+const sqrt = Math.sqrt;
+const pow = Math.pow;
+
+const gravity = 70;
+const drag = 0.9;
+const player_jump_height = 20;
+const player_speed = 6;
+
+const scale_by = 4;
+
+const tile_size = 16*scale_by;
+
+
+
+const window_height = Math.floor(window.screen.availHeight/tile_size);
+const window_width = Math.floor(window.screen.availWidth/tile_size);
+
+console.log(window_height,window_width);
+
+const margin_width = 4;
+const margin_height = 4;
+
+var screen_height = window_height-margin_height;
+var screen_width = window_width-margin_width;
+
+map_height = 16;
+map_width = 64;
+
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext("2d");
+
+//32 as the basis for a tile
+canvas.height = `${screen_height*tile_size}`;
+canvas.width = `${screen_width*tile_size}`;
+//classes
+
 class Vector {
     constructor(x=0,y=0)
     {
@@ -62,10 +102,11 @@ class Camera
 
 class Map
 {
-    constructor(ctx,width,height)
+    constructor(ctx,_tile_map)
     {
-        this.tiles = [range_array(width),range_array(height)];
         this.ctx = ctx;
+        this.tile_map = _tile_map;
+        this.tiles =  one_d_2_two_d_arr(_tile_map.tiles,_tile_map.cols);
         this.assets = [];
     }
     add_asset(asset)
@@ -94,33 +135,41 @@ class Map
     }
     get width()
     {
-        return this.tiles[0].length;
+        return this.tile_map.cols;
     }
     get height()
     {
-        return this.tiles[1].length;
+        return this.tile_map.rows;
     }
     preload()
     {
-        //prepare bottom
-        this.add_asset(new Rectangle('bottom',0,this.height-2,this.width,2));
-        
-        this.add_asset(new Player('player',0,this.height-3,1,1));
+        //set player as first object
+        this.add_asset(new Player('player',0-2,this.height-2,1,1));
+        this.player = this.assets[0];
+    
+        for(let y = 0;y<this.tiles.length;y++)
+        {
+            
+            for(let x = 0; x<this.tiles[y].length-1;x++)
+            {
+                console.log(x,y)
+                
+                if(this.tiles[y][x] !=0)
+                {
+                    this.add_asset(new Rectangle(`${[x,y]}`,x,y,1,1,this.tiles[y][x]));
+                }
+                if(this.tiles[y][x] == 2)
+                {
+                    this.assets[this.assets.length-1].set_color("red");
+                }
+            }
+        }
+        this.add_asset(new Rectangle("spawn-plattform",-2,this.height-1,2,1));
 
-        
-        this.add_asset(new Rectangle('1',5,13,1,1));
-        this.add_asset(new Rectangle('2',9,12,1,1));
-        this.add_asset(new Rectangle('3',13,11,1,1));
 
-        this.add_asset(new Rectangle('4',17,13,1,1));
-
-
-        this.assets[2].set_color('green')
-        
-        this.player = this.assets[1];
 
         this.player.set_color('red');
-        this.player.velocity = new Vector(8,0);
+        this.player.velocity = new Vector(player_speed,0);
 
         this.player.alive = true;
 
@@ -188,7 +237,7 @@ class Map
        
 
 class Asset {
-    constructor(name, x, y, width, height)
+    constructor(name, x, y, width, height,_type)
     {
         this.name   =   name;
         this.position = new Vector(x,y);
@@ -197,6 +246,7 @@ class Asset {
         this.height =   height;
         this.on_map =   false;
         this.color  =   'black';
+        this.type = _type;
         this.gravity =  gravity;
         this.on_ground = true;
         this.degree = 0;
@@ -237,6 +287,7 @@ class Rectangle extends Asset {
         ctx.rotate(this.degree*degree);
         
         ctx.fillRect(-this.width*tile_size/2,-this.height*tile_size/2,this.width*tile_size,this.height*tile_size);
+        
         ctx.stroke();
 
         ctx.restore();
@@ -270,42 +321,7 @@ class Player extends Rectangle
     }
 }
 
-//constants
 
-const sqrt = Math.sqrt;
-const pow = Math.pow;
-
-const gravity = 48;
-const drag = 0.9;
-const player_jump_height = 12;
-
-const scale_by = 4;
-
-const tile_size = 16*scale_by;
-
-
-
-const window_height = Math.floor(window.screen.availHeight/tile_size);
-const window_width = Math.floor(window.screen.availWidth/tile_size);
-
-console.log(window_height,window_width);
-
-const margin_width = 4;
-const margin_height = 4;
-
-var screen_height = window_height-margin_height;
-var screen_width = window_width-margin_width;
-
-map_height = 16;
-map_width = 64;
-
-
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext("2d");
-
-//32 as the basis for a tile
-canvas.height = `${screen_height*tile_size}`;
-canvas.width = `${screen_width*tile_size}`;
 
 
 
@@ -315,9 +331,9 @@ canvas.width = `${screen_width*tile_size}`;
 //32*3 as the bottom is 32*2
 
 
+console.log()
 
-
-const map = new Map(ctx,map_width,map_height);
+const map = new Map(ctx,tile_map);
 const game = new Game();
 const camera = new Camera(map,screen_width,screen_height,scale_by);
 
@@ -372,7 +388,7 @@ document.body.onkeydown = (e) => {
     //console.log(e);
     if(e.keyCode == 32){
 
-            map.assets[1].jump();
+            map.assets[0].jump();
     }
     if(e.keyCode == 27)
     {
@@ -522,6 +538,16 @@ function collision(player,asset)
     }
    
     return false;   
+}
+function one_d_2_two_d_arr(arr, width)
+{
+    var nArr = [];
+    console.log(arr.length)
+    while(arr.length > 0) {
+        nArr.push(arr.splice(0,width));
+    }
+    console.log(nArr);
+    return nArr;
 }
 
 function drawTo(ctx,vec1,vec2)
