@@ -8,10 +8,19 @@
     <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
+    <audio id="Song" autoplay>
+        <source src="aud/1.mp3" type="audio/mp3">
+      </audio>
+      <audio id="game-over-sound" autoplay>
+        <source src="aud/game_over.wav" type="audio/wav">
+      </audio>
     <div class="container">
         <canvas class="align-center" id="canvas">
         </canvas>
     </div>
+    <p id="score">
+        0
+    </p>
     
 </body>
 <script src="map-files/1.js"></script>

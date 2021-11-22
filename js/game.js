@@ -209,7 +209,54 @@ class Map
                 this.player.set_color("red")
                 this.player.on_ground = false;
             }
+            document.getElementById('score').innerHTML = `Score:${Math.round(this.player.x+2)}`;
+            if(this.player.x > 0 && this.audio == undefined)
+       {
+         
+            var promise = document.getElementById('Song').play();
+
+            if (promise !== undefined) {
+            promise.then(_ => {
+                // Autoplay started!
+            }).catch(error => {
+                // Autoplay was prevented.
+                // Show a "Play" button so that user can start playback.
+            });
+            }
+            
+        }
        }
+       else
+       {
+        
+        
+        var promise1 = document.getElementById('Song').pause();
+
+        var promise2 = (this.over) ? "" : document.getElementById('game-over-sound').play();
+        if (promise1 !== undefined) {
+        promise1.then(_ => {
+           
+       
+            // Autoplay started!
+        }).catch(error => {
+            // Autoplay was prevented.
+            // Show a "Play" button so that user can start playback.
+        });
+        } 
+        if (promise2 !== undefined) {
+            promise2.then(_ => {
+               
+                this.over = true; 
+                // Autoplay started!
+            }).catch(error => {
+                // Autoplay was prevented.
+                // Show a "Play" button so that user can start playback.
+            });
+            } 
+           
+       }
+     
+       
 
 
         ctx.save();
