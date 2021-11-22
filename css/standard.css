@@ -20,7 +20,7 @@ a:link, a:visited {
     background-position: right;
     -webkit-background-clip: text;
     background-clip: text;
-    transition: background-position 0.2s;
+    transition: background-position 0.3s;
 }
 
 a:hover, a:active {
@@ -70,6 +70,8 @@ body{
     animation: animate 5s linear infinite;
     font-size: 5vw;
     }
+
+    
 
 @keyframes animate{
     0%{
