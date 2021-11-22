@@ -1,16 +1,6 @@
 ;
 "use strict";
-//classes.js
-
-const sqrt = Math.sqrt;
-const pow = Math.pow;
-
-
-
-const gravity = 40;
-const drag = 0.9;
-
-
+//classes
 class Vector {
     constructor(x=0,y=0)
     {
@@ -24,6 +14,10 @@ class Vector {
     subtract(_vector)
     {
         return new Vector(this.matrix[0]-_vector.x,this.matrix[1]-_vector.y);
+    }
+    mult(_factor)
+    {
+        return new Vector(this.matrix[0]*_factor,this.matrix[1]*_factor);
     }
     set x(_x)
     {
@@ -41,44 +35,37 @@ class Vector {
         return this.matrix[1];
     }
 }
-
-// end of file
-
-
-const tile_size = 32
-
-var game;
-
-let window_height = Math.floor(window.screen.availHeight/32);
-let window_width = Math.floor(window.screen.availWidth/32);
-
-//console.log(window_height,window_width,window_height-window_width);
-
-let margin_width = 8;
-let margin_height = 8;
-
-var map_height = window_height-margin_height;
-var map_width = window_width-margin_width;
-
-map_height = 16;
-map_width = 30;
-console.log(`hoehe:${map_height},breite:${map_width}`)
-
-var canvas = document.getElementById('canvas');
-
-//32 as the basis for a tile
-canvas.height = `${window_height*(32)-(margin_height*tile_size)}`;
-canvas.width = `${window_width*(32)-(margin_width*tile_size)}`;
-
-
-var ctx = canvas.getContext("2d");
-//32*3 as the bottom is 32*2
+class Game
+{
+    constructor()
+    {
+        this.running = false;
+    }
+}
+class Camera 
+{
+    constructor(map, width, height)
+    {
+        this.x = 0;
+        this.y = 0;
+        this.width = width
+        this.height = height;
+        this.maxX = map.cols * map.tsize - width;
+        this.maxY = map.rows * map.tsize - height;
+    }
+    follow(asset)
+    {
+        map.ctx.translate(this.width/2*tile_size,this.height/2*tile_size);       
+        map.ctx.translate(-asset.middlepoint.x*tile_size,-asset.middlepoint.y*tile_size);  
+    }
+}
 
 class Map
 {
-    constructor(width,height)
+    constructor(ctx,width,height)
     {
         this.tiles = [range_array(width),range_array(height)];
+        this.ctx = ctx;
         this.assets = [];
     }
     add_asset(asset)
@@ -125,14 +112,21 @@ class Map
         this.add_asset(new Rectangle('2',9,12,1,1));
         this.add_asset(new Rectangle('3',13,11,1,1));
 
+        this.add_asset(new Rectangle('4',17,13,1,1));
+
+
         this.assets[2].set_color('green')
         
         this.player = this.assets[1];
 
         this.player.set_color('red');
-        this.player.velocity = new Vector(6,0);
+        this.player.velocity = new Vector(8,0);
 
         this.player.alive = true;
+
+      
+
+       
     }
     play(dt)
     {
@@ -161,24 +155,38 @@ class Map
                 }
 
             })
-
             if(!collision_any_asset)
             {
                 this.player.set_color("red")
                 this.player.on_ground = false;
             }
        }
-        
-        
 
 
-        
-
+        ctx.save();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //console.log(dt);
+
+
+       //camera move function
+
+      
+        camera.follow(this.player)
+        //camera.scale();
+        //draw assets
+
         map.stroke_assets(dt);
+        ctx.restore();
+
+
+
+
+        
+      
+        
     }
 }
+       
+
 class Asset {
     constructor(name, x, y, width, height)
     {
@@ -212,23 +220,31 @@ class Rectangle extends Asset {
         let degree = Math.PI/180;
         ctx.fillStyle = this.color;
         ctx.save();
+
+
         ctx.translate(this.position.x*tile_size,this.position.y*tile_size);
 
         ctx.translate(this.width*tile_size/2,this.height*tile_size/2);        
         
         if(this.on_ground == false && this.alive)
         {
-            this.degree += (dt) ? dt*180/.9833333333 : 0;
+            this.degree += (dt) ? dt*180/.9833333333*2 : 0;
         }else
         {
             this.degree = Math.round(this.degree/90)*90;
         }
 
         ctx.rotate(this.degree*degree);
+        
         ctx.fillRect(-this.width*tile_size/2,-this.height*tile_size/2,this.width*tile_size,this.height*tile_size);
         ctx.stroke();
+
         ctx.restore();
         this.on_map = true;
+    }
+    get middlepoint()
+    {
+        return new Vector(this.x+this.width/2,this.y+this.height/2);
     }
 }
 class Player extends Rectangle
@@ -236,12 +252,8 @@ class Player extends Rectangle
     move(dt)
     {
 
-        //y addition velocity
         this.velocity = this.velocity.add(new Vector(0,(gravity*dt)));
-        //console.log(this.velocity);
-        //console.log(this.velocity);
-
-            
+   
         this.position = this.position.add(
             new Vector(this.velocity.x * dt,
             this.velocity.y *dt)
@@ -251,27 +263,80 @@ class Player extends Rectangle
     {
         if(this.on_ground == true)
         {
-            this.jump_velocity = 11;
+            this.jump_velocity = player_jump_height;
             this.velocity.y = -this.jump_velocity;
-
         }
        
     }
 }
 
-const map = new Map(map_width,map_height,32);
-map.preload();
+//constants
+
+const sqrt = Math.sqrt;
+const pow = Math.pow;
+
+const gravity = 48;
+const drag = 0.9;
+const player_jump_height = 12;
+
+const scale_by = 4;
+
+const tile_size = 16*scale_by;
+
+
+
+const window_height = Math.floor(window.screen.availHeight/tile_size);
+const window_width = Math.floor(window.screen.availWidth/tile_size);
+
+console.log(window_height,window_width);
+
+const margin_width = 4;
+const margin_height = 4;
+
+var screen_height = window_height-margin_height;
+var screen_width = window_width-margin_width;
+
+map_height = 16;
+map_width = 64;
+
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext("2d");
+
+//32 as the basis for a tile
+canvas.height = `${screen_height*tile_size}`;
+canvas.width = `${screen_width*tile_size}`;
 
 
 
 
+
+
+//32*3 as the bottom is 32*2
+
+
+
+
+const map = new Map(ctx,map_width,map_height);
+const game = new Game();
+const camera = new Camera(map,screen_width,screen_height,scale_by);
+
+
+
+
+
+
+//game start
 var last_time = 0;
+map.preload();
 
 start();
 
+
+
 function mainloop(time)
 {
-    game = undefined;
+    game.running = undefined;
     if(last_time!= 0)
     {   
         var dt = (time - last_time)/1000;
@@ -283,18 +348,23 @@ function mainloop(time)
     start();
 }
 function start() {
-    if (!game) {
+    if (!game.running) {
        
-        game = window.requestAnimationFrame(mainloop);
+        game.running = window.requestAnimationFrame(mainloop);
     }
 }
 
 function stop() {
-    if (game) {
-       window.cancelAnimationFrame(game);
-       game = undefined;
+    if (game.running) {
+       window.cancelAnimationFrame(game.running);
+       game.running = undefined;
     }
 }
+
+
+
+
+
 
 
 //player input
@@ -433,9 +503,6 @@ function collision(player,asset)
 
 
     }
-
-
-
     //console.log(col_right)
     if(col_right || col_top)
     {
