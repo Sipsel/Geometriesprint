@@ -85,6 +85,9 @@ saveMap.addEventListener('click', function(e){
     buildMap(duration);
     }
   automap.disabled = false;
+  saveMap.style.display = 'grid';
+  //automap.style.display = 'none';
+  ownMap.style.display = 'none';
  });
 
  
@@ -120,10 +123,12 @@ function createMapTile(data){
 
 function drawMap(data) {
   let cubeThickness = ctx.canvas.width/data[0].length;
-  ctx.canvas.width  = content.offsetWidth;
-  
-  ctx.canvas.height = (content.offsetHeight/cubeThickness) + 60;
-
+  ctx.canvas.width  = content.offsetWidth - 4; //Rand wird bei content.offsetWidth mitgegeben (2px border)
+  if(cubeThickness>1){
+    ctx.canvas.height = (content.offsetHeight/cubeThickness) + 60;
+  } else{
+    ctx.canvas.height = (content.offsetHeight) + 60;
+  }
   ctx.fillStyle = localStorage['primary-color'];
   ctx.font= "20px Lucida Handwriting";
   ctx.textAlign = "center";
@@ -268,15 +273,16 @@ function buildMap(duration) {
 
       for(let z = 0; z< 9; z++){
         
-        for(let u = 0; u< 2; u++){
+        for(let u = 0; u< 3; u++){
           mapArr[z][pointOfMap+u] = "0";
         }
       }
       mapArr[9][pointOfMap] = "1";
       mapArr[9][pointOfMap+1] = "1";
+      mapArr[9][pointOfMap+2] = "1";
 
-      blocksLeft = blocksLeft - 2;
-      pointOfMap = pointOfMap + 2;
+      blocksLeft = blocksLeft - 3;
+      pointOfMap = pointOfMap + 3;
       
       if(tempArr.length){
         do{

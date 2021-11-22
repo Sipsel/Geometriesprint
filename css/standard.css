@@ -3,26 +3,34 @@
     --secondary-color: #FFAF00;
     --background-color: #000000;
     --invertedbackground: #FFFFFF;
+    --fontfam: Calligraphic,"Trebuchet MS", Arial;
+    --gradient: linear-gradient(to left, var(--primary-color), var(--secondary-color));
 }
 
 a:link, a:visited {
-    color:var(--invertedbackground);
+    color:transparent;
     padding: 1vh 0%;
     text-align: center;
     font-size: 2vw;
     text-decoration: none;
     display: inline-block;
     cursor:pointer;
+    background-image: var(--gradient);
+    background-size: 500%;
+    background-position: right;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background-position 0.2s;
 }
 
 a:hover, a:active {
-    color: transparent;
+    background-position: left;
 }
 
 body{
     padding-top: 4em;
     background:var(--background-color);
-    font-family: "Lucida Handwriting",Calligraphic,Arial;
+    font-family: var(--fontfam);
 }
 
 .gradient-border{
@@ -37,11 +45,13 @@ body{
     align-content: center;
     color: transparent;
     text-transform: uppercase;
-    background-image: linear-gradient(to left, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    animation: animate 5s linear infinite;
-    -webkit-background-size: 500%;
+    background-image: var(--gradient);
     background-size: 500%;
+    -webkit-background-size: 500%;
+    background-position: left;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: animate 5s linear infinite;
     text-align: center;
 }
 
@@ -53,6 +63,11 @@ body{
 }
 
 .heading{
+    background-image: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size:500%;
+    animation: animate 5s linear infinite;
     font-size: 5vw;
     }
 

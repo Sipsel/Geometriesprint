@@ -84,7 +84,7 @@
 }
 
 .range-slider:hover .slider-thumb:before {
-    background: linear-gradient( to left, var(--primary-color), var(--secondary-color));
+    background: var(--gradient);
     background-size: 500%;
     animation: animate 5s linear infinite;
 
@@ -97,7 +97,7 @@
     top: -2em;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-image: linear-gradient( to left, var(--primary-color), var(--secondary-color));
+    background-image: var(--gradient);
     background: var(--background-color);
     text-align: center;
     line-height: 200%;
@@ -126,7 +126,7 @@
     width: 50%;
     height: 0.4em;
     border-radius: 3px;
-    background: linear-gradient( to left, var(--primary-color), var(--secondary-color));
+    background: var(--gradient);
     position: absolute;
     top:50%;
     transform: translateY(-50%);
@@ -142,6 +142,7 @@
 
 .buttons{
     grid-area: d;
+    color: transparent;
     display: grid;
     grid-template-areas:
     "a b"
@@ -190,3 +191,4 @@
     font-size: 4vw;
     text-align: left;
 }
+

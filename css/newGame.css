@@ -1,10 +1,10 @@
 input[type=text]{
-    background-image: linear-gradient(to left, var(--primary-color), var(--secondary-color));
+    background-image: var(--gradient);
     -webkit-background-clip: text;
     animation: animate 5s linear infinite;
     -webkit-background-size: 500%;
     background-size: 500%;
-    font-family: "Lucida Handwriting",Calligraphic,Arial;;
+    font-family: var(--fontfam);
     font-size: 3vw;
     border: 2px solid var(--invertedbackground);
     background-color: var(--background-color);
@@ -45,31 +45,23 @@ input[type=text]{
 .buttons{
     width: 100%;
     grid-area: c;
+    align-items:center;
+    align-content: center;
     grid-auto-flow: column;
     display: grid;
-    gap: px;
     grid-template-columns: 50% 50%;
     grid-template-areas: 
     "a b";
-
-
-    background-image: linear-gradient(to left, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    animation: animate 5s linear infinite;
-    -webkit-background-size: 500%;
-    background-size: 500%;
 }
 
+
+
 #startGame{
-    width: 50%;
-    padding:2rem 0%;
     justify-self: center;
     grid-area: b;
 }
 
 #backToMenu{
-    width: 50%;
-    padding: 2rem 0%;
     justify-self: center;
     grid-area: a;
 }

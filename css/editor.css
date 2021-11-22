@@ -6,15 +6,6 @@ iframe{
     display: none;
 }
 
-label {
-    cursor: pointer;
-    width: 100%;
-    color:white;
-}
-label:hover{
-    color: transparent;
-}
-
 
 .content{
     margin-top: 10vh;
@@ -41,15 +32,20 @@ label:hover{
 
 button {
     border: 0;
-    background-color: transparent;
-    font-family: "Lucida Handwriting",Calligraphic,Arial;
-    color: var(--invertedbackground);
+    color: transparent;
+    background-image: var(--gradient);
+    background-size: 500%;
+    background-position: right;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background-position 0.2s;
     cursor:pointer;
     font-size: 3vw;
     width: 100%;
 }
+
 button:hover{
-    color: transparent;
+    background-position: left;
 }
 
 .custom-file-upload{
@@ -82,4 +78,19 @@ canvas {
     margin: 0 auto;
     margin-bottom: 1rem;
     display: block;
+  }
+
+  label{
+    cursor: pointer;
+    width: 100%;
+    background-image: var(--gradient);
+    background-size: 500%;
+    background-position: right;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background-position 0.2s;
+  }
+
+  label:hover{
+      background-position: left;
   }
