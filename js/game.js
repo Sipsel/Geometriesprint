@@ -196,6 +196,10 @@ class Map
                         height=0.9;
                         yShift=-0.1;
                     }
+                    if(this.tiles[y][x] == 7)
+                    {
+                        height=0.25;
+                    }
                     
 
                     this.add_asset(new Rectangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x]));
