@@ -7,15 +7,24 @@
 const sqrt = Math.sqrt;
 const pow = Math.pow;
 
-const gravity = 70;
-const drag = 0.9;
-const player_jump_height = 20;
-const player_speed = 6;
+const gravity = 50;
+const player_jump_height = 14.5;
+const player_speed = 6.25;
+
+var player_height = 99;
+
+
+//14.5
+//9
+
+
+
+const drag = 1;
 
 const scale_by = 4;
 
 const tile_size = 16*scale_by;
-
+const particle_life_time = 700;
 
 
 const window_height = Math.floor(window.screen.availHeight/tile_size);
@@ -25,6 +34,8 @@ console.log(window_height,window_width);
 
 const margin_width = 4;
 const margin_height = 4;
+
+var elapsed_time = 0;
 
 var screen_height = window_height-margin_height;
 var screen_width = window_width-margin_width;
@@ -106,8 +117,10 @@ class Map
     {
         this.ctx = ctx;
         this.tile_map = _tile_map;
-        this.tiles =  one_d_2_two_d_arr(_tile_map.tiles,_tile_map.cols);
+        this.tiles =  _tile_map.tiles;
         this.assets = [];
+        this.particles = [];
+        this.loaded = false;
     }
     add_asset(asset)
     {
@@ -115,7 +128,17 @@ class Map
     }
     stroke_assets(dt)
     {
-        this.assets.forEach(asset => asset.draw(dt));
+        this.assets.forEach(asset => {
+            if(asset.on_map == false && !(this.loaded == false))
+            {
+                this.assets.splice([this.assets.indexOf(asset)],1)
+            }else
+            {
+                asset.draw(dt)
+            }
+        }
+        );
+        //console.log(this.assets[0].on_map);
     }
     stroke_lines()
     {
@@ -144,7 +167,7 @@ class Map
     preload()
     {
         //set player as first object
-        this.add_asset(new Player('player',0-2,this.height-2,1,1));
+        this.add_asset(new Player('player',0-5,this.height-2,1,1));
         this.player = this.assets[0];
     
         for(let y = 0;y<this.tiles.length;y++)
@@ -152,28 +175,36 @@ class Map
             
             for(let x = 0; x<this.tiles[y].length-1;x++)
             {
-                console.log(x,y)
-                
                 if(this.tiles[y][x] !=0)
                 {
-                    this.add_asset(new Rectangle(`${[x,y]}`,x,y,1,1,this.tiles[y][x]));
+                    let width = 1;
+                    let height = 1;
+                    if(this.tiles[y][x] == 2)
+                    {
+                        width = 0.25;
+                    }
+                    
+
+                    this.add_asset(new Rectangle(`${[x,y]}`,x,y,width,height,this.tiles[y][x]));
                 }
                 if(this.tiles[y][x] == 2)
                 {
                     this.assets[this.assets.length-1].set_color("red");
                 }
+
             }
+
         }
-        this.add_asset(new Rectangle("spawn-plattform",-2,this.height-1,2,1));
+        this.add_asset(new Rectangle("spawn-plattform",0-5,this.height-2,5,1));
 
 
-
+        
         this.player.set_color('red');
         this.player.velocity = new Vector(player_speed,0);
-
         this.player.alive = true;
 
-      
+        this.stroke_assets(0);
+        this.loaded = true;
 
        
     }
@@ -183,6 +214,7 @@ class Map
        if(this.player.alive)
        {
             this.player.move(dt);
+            this.particles.forEach(particle => particle.move(dt));
             let collision_any_asset = false;
 
             this.assets.forEach(asset => {
@@ -208,10 +240,25 @@ class Map
             {
                 this.player.set_color("red")
                 this.player.on_ground = false;
+                //console.log(this.player.x);
+               
+
+
             }
-            document.getElementById('score').innerHTML = `Score:${Math.round(this.player.x+2)}`;
+
+            //add particles
+            this.particles.push(new Particle('test-particle',this.player.x-0.25,this.player.y-0.25,0.5,0.5,1,100));
+            this.particles[0].draw();
+            this.particles[0].gravity = 20;
+            this.particles[0].on_ground = false;
+            this.particles[0].alive = true;
+            this.add_asset(this.particles[0]);
+            
+            document.getElementById('score').innerHTML = `Score:${Math.floor(this.player.x)}`;
+
+
             if(this.player.x > 0 && this.audio == undefined)
-       {
+            {
          
             var promise = document.getElementById('Song').play();
 
@@ -228,7 +275,6 @@ class Map
        }
        else
        {
-        
         
         var promise1 = document.getElementById('Song').pause();
 
@@ -258,7 +304,6 @@ class Map
      
        
 
-
         ctx.save();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -276,7 +321,7 @@ class Map
 
 
 
-        
+        elapsed_time+=dt;
       
         
     }
@@ -284,7 +329,7 @@ class Map
        
 
 class Asset {
-    constructor(name, x, y, width, height,_type)
+    constructor(name, x, y, width, height,_type,life_time=-1)
     {
         this.name   =   name;
         this.position = new Vector(x,y);
@@ -297,6 +342,7 @@ class Asset {
         this.gravity =  gravity;
         this.on_ground = true;
         this.degree = 0;
+        this.life_time = life_time;
     }
     set_color(color)
     {
@@ -325,9 +371,11 @@ class Rectangle extends Asset {
         
         if(this.on_ground == false && this.alive)
         {
-            this.degree += (dt) ? dt*180/.9833333333*2 : 0;
+            
+            this.degree += (dt) ? dt*180*1.76470588235 : 0;
         }else
         {
+            
             this.degree = Math.round(this.degree/90)*90;
         }
 
@@ -338,7 +386,18 @@ class Rectangle extends Asset {
         ctx.stroke();
 
         ctx.restore();
+        //check if object has lifetime
         this.on_map = true;
+        
+        if(this.life_time > 0)
+        {
+            this.life_time++;
+            if(this.life_time > particle_life_time)
+            {
+                this.on_map = false;
+            }
+        }
+        return this.on_map;
     }
     get middlepoint()
     {
@@ -349,29 +408,38 @@ class Player extends Rectangle
 {
     move(dt)
     {
-
+        
         this.velocity = this.velocity.add(new Vector(0,(gravity*dt)));
    
         this.position = this.position.add(
-            new Vector(this.velocity.x * dt,
-            this.velocity.y *dt)
+            new Vector(this.velocity.x * dt*drag,
+            this.velocity.y *dt*drag)
         );
     }
     jump()
     {
         if(this.on_ground == true)
         {
+           
             this.jump_velocity = player_jump_height;
             this.velocity.y = -this.jump_velocity;
         }
        
     }
 }
+class Particle extends Rectangle
+{
+    move(dt)
+    {
 
-
-
-
-
+        this.velocity = this.velocity.add(new Vector(0,(this.gravity*dt)));
+   
+        this.position = this.position.add(
+            new Vector(this.velocity.x * dt,
+            this.velocity.y *dt)
+        );
+    }
+}
 
 
 
@@ -383,9 +451,6 @@ console.log()
 const map = new Map(ctx,tile_map);
 const game = new Game();
 const camera = new Camera(map,screen_width,screen_height,scale_by);
-
-
-
 
 
 
@@ -538,7 +603,7 @@ function collision(player,asset)
 
     let d_right = player_x_max-asset_x_min;
 
-    let d_bottom = (player_y_max-asset_y_min)*.8;
+    let d_bottom = (player_y_max-asset_y_min)*.7;
 
     let  d_left = asset_x_max-player_x_min;
 
@@ -570,6 +635,7 @@ function collision(player,asset)
     if(col_right || col_top)
     {
         console.log("beaifn q")
+        player.on_map = false;
         player.alive = false;
         return true;
         
