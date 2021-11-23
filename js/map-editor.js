@@ -65,12 +65,9 @@ inputCSV.addEventListener('change', (e)=> {
 saveMap.addEventListener('click', function(e){
 
   var retrievedItems = localStorage.getItem("customMaps");
-    //console.log(retrievedItems);
-    var customMaps = JSON.parse(retrievedItems);
-
-    console.log(customMaps);
-    console.log(JSON.stringify(customMaps));
-    customMaps[customMaps.length] = mapLayout;
+  var customMaps = JSON.parse(retrievedItems);
+  console.log(mapLayout);
+  customMaps[customMaps.length] = mapLayout;
   localStorage.setItem("customMaps", JSON.stringify(customMaps));
 });
 
@@ -82,7 +79,8 @@ saveMap.addEventListener('click', function(e){
     getTextFromFile("csvMapTiles/secOne.txt", duration, 1);
     getTextFromFile("csvMapTiles/secTwo.txt", duration, 2);
     getTextFromFile("csvMapTiles/secThr.txt", duration, 3);
-    buildMap(duration);
+    var mapArr = buildMap(parseInt(duration*6.25));
+    mapLayout = getMapTile(mapArr);
     }
   automap.disabled = false;
   saveMap.style.display = 'grid';
@@ -308,6 +306,7 @@ function buildMap(duration) {
 
   }
   drawMap(mapArr);
+  return mapArr;
 }
 
 

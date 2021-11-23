@@ -14,9 +14,9 @@ window.addEventListener("load", initialize, false);
 
 function initialize() {
     if(localStorage["initialization"] != 'true'){
-    localStorage['primary-color'] = '#0000FF';
-    localStorage['secondary-color'] = '#FF0000';
-    localStorage['background-color'] = '#000000';
+    localStorage['primary-color'] = '#00a2ff';
+    localStorage['secondary-color'] = '#00ff9d';
+    localStorage['background-color'] = '#171717';
     localStorage['invertedbackground'] = '#FFFFFF';
     localStorage['volume'] = '50';    
     localStorage['customSong'] = '';

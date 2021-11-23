@@ -93,4 +93,5 @@ canvas {
 
   label:hover{
       background-position: left;
+      cursor: pointer;
   }
