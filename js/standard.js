@@ -29,6 +29,3 @@ document.documentElement.style.setProperty('--secondary-color', localStorage['se
 document.documentElement.style.setProperty('--background-color', localStorage['background-color']);
 document.documentElement.style.setProperty('--invertedbackground', localStorage['invertedbackground']);
 }
-
-//document.documentElement.style.setProperty('--primary-color', 'green');
-//document.documentElement.style.setProperty('--secondary-color', invertColor(colorValue.toString()));

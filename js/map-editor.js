@@ -38,7 +38,7 @@ ownSong.addEventListener('change', (event) => {
   ctx.canvas.style.display = 'grid';
   automap.style.display = 'grid';
   ctx.fillStyle = localStorage['primary-color'];
-  ctx.font= "20px Lucida Handwriting";
+  ctx.font= "20px Trebuchet MS";
   ctx.textAlign = "center";
   ctx.fillText(customSong.name, ctx.canvas.width/2, 20);
 

@@ -3,7 +3,7 @@
     --secondary-color: #FFAF00;
     --background-color: #000000;
     --invertedbackground: #FFFFFF;
-    --fontfam: Calligraphic,"Trebuchet MS", Arial;
+    --fontfam: "Trebuchet MS", Arial;
     --gradient: linear-gradient(270deg, var(--primary-color), var(--secondary-color));
 }
 
