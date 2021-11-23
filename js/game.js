@@ -189,6 +189,13 @@ class Map
                         height=0.9;
                         yShift=0.1;
                     }
+                    if(this.tiles[y][x] == 6)
+                    {
+                        width = 0.25;
+                        xShift = 0.375;
+                        height=0.9;
+                        yShift=-0.1;
+                    }
                     
 
                     this.add_asset(new Rectangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x]));
@@ -387,7 +394,7 @@ class Rectangle extends Asset {
         }
 
         ctx.rotate(this.degree*degree);
-        if(this.type == 99)
+        if(this.type == 2)
         {
             let temp_style = ctx.fillStyle;
 
