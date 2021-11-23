@@ -4,7 +4,7 @@
     --background-color: #000000;
     --invertedbackground: #FFFFFF;
     --fontfam: Calligraphic,"Trebuchet MS", Arial;
-    --gradient: linear-gradient(to left, var(--primary-color), var(--secondary-color));
+    --gradient: linear-gradient(270deg, var(--primary-color), var(--secondary-color));
 }
 
 a:link, a:visited {

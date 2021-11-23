@@ -18,17 +18,17 @@ function initialize() {
     localStorage['secondary-color'] = '#FF0000';
     localStorage['background-color'] = '#000000';
     localStorage['invertedbackground'] = '#FFFFFF';
-    localStorage['initialization'] = 'true'; 
+    localStorage['volume'] = '50';    
     localStorage['customSong'] = '';
     localStorage["MapId"] = 1;
     localStorage.setItem("customMaps", JSON.stringify([]));
+    localStorage['initialization'] = 'true'; 
     }
-}
-
 document.documentElement.style.setProperty('--primary-color', localStorage['primary-color']);
 document.documentElement.style.setProperty('--secondary-color', localStorage['secondary-color']);
 document.documentElement.style.setProperty('--background-color', localStorage['background-color']);
 document.documentElement.style.setProperty('--invertedbackground', localStorage['invertedbackground']);
+}
 
 //document.documentElement.style.setProperty('--primary-color', 'green');
 //document.documentElement.style.setProperty('--secondary-color', invertColor(colorValue.toString()));

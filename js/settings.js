@@ -1,34 +1,18 @@
 document.querySelector("#volume-slider").value = localStorage['volume'];
 
-const container = document.querySelectorAll(".range-slider");
+const slideValue = document.querySelector("span");
+const inputSlider= document.querySelector("input");
+slideValue.textContent = localStorage['volume'];
+slideValue.style.left= (localStorage['volume']) + "%";
 
-for (let i = 0; i<container.length; i++) {
-    const slider = container[i].querySelector(".slider");
-    const thumb = container[i].querySelector(".slider-thumb");
-    const tooltip = container[i].querySelector(".tooltip");
-    //const tooltipNumber = tooltip.querySelector(".tooltipNumber")
-    const progress = container[i].querySelector(".progress");
-
-    function customSlider() {
-    const maxVal = slider.getAttribute("max");
-    const val = (slider.value / maxVal) * 100 + "%";
-
-    tooltip.innerHTML = slider.value;
-
-    progress.style.width = val;
-    thumb.style.left = val;
-    
-    
-}
-
-
-
-customSlider();
-
-slider.addEventListener("input", () => {
-    customSlider();
+inputSlider.oninput = (()=>{
+    let value = inputSlider.value;
+    slideValue.textContent = value;
+    let slideValueInt= value/102*100;
+    slideValue.style.left= (slideValueInt) + "%";
+    slideValue.classList.add("show");
 });
-}
+
 
 /*
 *   Primäre Farbe kann variabel gewählt werden.
