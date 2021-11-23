@@ -179,13 +179,16 @@ class Map
                 {
                     let width = 1;
                     let height = 1;
+                    let xShift = 0;
+                    let yShift = 0;
                     if(this.tiles[y][x] == 2)
                     {
                         width = 0.25;
+                        xShift = 0.375;
                     }
                     
 
-                    this.add_asset(new Rectangle(`${[x,y]}`,x,y,width,height,this.tiles[y][x]));
+                    this.add_asset(new Rectangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x]));
                 }
                 if(this.tiles[y][x] == 2)
                 {
