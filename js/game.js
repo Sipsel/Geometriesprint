@@ -108,6 +108,7 @@ class Camera
     {
         map.ctx.translate(this.width/2*tile_size,this.height/2*tile_size);       
         map.ctx.translate(-asset.middlepoint.x*tile_size,-asset.middlepoint.y*tile_size);  
+        
     }
 }
 
@@ -185,6 +186,8 @@ class Map
                     {
                         width = 0.25;
                         xShift = 0.375;
+                        height=0.9;
+                        yShift=0.1;
                     }
                     
 
@@ -275,10 +278,11 @@ class Map
             }
             
         }
+        
        }
        else
        {
-        
+       
         var promise1 = document.getElementById('Song').pause();
 
         var promise2 = (this.over) ? "" : document.getElementById('game-over-sound').play();
@@ -322,7 +326,7 @@ class Map
         ctx.restore();
 
 
-
+        
 
         elapsed_time+=dt;
       
@@ -383,8 +387,37 @@ class Rectangle extends Asset {
         }
 
         ctx.rotate(this.degree*degree);
+        if(this.type == 99)
+        {
+            let temp_style = ctx.fillStyle;
+
+            let x = -this.width*tile_size/2*4;
+            let y = this.height*tile_size/2;
+          
+            ctx.beginPath();
+
+            ctx.moveTo(x,y);
+            ctx.lineTo(x+this.width/2*tile_size*4,y-this.height*tile_size);
+            ctx.lineTo(x+this.width*4*tile_size,y);
+
+
+            
+            var grd = ctx.createLinearGradient(x+this.width/2*tile_size*4,y-this.height*tile_size,x+this.width/2*tile_size*4,y+30);
+            grd.addColorStop(0.3,"black");
+            grd.addColorStop(0.9,"#00FF9D");
+            
+            ctx.fillStyle = grd;
+
+
+
+            ctx.fill();
+            ctx.fillStyle = temp_style;
+
+        }else
+        {
+            ctx.fillRect(-this.width*tile_size/2,-this.height*tile_size/2,this.width*tile_size,this.height*tile_size);
+        }
         
-        ctx.fillRect(-this.width*tile_size/2,-this.height*tile_size/2,this.width*tile_size,this.height*tile_size);
         
         ctx.stroke();
 
