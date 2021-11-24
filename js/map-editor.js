@@ -346,3 +346,22 @@ function splitAndSortArrays(arr){
   mapArr.sort(function(a,b){return a.length - b.length});
   return mapArr;
 }
+
+class Camera 
+{
+    constructor(map, width, height)
+    {
+        this.x = 0;
+        this.y = 0;
+        this.width = width
+        this.height = height;
+        this.maxX = map.cols * map.tsize - width;
+        this.maxY = map.rows * map.tsize - height;
+    }
+    follow(pX, pY)
+    {
+        map.ctx.translate(this.width/2*cubeThickness,this.height/2*cubeThickness);       
+        map.ctx.translate(pX*cubeThickness,pY*cubeThickness);  
+        
+    }
+}
