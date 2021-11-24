@@ -82,7 +82,7 @@
     font-size: 1.5vw;
     color: var(--primary-color);
     font-weight: 500;
-    top: -3.5vw;
+    top: -4vw;
     transform:translateX(-15%) scale(0);
     transform-origin: bottom;
     transition: transform 0.3s ease-in-out;
@@ -93,6 +93,10 @@
 
 .range .sliderValue span.show{
     transform:translateX(-15%) scale(1);
+    display: inline-flex;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
 }
 
 .range .sliderValue span:after{
@@ -102,7 +106,7 @@
     width: 3vw;
     left: 0;
     background: var(--secondary-color);
-    transform:translateX(-15%) rotate(45deg);
+    transform:translateX(-10%) rotate(45deg);
     border: 3px solid var(--invertedbackground);
     z-index: -1;
     border-top-left-radius: 50%;

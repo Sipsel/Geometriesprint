@@ -8,8 +8,7 @@ slideValue.style.left= (localStorage['volume']) + "%";
 inputSlider.oninput = (()=>{
     let value = inputSlider.value;
     slideValue.textContent = value;
-    let slideValueInt= value/2;
-    slideValue.style.left= (slideValueInt) + "vw";
+    slideValue.style.left= 50;
     slideValue.classList.add("show");
 });
 
