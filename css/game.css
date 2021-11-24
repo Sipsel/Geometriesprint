@@ -16,6 +16,9 @@ body,html
 #canvas
 {
     border: black solid;
+    background-image: url('../img/canvas_background.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
 }
 #score
 {
