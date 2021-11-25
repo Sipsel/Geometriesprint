@@ -125,7 +125,7 @@ function createMapTile(data, songname){
 }
 
 function showMap(data) {
-  let cubeThickness = 10;
+  let cubeThickness = 6;
   ctx.canvas.width  = content.offsetWidth - 4; //Rand wird bei content.offsetWidth mitgegeben (2px border)
   if(cubeThickness>1){
     ctx.canvas.height = (content.offsetHeight/cubeThickness) + 60;
@@ -169,22 +169,23 @@ function showMap(data) {
           ctx.lineTo(x+cubeThickness, y+cubeThickness);
           ctx.fill();
         } else if(data[k][i] == 4){
-          var grd = ctx.createLinearGradient(x+(cubeThickness/2),y,x+(cubeThickness/2),y+cubeThickness);
+          let shiftY = 0;
+          if(data[k-1][i] == 2){
+            shiftY= cubeThickness/2;
+          }
+          var grd = ctx.createLinearGradient(x+(cubeThickness/2),y-shiftY,x+(cubeThickness/2),y+cubeThickness-shiftY);
           grd.addColorStop(1, localStorage['secondary-color']);
           grd.addColorStop(0, localStorage['background-color']);
           ctx.fillStyle = grd;
           ctx.beginPath();
-          ctx.moveTo(x,y);
-          ctx.lineTo(x+cubeThickness/2,y+cubeThickness);
-          ctx.lineTo(x+cubeThickness, y);
+          ctx.moveTo(x,y-shiftY);
+          ctx.lineTo(x+cubeThickness/2,y+cubeThickness-shiftY);
+          ctx.lineTo(x+cubeThickness, y-shiftY);
           ctx.fill();
         }
-        
       }
-      
     }
   }
-
 
 }
 
