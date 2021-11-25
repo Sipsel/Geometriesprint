@@ -5,6 +5,7 @@
     --invertedbackground: #FFFFFF;
     --fontfam: "Trebuchet MS", Arial;
     --gradient: linear-gradient(270deg, var(--primary-color), var(--secondary-color));
+    --tooltip-text: "";
 }
 
 a:link, a:visited {

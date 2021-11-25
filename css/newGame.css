@@ -13,7 +13,6 @@ input[type=text]{
     text-align: center;
 }
 
-
 .startGameOrleave{
     display: grid;
     grid-template-columns: repeat(4, 250);
@@ -24,19 +23,21 @@ input[type=text]{
     grid-template-areas:
     "a a a a"
     "b b b b"
-    "c c c c";
+    "c c c c"
+    "c c c c"
+    "d d d d";
 }
 
 #playername{
     grid-area: a;
-    border-radius: 25px;
+    border-radius: .3rem;
     width: 100%;
     margin-top: 2vh;
 }
 
-#chooseCharacter{
+#chooseMap{
     grid-area: b;
-    border-radius: 25px;
+    border-radius: .3rem;
     padding: 2px 1px;
     border: 2px solid var(--invertedbackground);
     width: 100%;
@@ -44,7 +45,7 @@ input[type=text]{
 
 .buttons{
     width: 100%;
-    grid-area: c;
+    grid-area: d;
     align-items:center;
     align-content: center;
     grid-auto-flow: column;
@@ -54,7 +55,23 @@ input[type=text]{
     "a b";
 }
 
-
+.selectMap{
+    border: 2px solid var(--invertedbackground);
+    border-radius: .3rem;
+    grid-area: c;
+    display: grid;
+    align-items: center;
+    margin-top: 1vh;
+    align-content: center;
+    justify-items: center;
+    grid-template-columns: 10% 40% 40% 10%;
+    grid-template-areas: 
+    "a a a a" 
+    "b b b b"
+    "c c c c"
+    "d d d d"
+    "e g g f";
+}
 
 #startGame{
     justify-self: center;
@@ -65,3 +82,88 @@ input[type=text]{
     justify-self: center;
     grid-area: a;
 }
+button{
+    grid-area:c;
+    background-color: transparent;
+    border: 0;
+    position: relative;    
+    width: 2vw;
+    height: 2vw;
+}
+
+button::after{
+    content: '';
+    position: absolute;
+    right:0;
+    left:0;
+    bottom: 0;
+    
+}
+
+#prevMap{
+    grid-area: e;
+    right: 1vw;
+}
+
+#nextMap{
+    grid-area: f;
+    justify-self: left;
+}
+
+#prevMap::after{
+    border-top: 2vw solid transparent;
+    border-right: 2vw solid var(--secondary-color);
+    border-left: 2vw solid transparent;
+    border-bottom: 2vw solid transparent;
+}
+
+#nextMap::after{
+    border-top: 2vw solid transparent;
+    border-right: 2vw solid transparent;
+    border-left: 2vw solid var(--secondary-color);
+    border-bottom: 2vw solid transparent;
+}
+
+.mapName{
+    grid-area: a;
+    font-size: 2vw;
+}
+
+.mapName::after{
+    content: '';
+    position: absolute;
+    width:50px;
+    height: 25px;
+    left:50%;
+    transform: translateX(-50%) translateY(-100%) scale(var(--scale));
+    --scale: 0;
+    transition: 150ms transform;
+    transform-origin: bottom center;
+}
+.mapName:hover::after{
+    color:var(--primary-color);
+    background: var(--background-color);
+    border: 2px solid var(--invertedbackground);
+    content: attr(data-tooltip);
+    padding: .5rem;
+    border-radius: .3rem;
+    width: max-content;
+    text-align: center;
+    --scale: 1;
+}
+
+.progress{
+    grid-area: b;
+    font-size: 1.5vw;
+}
+.attempts{
+    grid-area: c;
+    font-size: 1.5vw;
+}
+
+.maptime{
+    grid-area: d;
+    padding-bottom: 2vh;
+    font-size: 1.5vw;
+}
+

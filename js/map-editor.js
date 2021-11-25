@@ -12,6 +12,7 @@ let songDuration;
 let songAvail = false;
 var mapLayout;
 var customSong;
+var customSongName;
 
 var secOneArr;
 var secTwoArr;
@@ -29,7 +30,8 @@ saveMap.style.display = 'none';
 
 ownSong.addEventListener('change', (event) => {
   const fileList= event.target.files;
-  customSong = fileList[0]
+  customSong = fileList[0];
+  customSongName = customSong.name;
   const objectURL = URL.createObjectURL(customSong);
   localStorage['customSong'] = objectURL;
 
@@ -51,9 +53,9 @@ inputCSV.addEventListener('change', (e)=> {
   reader.onload = function (e){
     const text = e.target.result;
     const data = csvToArray(text);
-    data.pop(); //to drop the last array (just because of wrong csv coding)
-    mapLayout = getMapTile(data);
-    drawMap(data);
+    var audio = new Audio(localStorage['customSong']);
+    mapLayout = getMapTile(data, customSongName);
+    showMap(data);
   };
   reader.readAsText(input);
 
@@ -80,7 +82,7 @@ saveMap.addEventListener('click', function(e){
     getTextFromFile("csvMapTiles/secTwo.txt", duration, 2);
     getTextFromFile("csvMapTiles/secThr.txt", duration, 3);
     var mapArr = buildMap(parseInt(duration*6.25));
-    mapLayout = getMapTile(mapArr);
+    mapLayout = getMapTile(mapArr, customSongName);
     }
   automap.disabled = false;
   saveMap.style.display = 'grid';
@@ -98,14 +100,14 @@ function csvToArray(str){
 };
 
 
-function getMapTile(data){
-  var map = createMapTile(data);
+function getMapTile(data, songname){
+  var map = createMapTile(data, songname);
   localStorage["MapId"] = parseInt(localStorage["MapId"]) + 1;
   return map;
 }
 
 //Eine Map wird im gewünschten Format zusammengebaut.
-function createMapTile(data){
+function createMapTile(data, songname){
   return {
     id: localStorage["MapId"],
     cols: data[0].length,
@@ -113,22 +115,26 @@ function createMapTile(data){
     tsize: data[0].length * data.length,
     tiles: data,
     song: localStorage["customSong"],
+    progress: 0,
+    attempts: 0,
+    songname: songname,
     getTile: function(col, row) {
       return this.tiles[row*this.cols + col];
     }
   };
 }
 
-function drawMap(data) {
-  let cubeThickness = ctx.canvas.width/data[0].length;
+function showMap(data) {
+  let cubeThickness = 10;
   ctx.canvas.width  = content.offsetWidth - 4; //Rand wird bei content.offsetWidth mitgegeben (2px border)
   if(cubeThickness>1){
     ctx.canvas.height = (content.offsetHeight/cubeThickness) + 60;
   } else{
     ctx.canvas.height = (content.offsetHeight) + 60;
   }
+  
   ctx.fillStyle = localStorage['primary-color'];
-  ctx.font= "20px Lucida Handwriting";
+  ctx.font= "20px Trebuchet MS";
   ctx.textAlign = "center";
   ctx.fillText(customSong.name, ctx.canvas.width/2, 20);
   
@@ -140,14 +146,40 @@ function drawMap(data) {
         let y = (k*cubeThickness) + (ctx.canvas.height-(data.length)*cubeThickness);
 
         if(data[k][i] == 1){
-          ctx.fillStyle = localStorage['primary-color'];
+          
+          var grd = ctx.createLinearGradient(x+(cubeThickness/2),y,x+(cubeThickness/2),y+cubeThickness);
+          grd.addColorStop(0, localStorage['primary-color']);
+          grd.addColorStop(0.7, localStorage['background-color']);
+          ctx.fillStyle = grd;
+          ctx.fillRect(x,y,cubeThickness,cubeThickness);
         } else if(data[k][i] == 2){
-          ctx.fillStyle = localStorage['secondary-color'];
+          var grd = ctx.createLinearGradient(x+(cubeThickness/2),y,x+(cubeThickness/2),y+cubeThickness);
+          grd.addColorStop(0, localStorage['primary-color']);
+          grd.addColorStop(0.5, localStorage['background-color']);
+          ctx.fillStyle = grd;
+          ctx.fillRect(x,y,cubeThickness,cubeThickness/2);
         } else if(data[k][i] == 3){
-          ctx.fillStyle = "yellow";
+          var grd = ctx.createLinearGradient(x+(cubeThickness/2),y,x+(cubeThickness/2),y+cubeThickness);
+          grd.addColorStop(0, localStorage['secondary-color']);
+          grd.addColorStop(1, localStorage['background-color']);
+          ctx.fillStyle = grd;
+          ctx.beginPath();
+          ctx.moveTo(x,y+cubeThickness);
+          ctx.lineTo(x+cubeThickness/2,y);
+          ctx.lineTo(x+cubeThickness, y+cubeThickness);
+          ctx.fill();
+        } else if(data[k][i] == 4){
+          var grd = ctx.createLinearGradient(x+(cubeThickness/2),y,x+(cubeThickness/2),y+cubeThickness);
+          grd.addColorStop(1, localStorage['secondary-color']);
+          grd.addColorStop(0, localStorage['background-color']);
+          ctx.fillStyle = grd;
+          ctx.beginPath();
+          ctx.moveTo(x,y);
+          ctx.lineTo(x+cubeThickness/2,y+cubeThickness);
+          ctx.lineTo(x+cubeThickness, y);
+          ctx.fill();
         }
         
-        ctx.fillRect(x, y,cubeThickness,cubeThickness);
       }
       
     }
@@ -305,7 +337,7 @@ function buildMap(duration) {
     }
 
   }
-  drawMap(mapArr);
+  showMap(mapArr);
   return mapArr;
 }
 

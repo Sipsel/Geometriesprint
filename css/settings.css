@@ -194,6 +194,7 @@
 .colorPicker{
     padding: 1vh;
     border: 2px solid var(--invertedbackground);
+    border-radius: .3rem;
     font-size: 4vw;
     text-align: left;
 }
