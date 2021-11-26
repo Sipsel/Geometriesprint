@@ -3,7 +3,7 @@ const ownSong = document.getElementById('ownSong');
 const automap = document.getElementById('autoMap');
 const saveMap = document.getElementById('createMap');
 const customMap = document.getElementById('customMap');
-const inputCSV = document.getElementById('csvMap');
+const inputMap = document.getElementById('csvMap');
 const ownMap = document.getElementById('uploadCustomMap')
 const content = document.getElementById('divContent');
 const cv = document.getElementById('showMap');
@@ -22,7 +22,7 @@ var secTwoArr;
 var secThrArr;
 
 customMap.style.display = 'none';
-inputCSV.style.display = 'none';
+inputMap.style.display = 'none';
 ctx.canvas.style.display = 'none';
 automap.style.display = 'none';
 saveMap.style.display = 'none';
@@ -51,13 +51,13 @@ ownSong.addEventListener('change', (event) => {
 
 })
 
-inputCSV.addEventListener('change', (e)=> {
+inputMap.addEventListener('change', (e)=> {
   e.preventDefault();
-  const input = inputCSV.files[0];
+  const input = inputMap.files[0];
   const reader = new FileReader();
   reader.onload = function (e){
     const text = e.target.result;
-    const data = csvToArray(text);
+    const data = txtToArray(text);
     var audio = new Audio(localStorage['customSong']);
     mapLayout = getMapTile(data, customSongName);
     showMap(data);
@@ -116,12 +116,21 @@ customMap.addEventListener('click', function(e){
 
  
 //Hier wird eine csv Datei zu einem zweidimensionalen Array zusammengeführt.
-function csvToArray(str){
-  const rows = str.split("\n");
-  return rows.map(function (row){
-    return row.split(";");
-  });
-};
+function txtToArray(str){
+  const data = str.split(";");
+  let y = 0;
+  var mapArr = [];
+  for(let m = 0; m<10;m++){
+    mapArr[m] = new Array(data.length/10);
+  }
+  for(let k = 0; k<10;k++){
+    for(let i = 0; i< data.length/10;i++){
+      mapArr[k][i] = data[y];
+      y++;
+    }
+  }
+  return mapArr;
+}
 
 
 function getMapTile(data, songname){
