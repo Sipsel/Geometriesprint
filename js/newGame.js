@@ -5,7 +5,7 @@ const showSongName= document.getElementById('mapName');
 const showMapProgress = document.getElementById('mapProgress');
 const showMapAttempts = document.getElementById('mapAttempts');
 const showMapTime = document.getElementById('mapTime');
-
+const showMapID = document.getElementById('mapID');
 
 
 let whichMap = 0;
@@ -38,6 +38,7 @@ function showMap() {
     }
     showSongName.innerHTML = name;
     showSongName.setAttribute('data-tooltip',maps[whichMap].songname);
+    showMapID.innerHTML = "Map-Id: " + maps[whichMap].id;
     showMapProgress.innerHTML = "Progress: " + maps[whichMap].progress +"%";
     showMapAttempts.innerHTML = "Versuche: " + maps[whichMap].attempts;
     showMapTime.innerHTML = "Map-Länge: " + getTimeString(maps[whichMap].cols);

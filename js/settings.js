@@ -2,6 +2,7 @@ document.querySelector("#volume-slider").value = localStorage['volume'];
 
 const slideValue = document.querySelector("span");
 const inputSlider= document.querySelector("input");
+var img = new Image();
 slideValue.textContent = localStorage['volume'];
 slideValue.style.left= (localStorage['volume']) + "%";
 
@@ -95,9 +96,32 @@ var defaultColorBack = localStorage['background-color'];
 const saveButton = document.querySelector("#saveButton");
 
 saveButton.addEventListener("click", () => {
+    localStorage['texturePack'] = img.src;
     localStorage['primary-color'] = styles.getPropertyValue('--primary-color');
     localStorage['secondary-color'] = styles.getPropertyValue('--secondary-color');
     localStorage['background-color'] = styles.getPropertyValue('--background-color');
     localStorage['invertedbackground'] = styles.getPropertyValue('--invertedbackground');
     localStorage['volume'] = document.querySelector("#volume-slider").value;
 });
+
+
+const texturePackInput = document.getElementById('textrurepackPicture');
+
+texturePackInput.addEventListener('change', function(e){
+    e.preventDefault();
+    var file = texturePackInput.files[0];
+    img.src = window.URL.createObjectURL(file);
+
+    img.onload = function(){
+        var width = img.naturalWidth;
+        var height = img.naturalHeight;
+
+        window.URL.revokeObjectURL(img.src);
+
+        if(width > 64 && height > 64)
+        {
+            texturePackInput.value = "";
+            alert("Die Datei darf nicht größer als 64px*64px sein!");
+        }
+    }
+})

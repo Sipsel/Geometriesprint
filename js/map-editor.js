@@ -1,12 +1,15 @@
 const labelOwnSong = document.getElementById('labelOwnSong');
 const ownSong = document.getElementById('ownSong');
-const ownMap = document.getElementById('customMap');
 const automap = document.getElementById('autoMap');
 const saveMap = document.getElementById('createMap');
+const customMap = document.getElementById('customMap');
 const inputCSV = document.getElementById('csvMap');
+const ownMap = document.getElementById('uploadCustomMap')
 const content = document.getElementById('divContent');
 const cv = document.getElementById('showMap');
 const ctx = cv.getContext('2d');
+const songTitle = document.getElementById('songTitle');
+const downloadMapCreator = document.getElementById('downloadMapCreator');
 
 let songDuration;
 let songAvail = false;
@@ -18,11 +21,14 @@ var secOneArr;
 var secTwoArr;
 var secThrArr;
 
-ownMap.style.display = 'none';
+customMap.style.display = 'none';
+inputCSV.style.display = 'none';
 ctx.canvas.style.display = 'none';
 automap.style.display = 'none';
 saveMap.style.display = 'none';
-
+songTitle.style.display= 'none';
+downloadMapCreator.style.display= 'none';
+ownMap.style.display = 'none';
 
 
 
@@ -36,13 +42,12 @@ ownSong.addEventListener('change', (event) => {
   localStorage['customSong'] = objectURL;
 
   labelOwnSong.style.display = 'none';
-  ownMap.style.display = 'grid';
+  songTitle.style.display = 'grid';
+  songTitle.innerHTML = customSong.name;
+  customMap.style.display = 'grid';
+  ctx.canvas.width = document.getElementById('divContent').offsetWidth;
   ctx.canvas.style.display = 'grid';
   automap.style.display = 'grid';
-  ctx.fillStyle = localStorage['primary-color'];
-  ctx.font= "20px Trebuchet MS";
-  ctx.textAlign = "center";
-  ctx.fillText(customSong.name, ctx.canvas.width/2, 20);
 
 })
 
@@ -61,7 +66,7 @@ inputCSV.addEventListener('change', (e)=> {
 
   saveMap.style.display = 'grid';
   automap.style.display = 'none';
-  ownMap.style.display = 'none';
+  customMap.style.display = 'none';
 });
 
 saveMap.addEventListener('click', function(e){
@@ -71,6 +76,8 @@ saveMap.addEventListener('click', function(e){
   console.log(mapLayout);
   customMaps[customMaps.length] = mapLayout;
   localStorage.setItem("customMaps", JSON.stringify(customMaps));
+  
+  window.location.href = "/index.html";
 });
 
  automap.addEventListener('click', function(e) {
@@ -87,8 +94,25 @@ saveMap.addEventListener('click', function(e){
   automap.disabled = false;
   saveMap.style.display = 'grid';
   //automap.style.display = 'none';
-  ownMap.style.display = 'none';
+  customMap.style.display = 'none';
  });
+
+customMap.addEventListener('click', function(e){
+  automap.style.display = 'none';
+  customMap.style.display = 'none';
+  downloadMapCreator.style.display = 'grid';
+  ownMap.style.display = 'grid';
+  var xml = new XMLHttpRequest();
+  xml.responseType = "blob";
+  xml.open("GET", "Map-Creator/Map-Creator.xlsm",true);
+  xml.send();
+  xml.onreadystatechange = function(){
+    if(this.readyState == 4 && this.status == 200){
+      var obj = window.URL.createObjectURL(this.response);
+      downloadMapCreator.setAttribute("href", obj);
+    }
+  }
+})
 
  
 //Hier wird eine csv Datei zu einem zweidimensionalen Array zusammengeführt.
@@ -128,15 +152,11 @@ function showMap(data) {
   let cubeThickness = 6;
   ctx.canvas.width  = content.offsetWidth - 4; //Rand wird bei content.offsetWidth mitgegeben (2px border)
   if(cubeThickness>1){
-    ctx.canvas.height = (content.offsetHeight/cubeThickness) + 60;
+    ctx.canvas.height = (content.offsetHeight/cubeThickness) + 40;
   } else{
-    ctx.canvas.height = (content.offsetHeight) + 60;
+    ctx.canvas.height = (content.offsetHeight) + 40;
   }
   
-  ctx.fillStyle = localStorage['primary-color'];
-  ctx.font= "20px Trebuchet MS";
-  ctx.textAlign = "center";
-  ctx.fillText(customSong.name, ctx.canvas.width/2, 20);
   
   for(let i = 0; i< data[0].length; i++){
     for(let k = 0; k< data.length; k++){

@@ -67,6 +67,7 @@ input[type=text]{
     grid-template-columns: 10% 40% 40% 10%;
     grid-template-areas: 
     "a a a a" 
+    "h h h h"
     "b b b b"
     "c c c c"
     "d d d d"
@@ -112,18 +113,26 @@ button::after{
 
 #prevMap::after{
     border-top: 2vw solid transparent;
-    border-right: 2vw solid var(--secondary-color);
+    border-right: 2vw solid var(--primary-color);
     border-left: 2vw solid transparent;
     border-bottom: 2vw solid transparent;
+    transition: border-right 200ms ease-in-out;
+}
+#prevMap:hover::after{
+    border-right: 2vw solid var(--secondary-color);
 }
 
 #nextMap::after{
     border-top: 2vw solid transparent;
     border-right: 2vw solid transparent;
-    border-left: 2vw solid var(--secondary-color);
+    border-left: 2vw solid var(--primary-color);
     border-bottom: 2vw solid transparent;
+    transition: border-left 200ms ease-in-out;
 }
 
+#nextMap:hover::after{
+    border-left: 2vw solid var(--secondary-color);
+}
 .mapName{
     grid-area: a;
     font-size: 2vw;
@@ -167,3 +176,6 @@ button::after{
     font-size: 1.5vw;
 }
 
+.mapID{
+    grid-area: h;
+}

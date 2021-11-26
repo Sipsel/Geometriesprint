@@ -23,6 +23,7 @@ function initialize() {
     localStorage["MapId"] = 1;
     localStorage.setItem("customMaps", JSON.stringify([]));
     localStorage['initialization'] = 'true'; 
+    localStorage['texturePack'] = "";
     }
 document.documentElement.style.setProperty('--primary-color', localStorage['primary-color']);
 document.documentElement.style.setProperty('--secondary-color', localStorage['secondary-color']);

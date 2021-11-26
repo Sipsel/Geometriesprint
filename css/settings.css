@@ -5,8 +5,8 @@
     grid-template-areas:
     "a"
     "b"
-    "c"
-    "d";
+    "d"
+    "e";
 }
 
 .volume{
@@ -116,7 +116,7 @@
 }
 
 .buttons{
-    grid-area: d;
+    grid-area: e;
     color: transparent;
     display: grid;
     grid-template-areas:
@@ -168,7 +168,7 @@
     animation: animate 5s linear infinite;
 }
 
-.backgroundColorPicker{
+.settings{
     background-image: var(--gradient);
     background-size: 500%;
     -webkit-background-size: 500%;
@@ -199,3 +199,29 @@
     text-align: left;
 }
 
+.texturepack{
+    grid-area: d;
+    color:transparent;
+    background-color:transparent;
+}
+
+label{
+    cursor: pointer;
+    width: 100%;
+    background-image: var(--gradient);
+    background-size: 500%;
+    background-position: right;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background-position 0.2s;
+    font-size: 2vw;
+  }
+
+  label:hover{
+      background-position: left;
+      cursor: pointer;
+  }
+
+  input[type="file"]{
+    display:none;
+}
