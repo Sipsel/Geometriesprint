@@ -1,3 +1,10 @@
+//math funcs
+
+function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  
 //array get funcs
 function get_object_by_id(arr,id)
 {   

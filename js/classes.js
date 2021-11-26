@@ -69,6 +69,7 @@ class Map
         this.assets = [];
         this.particles = [];
         this.loaded = false;
+        this.gameover = false;
     }
     add_asset(asset)
     {
@@ -87,6 +88,21 @@ class Map
         }
         );
         //console.log(this.assets[0].on_map);
+    }
+    stroke_particles(dt)
+    {
+        this.particles.forEach(particle => {
+            console.log();
+            if(!particle.on_map || particle.life_time < particle_life_time)
+            {
+                particle.draw(dt)
+            }else
+            {
+                this.particles.splice([this.particles.indexOf(particle)],1);
+            }    
+        }
+        
+        );
     }
     stroke_lines()
     {
@@ -130,7 +146,7 @@ class Map
             {
                 if(this.tiles[y][x] !=0)
                 {
-
+                    console.log(x,y)
                     let block = get_object_by_id(block_types,this.tiles[y][x]);
 
                     let width = (block.width) ? block.width:1; 
@@ -142,22 +158,29 @@ class Map
                     if(block.name == 'normal_obstacle_bottom' || block.name == 'normal_obstacle_top')
                     {
                         this.add_asset(new Triangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x],degree));
+                        this.assets.at(-1).set_color(secondary_color);
+                        console.log(secondary_color)
                     }else
                     {
                         this.add_asset(new Rectangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x],degree));
+                        this.assets.at(-1).set_color(primary_color);
                     }
-                   
+
+                   //this.assets.at(-1).set_color(block.color? block.color:primary_color);
                 }
                 if(this.tiles[y][x] == 2 || this.tiles[y][x] == 6)
                 {
-                    this.assets[this.assets.length-1].set_color("red");
+                    //this.assets[this.assets.length-1].set_color("red");
                 }
 
             }
 
         }
-        this.add_asset(new Rectangle("spawn-plattform",0-5,this.height-2,5,1));
+        this.add_asset(new Rectangle("spawn-plattform",0-30,this.height-2,30,1,1,180));
+        this.assets.at(-1).set_color(primary_color);
 
+
+        this.add_asset(new Rectangle("floor",-30,this.height-1.01,this.width+30-1,this.height));
 
         
         this.player.set_color('red');
@@ -171,7 +194,7 @@ class Map
     }
     play(dt)
     {
-        
+        this.particles.forEach(particle => particle.move(dt));
        if(this.player.alive)
        {
             this.player.move(dt);
@@ -202,18 +225,36 @@ class Map
                 this.player.set_color("red")
                 this.player.on_ground = false;
                 //console.log(this.player.x);
-               
-
-
             }
 
             //add particles
-            this.particles.push(new Particle('test-particle',this.player.x-0.25,this.player.y-0.25,0.5,0.5,1,0,100));
-            this.particles[0].draw();
-            this.particles[0].gravity = 20;
-            this.particles[0].on_ground = false;
-            this.particles[0].alive = true;
-            this.add_asset(this.particles[0]);
+            if(this.player.on_ground)
+            {
+                for(let i = 0;i<1;i++)
+                {
+                    let particle_width=0.2;
+                    let particle_height=0.2;
+                    let particle_time = 20;
+                    let player_x = this.player.x-particle_width;
+                    let player_y = this.player.y+this.player.width-particle_height+randomIntFromInterval(0,5)/100;
+                    
+                    this.particles.push(new Particle(i,player_x,player_y,0.2,0.2,99,0,particle_life_time-randomIntFromInterval(1,particle_time)));
+                 
+                    this.particles.at(-1).velocity.y = -randomIntFromInterval(0,10)/10;
+                    this.particles.at(-1).gravity = randomIntFromInterval(0,10)/50;
+                    this.particles.at(-1).on_ground = false;
+                    this.particles.at(-1).loaded = true;
+                   
+
+                    this.particles.at(-1).set_color(secondary_color)
+                }
+            }
+            
+
+            
+            
+     
+
             
             document.getElementById('score').innerHTML = `Score:${Math.floor(this.player.x)}`;
 
@@ -222,7 +263,7 @@ class Map
             {
          
             var promise = document.getElementById('Song').play();
-
+            document.getElementById('Song').volume = 0.5;
             if (promise !== undefined) {
             promise.then(_ => {
                 // Autoplay started!
@@ -240,11 +281,9 @@ class Map
        
         var promise1 = document.getElementById('Song').pause();
 
-        var promise2 = (this.over) ? "" : document.getElementById('game-over-sound').play();
+        var promise2 = (this.over) ? undefined : document.getElementById('game-over-sound').play();
         if (promise1 !== undefined) {
         promise1.then(_ => {
-           
-       
             // Autoplay started!
         }).catch(error => {
             // Autoplay was prevented.
@@ -261,7 +300,33 @@ class Map
                 // Show a "Play" button so that user can start playback.
             });
             } 
-           
+
+          
+        if(this.gameover == false)
+        {
+            let x = this.player.middlepoint.x;
+            let y = this.player.middlepoint.y;
+
+            for(let i = 0;i<20;i++)
+            {
+                
+                let xShift = randomIntFromInterval(0,2)/100;
+                let yShift = randomIntFromInterval(0,2)/100;
+                let dx = 20;
+                let dy = 20;
+
+
+                this.particles.push(new Particle(i,x+xShift,y+yShift,0.2,0.2,99,0,randomIntFromInterval(1,particle_life_time-1)));
+                let curr_part = this.particles.at(-1);
+                curr_part.gravity = 0;
+                curr_part.velocity.x = randomIntFromInterval(-dx,dx)/10;
+                curr_part.velocity.y = randomIntFromInterval(-dy,dy)/10;
+                curr_part.on_ground = false;
+                curr_part.loaded = true;
+                curr_part.set_color(secondary_color)
+            }
+            this.gameover = true;
+        }
        }
      
        
@@ -270,14 +335,14 @@ class Map
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
-       //camera move function
+       //camera move function -> pass camera as object
 
-      
         camera.follow(this.player)
         //camera.scale();
         //draw assets
 
-        map.stroke_assets(dt);
+        this.stroke_assets(dt);
+        this.stroke_particles(dt);
         ctx.restore();
     }
 }
@@ -299,10 +364,15 @@ class Asset {
         this.degree = _degree;
         this.alive = true;
         this.life_time = life_time;
+        this.opacity = 1;
     }
     set_color(color)
     {
         this.color = color;
+    }
+    set_opacity(_opactiy)
+    {
+        this.opacity = _opactiy;
     }
     get x()
     {
@@ -322,14 +392,26 @@ class Rectangle extends Asset {
     {
         let degree = Math.PI/180;
         ctx.save();
-        
+        ctx.imageSmoothingEnabled = false;
         let x = -this.width*tile_size/2;
         let y = this.height*tile_size/2;
 
-
+        ctx.globalAlpha = this.opacity;
         var grd = ctx.createLinearGradient(x+this.width/2*tile_size*4,y-this.height*tile_size,x+this.width/2*tile_size*4,y+30);
-        grd.addColorStop(0.3,primary_color);
-        grd.addColorStop(0.9,background_color);
+    
+        //if particle change color stop
+        if(this.type == 99)
+        {
+            grd.addColorStop(0,this.color);
+            grd.addColorStop(1,background_color);
+        }else
+        {
+            grd.addColorStop(0.3,background_color);
+            grd.addColorStop(0.9,this.color);
+        }
+        
+        
+        
         ctx.fillStyle = grd;
 
         ctx.translate(this.position.x*tile_size,this.position.y*tile_size);
@@ -348,7 +430,7 @@ class Rectangle extends Asset {
 
         ctx.rotate(this.degree*degree);
 
-        ctx.fillRect(-this.width*tile_size/2,-this.height*tile_size/2,this.width*tile_size,this.height*tile_size);
+        ctx.fillRect(-this.width*tile_size/2,-this.height*tile_size/2,(this.width*tile_size)+1,(this.height*tile_size));
         
         ctx.stroke();
 
@@ -360,6 +442,7 @@ class Rectangle extends Asset {
         if(this.life_time > 0)
         {
             this.life_time++;
+            this.opacity = this.life_time/particle_life_time;
             if(this.life_time > particle_life_time)
             {
                 this.on_map = false;
@@ -381,8 +464,10 @@ class Triangle extends Asset
         ctx.save();
         
         var grd = ctx.createLinearGradient(x+this.width/2*tile_size*4,y-this.height*tile_size,x+this.width/2*tile_size*4,y+30);
-        grd.addColorStop(0.3,primary_color);
-        grd.addColorStop(0.9,secondary_color);
+        
+        grd.addColorStop(0.5,background_color);
+   
+        grd.addColorStop(0.0,this.color);
         
         ctx.fillStyle = grd;
         
@@ -401,7 +486,6 @@ class Triangle extends Asset
         ctx.restore();
 
         //check if object has lifetime
-
         this.on_map = true;
         if(this.life_time > 0)
         {

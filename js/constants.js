@@ -11,10 +11,25 @@ const player_speed = 6.25;
 const drag = 1;
 
 //particle functions
-const particle_life_time = 700;
+const particle_life_time = 50;
+
+var scale_by = 2;
+
+var margin_width = 2;
+var margin_height = 16;
+
 
 //scale functions
-const scale_by = 4;
+if(window.screen.availWidth>window.screen.availHeight)
+{
+    scale_by = 4;
+    margin_height = 4;
+}
+if(window.screen.availWidth<400)
+{
+    scale_by = 1.5;
+}
+
 const tile_size = 16*scale_by;
 
 
@@ -23,13 +38,13 @@ const window_height = Math.floor(window.screen.availHeight/tile_size);
 const window_width = Math.floor(window.screen.availWidth/tile_size);
 
 
-const margin_width = 4;
-const margin_height = 4;
+
 
 
 
 var screen_height = window_height-margin_height;
 var screen_width = window_width-margin_width;
+
 
 map_height = 16;
 map_width = 64;
@@ -42,12 +57,11 @@ const ctx = canvas.getContext("2d");
 canvas.height = `${screen_height*tile_size}`;
 canvas.width = `${screen_width*tile_size}`;
 
-const primary_color = 'black';
-const secondary_color = "#00FF9D";
-const background_color = "blue";
+const primary_color = '#00a2ff';
+const secondary_color = '#00ff9d';
+const background_color = '#171717';
 
-
-
+//block_types 
 const block_types = [
     {
         name:'air',
@@ -55,16 +69,17 @@ const block_types = [
     },
     {
         name:'normal_block',
-        id:1
+        id:1,
+        degree:180,
     },
     {
         name:'half_block',
-        id:7,
+        id:2,
         height:0.25
     },
     {
         name:'normal_obstacle_bottom',
-        id:2,
+        id:3,
         width:0.25,
         xShift:0.375,
         height:0.9,
@@ -72,7 +87,7 @@ const block_types = [
     },
     {
         name:'normal_obstacle_top',
-        id:6,
+        id:4,
         width : 0.25,
         xShift : 0.375,
         height:0.9,
