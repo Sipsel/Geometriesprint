@@ -104,7 +104,7 @@ customMap.addEventListener('click', function(e){
   ownMap.style.display = 'grid';
   var xml = new XMLHttpRequest();
   xml.responseType = "blob";
-  xml.open("GET", "Map-Creator/Map-Creator.xlsm",true);
+  xml.open("GET", "./Map-Creator/Map-Creator.xlsm",true);
   xml.send();
   xml.onreadystatechange = function(){
     if(this.readyState == 4 && this.status == 200){
