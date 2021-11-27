@@ -19,7 +19,7 @@ const camera = new Camera(map,screen_width,screen_height,scale_by);
 var last_time = 0;
 map.preload();
 
-start();
+//start();
 
 
 
@@ -56,30 +56,5 @@ function stop() {
 
 
 
-//player input
-document.body.onkeydown = (e) => {
-    //console.log(e);
-    if(e.keyCode == 32){
-
-            map.player.jump();
-    }
-    if(e.keyCode == 27)
-    {
-        stop();
-    }
-    if(e.keyCode == 84)
-    {
-        debug();
-    }
-};
 
 
-// helper functions
-function range_array(max) {
-    let result = []
-    for(let i = 0; i<max;i++)
-    {
-        result.push(i);
-    }
-    return result;
-}

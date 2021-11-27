@@ -479,6 +479,12 @@ class Triangle extends Asset
 }
 class Player extends Asset
 {
+    constructor(name, x, y, width, height,_type,_degree=0)
+    {
+        super(name, x, y, width, height,_type,_degree=0);
+        this.jump_pressed = false;
+        
+    }
     set_Image(_img)
     {
         this.image = (_img != null)? _img:undefined; 
@@ -528,7 +534,8 @@ class Player extends Asset
     }
     move(dt)
     {
-        
+        this.jump();
+
         this.velocity = this.velocity.add(new Vector(0,(gravity*dt)));
    
         this.position = this.position.add(
@@ -538,10 +545,11 @@ class Player extends Asset
     }
     jump()
     {
-        if(this.on_ground == true)
+        if(this.on_ground == true && this.jump_pressed)
         {
             this.jump_velocity = player_jump_height;
             this.velocity.y = -this.jump_velocity;
+            this.jump_pressed = false;
         }
     }
 }

@@ -8,6 +8,7 @@ body,html
     height: 100vh;
     width: 100vw;
     display: grid;
+
 }
 .align-center
 {
@@ -20,10 +21,6 @@ body,html
     background-repeat: no-repeat;
     background-size:cover;
     background-attachment: fixed;
-
-
-
-
     image-rendering: optimizeSpeed;             /* Older versions of FF          */
     image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
     image-rendering: -webkit-optimize-contrast; /* Safari                        */
@@ -39,4 +36,11 @@ body,html
     font-size: 2.5rem;
     font-style: bold;
     display: none;
+}
+
+#output
+{
+    z-index: 999;
+    position: absolute;
+    margin: auto;
 }

@@ -199,3 +199,16 @@ function collision(player,asset)
    
     return false;   
 }
+
+
+
+
+// helper functions
+function range_array(max) {
+    let result = []
+    for(let i = 0; i<max;i++)
+    {
+        result.push(i);
+    }
+    return result;
+}
