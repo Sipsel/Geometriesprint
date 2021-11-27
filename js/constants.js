@@ -11,7 +11,7 @@ const player_speed = 6.25;
 const drag = 1;
 
 //particle functions
-const particle_life_time = 50;
+const particle_life_time = 40;
 
 var scale_by = 2;
 
@@ -75,7 +75,7 @@ const block_types = [
     {
         name:'half_block',
         id:2,
-        height:0.25
+        height:0.25,
     },
     {
         name:'normal_obstacle_bottom',

@@ -181,7 +181,7 @@ function collision(player,asset)
     //console.log(col_right)
     if(col_right || col_top || col_bottom && asset.type == obstacle_bottom.id)
     {
-        console.log("beaifn q")
+        console.log("Collision")
         player.on_map = false;
         player.alive = false;
         return true;

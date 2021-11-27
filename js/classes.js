@@ -92,8 +92,7 @@ class Map
     stroke_particles(dt)
     {
         this.particles.forEach(particle => {
-            console.log();
-            if(!particle.on_map || particle.life_time < particle_life_time)
+            if(particle.on_map)
             {
                 particle.draw(dt)
             }else
@@ -136,9 +135,7 @@ class Map
 
         let player_image = document.getElementById('player_image');
         this.player.set_Image(player_image);
-        console.log(player_image);
-
-    
+          
         for(let y = 0;y<this.tiles.length;y++)
         {
             
@@ -146,8 +143,8 @@ class Map
             {
                 if(this.tiles[y][x] !=0)
                 {
-                    console.log(x,y)
                     let block = get_object_by_id(block_types,this.tiles[y][x]);
+                    let block_above = get_object_by_id(block_types,this.tiles[y-1][x]);
 
                     let width = (block.width) ? block.width:1; 
                     let height = (block.height) ? block.height:1;
@@ -157,9 +154,12 @@ class Map
 
                     if(block.name == 'normal_obstacle_bottom' || block.name == 'normal_obstacle_top')
                     {
+                        if(block_above.name == 'half_block')
+                        {
+                            yShift-=1-block_above.height;
+                        }
                         this.add_asset(new Triangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x],degree));
                         this.assets.at(-1).set_color(secondary_color);
-                        console.log(secondary_color)
                     }else
                     {
                         this.add_asset(new Rectangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x],degree));
@@ -238,7 +238,7 @@ class Map
                     let player_x = this.player.x-particle_width;
                     let player_y = this.player.y+this.player.width-particle_height+randomIntFromInterval(0,5)/100;
                     
-                    this.particles.push(new Particle(i,player_x,player_y,0.2,0.2,99,0,particle_life_time-randomIntFromInterval(1,particle_time)));
+                    this.particles.push(new Particle(i,player_x,player_y,0.2,0.2,99,0,randomIntFromInterval(0,30)));
                  
                     this.particles.at(-1).velocity.y = -randomIntFromInterval(0,10)/10;
                     this.particles.at(-1).gravity = randomIntFromInterval(0,10)/50;
@@ -316,7 +316,7 @@ class Map
                 let dy = 20;
 
 
-                this.particles.push(new Particle(i,x+xShift,y+yShift,0.2,0.2,99,0,randomIntFromInterval(1,particle_life_time-1)));
+                this.particles.push(new Particle(i,x+xShift,y+yShift,0.2,0.2,99,0,randomIntFromInterval(1,60)));
                 let curr_part = this.particles.at(-1);
                 curr_part.gravity = 0;
                 curr_part.velocity.x = randomIntFromInterval(-dx,dx)/10;
@@ -327,9 +327,7 @@ class Map
             }
             this.gameover = true;
         }
-       }
-     
-       
+        }
 
         ctx.save();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -349,21 +347,20 @@ class Map
        
 
 class Asset {
-    constructor(name, x, y, width, height,_type,_degree=0,life_time=-1)
+    constructor(name, x, y, width, height,_type,_degree=0)
     {
         this.name   =   name;
         this.position = new Vector(x,y);
         this.velocity = new Vector(0,0);
         this.width  =   width;
         this.height =   height;
-        this.on_map =   false;
+        this.on_map =   true;
         this.color  =   'black';
         this.type = _type;
         this.gravity =  gravity;
         this.on_ground = true;
         this.degree = _degree;
         this.alive = true;
-        this.life_time = life_time;
         this.opacity = 1;
     }
     set_color(color)
@@ -437,17 +434,7 @@ class Rectangle extends Asset {
         ctx.restore();
         
         //check if object has lifetime
-        this.on_map = true;
-        
-        if(this.life_time > 0)
-        {
-            this.life_time++;
-            this.opacity = this.life_time/particle_life_time;
-            if(this.life_time > particle_life_time)
-            {
-                this.on_map = false;
-            }
-        }
+
         return this.on_map;
     }
     
@@ -486,16 +473,8 @@ class Triangle extends Asset
         ctx.restore();
 
         //check if object has lifetime
-        this.on_map = true;
-        if(this.life_time > 0)
-        {
-            this.life_time++;
-            if(this.life_time > particle_life_time)
-            {
-                this.on_map = false;
-            }
-        }
         return this.on_map;
+
     }
 }
 class Player extends Asset
@@ -544,15 +523,7 @@ class Player extends Asset
         
         //check if object has lifetime
         this.on_map = true;
-        
-        if(this.life_time > 0)
-        {
-            this.life_time++;
-            if(this.life_time > particle_life_time)
-            {
-                this.on_map = false;
-            }
-        }
+
         return this.on_map;
     }
     move(dt)
@@ -576,6 +547,29 @@ class Player extends Asset
 }
 class Particle extends Rectangle
 {
+    constructor(name, x, y, width, height,_type,_degree=0, _life_time)
+    {
+        super(name, x, y, width, height,_type,_degree=0);
+        this.max_lifetime = _life_time;
+        this.life_time = _life_time;
+
+    }
+
+    draw(dt)
+    {
+        super.draw();
+
+
+        if(this.life_time >= 0)
+        {
+            this.life_time--;
+            this.opacity = this.life_time/this.max_lifetime;
+        }
+        if(this.life_time <= 0)
+        {
+            this.on_map = false;
+        }
+    }
     move(dt)
     {
         this.velocity = this.velocity.add(new Vector(0,(this.gravity*dt)));
