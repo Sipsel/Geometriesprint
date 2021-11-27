@@ -118,10 +118,13 @@ texturePackInput.addEventListener('change', function(e){
 
         window.URL.revokeObjectURL(img.src);
 
-        if(width > 64 && height > 64)
+        if(width > 512 && height > 512)
         {
             texturePackInput.value = "";
-            alert("Die Datei darf nicht größer als 64px*64px sein!");
+            alert("Das Bild darf nicht größer als 512px*512px sein!");
+        }else if(width != height){
+            texturePackInput.value = "";
+            alert("Die Höhe und die Breite des Bildes müssen identisch sein!");
         }
     }
 })
