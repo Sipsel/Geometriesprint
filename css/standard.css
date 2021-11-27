@@ -1,0 +1,88 @@
+:root{
+    --primary-color: #0000FF;
+    --secondary-color: #FFAF00;
+    --background-color: #000000;
+    --invertedbackground: #FFFFFF;
+    --fontfam: "Trebuchet MS", Arial;
+    --gradient: linear-gradient(270deg, var(--primary-color), var(--secondary-color));
+    --tooltip-text: "";
+}
+
+a:link, a:visited {
+    color:transparent;
+    padding: 1vh 0%;
+    text-align: center;
+    font-size: 2vw;
+    text-decoration: none;
+    display: inline-block;
+    cursor:pointer;
+    background-image: var(--gradient);
+    background-size: 500%;
+    background-position: right;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background-position 0.3s;
+}
+
+a:hover, a:active {
+    background-position: left;
+}
+
+body{
+    padding-top: 4em;
+    background:var(--background-color);
+    font-family: var(--fontfam);
+}
+
+.gradient-border{
+    width: 80vh;
+}
+
+
+
+.main-wrapper{
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    color: transparent;
+    text-transform: uppercase;
+    background-image: var(--gradient);
+    background-size: 500%;
+    -webkit-background-size: 500%;
+    background-position: left;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: animate 5s linear infinite;
+    text-align: center;
+}
+
+.links{
+    margin-top: 3rem;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+}
+
+.heading{
+    background-image: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size:500%;
+    animation: animate 5s linear infinite;
+    font-size: 5vw;
+    }
+
+    
+
+@keyframes animate{
+    0%{
+        background-position: 0 100%;
+    }
+    50%{
+        background-position: 100% 0;
+    }
+    100%{
+        background-position: 0 100%;
+    }
+}
+

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Geometriesprint</title>
+        <link rel="stylesheet" href="./css/standard.css">
+        <link rel="stylesheet" href="./css/settings.css">
+        <script src="./js/standard.js"></script>
+    </head>
+    <body>
+        <div class="main-wrapper">
+            <div class="heading">
+                Einstellungen
+            </div>
+            <div class="settings">
+                <div class="volume">
+                        <div class="range">
+                            <div class="sliderValue">
+                                <span>40</span>
+                            </div>
+                            <div class="field">
+                                <input type="range" id="volume-slider" class="slider" min="0" max="100" step="1">
+                            
+                            </div> 
+                        </div>
+                        
+                    <div class="volumeText">Lautstärke</div>
+                </div>
+                <div class="colorPicker">
+                    <div class="primaryColorPicker">
+                        <input type="color" id="primary-color-indicator" class="color-indicator" value="#FFFFFF">
+                        Primäre Farbe
+                    </div>
+                    <div class="secondaryColorPicker">
+                        <input type="color" id="secondary-color-indicator" class="color-indicator" value="#FFFFFF">
+                        Sekundäre Farbe
+                    </div>
+                    <div class="backgroundColorPicker">
+                        <input type="color" id="background-color-indicator" class="color-indicator" value="#FFFFFF">
+                        Hintergrund
+                    </div>
+                </div>
+                <div class="texturepack">
+                    <label class="texturepackInput" id="customMap">
+                        <input type="file" accept="image/*" id="textrurepackPicture">
+                        Spielerbild hochladen (64px*64px)
+                    </label>
+                </div>
+
+                <div class="buttons">
+                    <a href="./index.html" id="reset" class="button">Abbrechen</a>
+                    <a href="./index.html" id="saveButton" class="button">Speichern</a>
+                </div>
+            </div>   
+        </div>
+
+        <script src="./js/settings.js"></script>
+    </body>
+</html>

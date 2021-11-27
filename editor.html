@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometriesprint</title>
+    <link rel="stylesheet" href="./css/standard.css">
+    <link rel="stylesheet" href="./css/editor.css">
+
+    <script src="./js/main.js"></script>
+    <script src="./js/standard.js"></script>
+    
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="heading">Map-Editor</div>
+        <div class="content" id="divContent">
+            <label class="labelOwnSong" id = "labelOwnSong">
+            <input type="file" accept="audio/*"  id="ownSong"> 
+                Eigenen Song hochladen
+            </label>
+            <div class="songTitle" id="songTitle"></div>
+            <canvas id="showMap" width="1000vw" height="80vw"></canvas>
+            <button class="customMap" id="customMap">Eigene Map</button>
+            <label class="decideAutoOrCustomMap" id="uploadCustomMap">
+                <input type="file" accept=".txt" id="csvMap">
+                hochladen
+            </label>
+            <button class="decideAutoOrCustomMap" id="autoMap">
+                Automatische Map
+            </button>
+            <a class="decideAutoOrCustomMap" download="Map-Creator.xlsm" id="downloadMapCreator">
+                Map-creator
+            </a>
+            <button id="createMap">Map speichern</button>
+            
+        </div>
+        <a href="./index.html" id="newGame" class="button">Hauptmenü</a>
+
+    </div>
+<script src="./js/map-editor.js"></script>
+</body>
+</html>

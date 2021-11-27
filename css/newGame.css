@@ -1,0 +1,181 @@
+input[type=text]{
+    background-image: var(--gradient);
+    -webkit-background-clip: text;
+    animation: animate 5s linear infinite;
+    -webkit-background-size: 500%;
+    background-size: 500%;
+    font-family: var(--fontfam);
+    font-size: 3vw;
+    border: 2px solid var(--invertedbackground);
+    background-color: var(--background-color);
+    color: transparent;
+    width: 100%;
+    text-align: center;
+}
+
+.startGameOrleave{
+    display: grid;
+    grid-template-columns: repeat(4, 250);
+    grid-template-rows: repeat(4, 250);
+    height: 100%;
+    width: 100%;
+    gap: 1vh;
+    grid-template-areas:
+    "a a a a"
+    "b b b b"
+    "c c c c"
+    "c c c c"
+    "d d d d";
+}
+
+#playername{
+    grid-area: a;
+    border-radius: .3rem;
+    width: 100%;
+    margin-top: 2vh;
+}
+
+#chooseMap{
+    grid-area: b;
+    border-radius: .3rem;
+    padding: 2px 1px;
+    border: 2px solid var(--invertedbackground);
+    width: 100%;
+}
+
+.buttons{
+    width: 100%;
+    grid-area: d;
+    align-items:center;
+    align-content: center;
+    grid-auto-flow: column;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: 
+    "a b";
+}
+
+.selectMap{
+    border: 2px solid var(--invertedbackground);
+    border-radius: .3rem;
+    grid-area: c;
+    display: grid;
+    align-items: center;
+    margin-top: 1vh;
+    align-content: center;
+    justify-items: center;
+    grid-template-columns: 10% 40% 40% 10%;
+    grid-template-areas: 
+    "a a a a" 
+    "h h h h"
+    "b b b b"
+    "c c c c"
+    "d d d d"
+    "e g g f";
+}
+
+#startGame{
+    justify-self: center;
+    grid-area: b;
+}
+
+#backToMenu{
+    justify-self: center;
+    grid-area: a;
+}
+button{
+    grid-area:c;
+    background-color: transparent;
+    border: 0;
+    position: relative;    
+    width: 2vw;
+    height: 2vw;
+}
+
+button::after{
+    content: '';
+    position: absolute;
+    right:0;
+    left:0;
+    bottom: 0;
+    
+}
+
+#prevMap{
+    grid-area: e;
+    right: 1vw;
+}
+
+#nextMap{
+    grid-area: f;
+    justify-self: left;
+}
+
+#prevMap::after{
+    border-top: 2vw solid transparent;
+    border-right: 2vw solid var(--primary-color);
+    border-left: 2vw solid transparent;
+    border-bottom: 2vw solid transparent;
+    transition: border-right 200ms ease-in-out;
+}
+#prevMap:hover::after{
+    border-right: 2vw solid var(--secondary-color);
+}
+
+#nextMap::after{
+    border-top: 2vw solid transparent;
+    border-right: 2vw solid transparent;
+    border-left: 2vw solid var(--primary-color);
+    border-bottom: 2vw solid transparent;
+    transition: border-left 200ms ease-in-out;
+}
+
+#nextMap:hover::after{
+    border-left: 2vw solid var(--secondary-color);
+}
+.mapName{
+    grid-area: a;
+    font-size: 2vw;
+}
+
+.mapName::after{
+    content: '';
+    position: absolute;
+    width:50px;
+    height: 25px;
+    left:50%;
+    transform: translateX(-50%) translateY(-100%) scale(var(--scale));
+    --scale: 0;
+    transition: 150ms transform;
+    transform-origin: bottom center;
+}
+.mapName:hover::after{
+    color:var(--primary-color);
+    background: var(--background-color);
+    border: 2px solid var(--invertedbackground);
+    content: attr(data-tooltip);
+    padding: .5rem;
+    border-radius: .3rem;
+    width: max-content;
+    text-align: center;
+    --scale: 1;
+}
+
+.progress{
+    grid-area: b;
+    font-size: 1.5vw;
+}
+.attempts{
+    grid-area: c;
+    font-size: 1.5vw;
+}
+
+.maptime{
+    grid-area: d;
+    padding-bottom: 2vh;
+    font-size: 1.5vw;
+}
+
+.mapID{
+    grid-area: h;
+}
