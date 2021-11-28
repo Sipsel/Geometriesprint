@@ -35,9 +35,35 @@ class Vector {
 }
 class Game
 {
-    constructor()
+    constructor(_map,_camera)
     {
         this.running = false;
+        this.state = 0;
+        /**
+         * 0    =   no started
+         * 1    =   running
+         * 2    =   paused
+         * 3    =   won
+         * 4    =   lost
+         */
+        this.map = _map;
+        this.camera = new Camera(this.map,screen_width,screen_height,scale_by);
+    }
+    get death_message()
+    {
+        return {
+            "title":"Tod",
+            "text": `Du hast ${Math.floor((this.map.player.x+1)/this.map.width*100)}% der Karte geschaft.
+            <br><button class="blink" id="game-start-button">Hier kannst du neu starten</button>`
+        }
+    }
+    get win_message()
+    {
+        return {
+            "title":"Gewonnen!",
+            "text": `Du hast die Karte erfolgreich durch gespielt! Glückwunsch.
+            <br><button class="blink" id="game-start-button">Hier kannst du neu starten</button>`
+        }
     }
 }
 class Camera 
@@ -48,13 +74,14 @@ class Camera
         this.y = 0;
         this.width = width
         this.height = height;
+        this.map = map;
         this.maxX = map.cols * map.tsize - width;
         this.maxY = map.rows * map.tsize - height;
     }
     follow(asset)
     {
-        map.ctx.translate(this.width/2*tile_size,this.height/2*tile_size);       
-        map.ctx.translate(-asset.middlepoint.x*tile_size,-asset.middlepoint.y*tile_size);  
+        this.map.ctx.translate(this.width/2*tile_size,this.height/2*tile_size);       
+        this.map.ctx.translate(-asset.middlepoint.x*tile_size,-asset.middlepoint.y*tile_size);  
         
     }
 }
@@ -70,6 +97,11 @@ class Map
         this.particles = [];
         this.loaded = false;
         this.gameover = false;
+        this.game_over_sound = new Audio(gameover_sound);
+        this.game_won_sound = new Audio(win_sound);
+
+        this.game_over_sound.volume = audio_volume;
+        this.game_won_sound.volume = audio_volume;
     }
     add_asset(asset)
     {
@@ -80,7 +112,7 @@ class Map
         this.assets.forEach(asset => {
             if(asset.on_map == false && !(this.loaded == false))
             {
-                this.assets.splice([this.assets.indexOf(asset)],1)
+                //this.assets.splice([this.assets.indexOf(asset)],1)
             }else
             {
                 asset.draw(dt)
@@ -126,6 +158,30 @@ class Map
     get height()
     {
         return this.tile_map.rows;
+    }
+    reset_player()
+    {
+        if(this.loaded)
+        {
+            this.player.position.x = this.player.start_x;
+            this.player.position.y = this.player.start_y;
+            this.player.jump_pressed = false;
+            this.player.degree = 0;
+            //
+            this.player.alive = true;
+            this.player.on_map = true;
+            this.player.velocity = new Vector(player_speed,0);
+        }
+    }
+    reset_audio()
+    {
+        if(this.song != undefined)
+        {
+            this.song.pause();
+            this.song = undefined;
+        }
+        this.game_over_sound.currentTime = 0;
+        this.game_over_sound.pause();
     }
     preload()
     {
@@ -183,13 +239,10 @@ class Map
         this.add_asset(new Rectangle("floor",-30,this.height-1.01,this.width+30-1,this.height));
 
         
-        this.player.set_color('red');
-        this.player.velocity = new Vector(player_speed,0);
-        this.player.alive = true;
+        this.reset_player();
 
         this.stroke_assets(0);
         this.loaded = true;
-
        
     }
     play(dt)
@@ -228,7 +281,7 @@ class Map
             }
 
             //add particles
-            if(this.player.on_ground)
+            if(this.player.on_ground && particles_allowed)
             {
                 for(let i = 0;i<1;i++)
                 {
@@ -249,84 +302,50 @@ class Map
                     this.particles.at(-1).set_color(secondary_color)
                 }
             }
-            
 
-            
-            
-     
-
-            
-            document.getElementById('score').innerHTML = `Score:${Math.floor(this.player.x)}`;
-
-
-            if(this.player.x > 0 && this.audio == undefined)
+            if(this.player.x > 0 && this.song == undefined)
             {
-         
-            var promise = document.getElementById('Song').play();
-            document.getElementById('Song').volume = 0.5;
-            if (promise !== undefined) {
-            promise.then(_ => {
-                // Autoplay started!
-            }).catch(error => {
-                // Autoplay was prevented.
-                // Show a "Play" button so that user can start playback.
-            });
-            }
-            
+                this.song = new Audio("aud/1.mp3");
+                this.song.volume = audio_volume;
+                this.song.play();
+           
         }
         
        }
        else
        {
-       
-        var promise1 = document.getElementById('Song').pause();
-
-        var promise2 = (this.over) ? undefined : document.getElementById('game-over-sound').play();
-        if (promise1 !== undefined) {
-        promise1.then(_ => {
-            // Autoplay started!
-        }).catch(error => {
-            // Autoplay was prevented.
-            // Show a "Play" button so that user can start playback.
-        });
-        } 
-        if (promise2 !== undefined) {
-            promise2.then(_ => {
-               
-                this.over = true; 
-                // Autoplay started!
-            }).catch(error => {
-                // Autoplay was prevented.
-                // Show a "Play" button so that user can start playback.
-            });
-            } 
-
-          
         if(this.gameover == false)
         {
-            let x = this.player.middlepoint.x;
-            let y = this.player.middlepoint.y;
-
-            for(let i = 0;i<20;i++)
+            this.reset_audio();
+            this.game_over_sound.play();
+            if(particles_allowed)
             {
-                
-                let xShift = randomIntFromInterval(0,2)/100;
-                let yShift = randomIntFromInterval(0,2)/100;
-                let dx = 20;
-                let dy = 20;
-
-
-                this.particles.push(new Particle(i,x+xShift,y+yShift,0.2,0.2,99,0,randomIntFromInterval(1,60)));
-                let curr_part = this.particles.at(-1);
-                curr_part.gravity = 0;
-                curr_part.velocity.x = randomIntFromInterval(-dx,dx)/10;
-                curr_part.velocity.y = randomIntFromInterval(-dy,dy)/10;
-                curr_part.on_ground = false;
-                curr_part.loaded = true;
-                curr_part.set_color(secondary_color)
+                let x = this.player.middlepoint.x;
+                let y = this.player.middlepoint.y;
+    
+                for(let i = 0;i<40;i++)
+                {
+                    
+                    let xShift = randomIntFromInterval(0,2)/100;
+                    let yShift = randomIntFromInterval(0,2)/100;
+                    let dx = 40;
+                    let dy = 40;
+    
+    
+                    this.particles.push(new Particle(i,x+xShift,y+yShift,0.2,0.2,99,0,randomIntFromInterval(1,60)));
+                    let curr_part = this.particles.at(-1);
+                    curr_part.gravity = 0;
+                    curr_part.velocity.x = randomIntFromInterval(-dx,dx)/10;
+                    curr_part.velocity.y = randomIntFromInterval(-dy,dy)/10;
+                    curr_part.on_ground = false;
+                    curr_part.loaded = true;
+                    curr_part.set_color(secondary_color)
+                }
             }
+
             this.gameover = true;
-        }
+            }
+            
         }
 
         ctx.save();
@@ -335,7 +354,7 @@ class Map
 
        //camera move function -> pass camera as object
 
-        camera.follow(this.player)
+        game.camera.follow(this.player)
         //camera.scale();
         //draw assets
 
@@ -482,6 +501,8 @@ class Player extends Asset
     constructor(name, x, y, width, height,_type,_degree=0)
     {
         super(name, x, y, width, height,_type,_degree=0);
+        this.start_x = x;
+        this.start_y = y;
         this.jump_pressed = false;
         
     }
@@ -587,4 +608,38 @@ class Particle extends Rectangle
             this.velocity.y *dt)
         );
     }
+}
+//UI classes
+
+class Output_box
+{
+    constructor(_target,_displayed)
+    {
+        this.src = _target;
+        this.display = _displayed; 
+    }
+    change_box_text({title,text})
+    {
+        //title
+      
+        this.src.children[0].innerHTML = title;
+        //text
+        this.src.children[1].innerHTML = text;
+    }
+    get display()
+    {
+        return this.displayed;
+    }
+    set display(_display)
+    {
+        this.displayed = _display
+        if(this.displayed)
+        {
+            this.src.style.display = 'grid';
+        }else
+        {
+            this.src.style.display = 'none';
+        }
+    }
+ 
 }

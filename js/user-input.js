@@ -2,33 +2,59 @@
 //on keydown
 document.body.onkeydown = (e) => {
     //space, or arrowup
-    if(e.keyCode == 32 || e.keyCode == 38){
+    console.log(e)
+    if(e.keyCode == 32 || e.keyCode == 38 && game.state == 1){
 
-            map.player.jump_pressed = true;
-    }
-    if(e.keyCode == 27)
-    {
-        stop();
+            game.map.player.jump_pressed = true;
     }
     if(e.keyCode == 84)
     {
         debug();
     }
+    if(e.keyCode == 82 && outputbox.display == false)
+    {
+        start_game(game);
+    }
 };
 //key up
 document.body.onkeyup = (e) => {
     //console.log(e);
-    if(e.keyCode == 32 || e.keyCode == 38){
+    if(e.keyCode == 32 || e.keyCode == 38 && game.state == 1){
 
-            map.player.jump_pressed = false;
+            game.map.player.jump_pressed = false;
     }
 };
 //mouse or screen press
-document.body.onmousedown = (e) =>
+
+document.getElementById('jump-button').onmousedown = (e) =>
 {
-    map.player.jump_pressed = true;
+    game.map.player.jump_pressed = true;
 }
-document.body.onmouseup = (e) =>
+document.getElementById('jump-button').onmouseup = (e) =>
 {
-    map.player.jump_pressed = false;
+    game.map.player.jump_pressed = false;
+}
+
+//main input function
+
+function start_game(_game)
+{
+    last_time = 0;
+    
+    game.map.gameover = false;
+    game.state = 1;
+    game.map.reset_player();
+    game.map.reset_audio();
+    start();
+}
+function player_jump(_game,_state)
+{
+    game.map.player.jump_pressed = _state
+}
+
+document.getElementById('output-text').onmousedown = (e) =>
+{
+    outputbox.display = false;
+    control_box.display = false;
+    start_game(game);
 }

@@ -10,11 +10,18 @@ const player_jump_height = 14.5;
 const player_speed = 6.25;
 const drag = 1;
 
+var last_time;
+
 //particle functions
 const particle_life_time = 40;
 
 var scale_by = 2;
 
+//player settings
+
+const particles_allowed = true;
+const audio_volume = 0.5;
+//canvas settings
 var margin_width = 2;
 var margin_height = 16;
 
@@ -36,18 +43,14 @@ const tile_size = 16*scale_by;
 
 const window_height = Math.floor(window.screen.availHeight/tile_size);
 const window_width = Math.floor(window.screen.availWidth/tile_size);
-
-
-
-
-
-
 var screen_height = window_height-margin_height;
 var screen_width = window_width-margin_width;
 
+//audio constants
+const gameover_sound = "aud/game_over.wav";
+const win_sound = "aud/win.wav";
 
-map_height = 16;
-map_width = 64;
+
 
 
 const canvas = document.getElementById('canvas');
@@ -94,3 +97,19 @@ const block_types = [
         degree:180,
     },
 ]
+const output_text = {
+    0:
+    {
+        'title':'Start',
+        'text':'Zum Starten bitte <button class="blink" id="game-start-button">hier</button> drücken'
+    },
+    1:
+    {
+        'title':'Gewonnen',
+        'text':'Zum Neustarten bitte <button class="blink" id="game-start-button">hier</button> drücken'
+    }
+    
+}
+//
+const urlSearchParams = Object.fromEntries(new URLSearchParams(window.location.search).entries());
+

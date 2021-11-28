@@ -1,25 +1,15 @@
 ;
 "use strict";
-//classes
+//inital load
+var outputbox = new Output_box(document.getElementById('output'),true);
+var control_box = new Output_box(document.getElementById('controls'),true)
 
+outputbox.change_box_text(output_text[0]);
 
+const game = new Game(new Map(ctx,tile_map));
 
-//32*3 as the bottom is 32*2
+game.map.preload();
 
-
-
-
-const map = new Map(ctx,tile_map);
-const game = new Game();
-const camera = new Camera(map,screen_width,screen_height,scale_by);
-
-
-
-//game start
-var last_time = 0;
-map.preload();
-
-//start();
 
 
 
@@ -29,7 +19,25 @@ function mainloop(time)
     if(last_time!= 0)
     {   
         var dt = (time - last_time)/1000;
-        map.play(dt);
+        game.map.play(dt);
+    }
+    //check if game is won
+    if(game.map.player.x > game.map.width && game.state !=3)
+    {
+        game.state = 3;
+        outputbox.change_box_text(game.win_message);
+        outputbox.display = true;
+        game.map.game_won_sound.play();
+    }
+    //check if game is over
+    if(game.map.gameover && game.map.particles.length == 0 && game.state !=4)
+    {
+        game.state = 4;
+
+        outputbox.change_box_text(game.death_message);
+       
+        outputbox.display = true;
+        control_box.display = true;
     }
     //console.log(dt);
     last_time = time;

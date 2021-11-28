@@ -11,19 +11,35 @@
     <audio id="Song" autoplay>
         <source src="aud/1.mp3" type="audio/mp3">
       </audio>
-      <audio id="game-over-sound" autoplay>
-        <source src="aud/game_over.wav" type="audio/wav">
-      </audio>
     <div class="container">
         <canvas class="align-center" id="canvas">
         </canvas>
-        <div id="output">
-          <h1 id="output-title">Gewonnen</h1>
+        <div id="output-container">
+          <div id="output-offset">
+            <div id="output">
+              <h1 id="output-title" class="responsive-title"></h1>
+              <p id="output-text" class="responsive-text">
+              </p>
+            </div>
+            <div id="controls-container">
+              <div id="controls">
+                <h1 id="controls-title" class="responsive-title">Steuerung:</h1>
+                <p id="controls-text" class="responsive-text">
+                  <span class="standard-font-color">Leertaste</span> oder <span class="standard-font-color">Pfeiltaste</span> nach oben zum springen oder <br>
+                  auf Mobilgeräten die <span class="standard-font-color">Springentaste</span> drücken<br>
+                  <span class="standard-font-color">R</span> drücken, um schnell neu zu starten
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="input-button-container">
+          <div id="input-button">
+            <button id="jump-button">Jump</button>
+          </div>
         </div>
     </div>
-    <p id="score">
-    </p>
-    
+   
     <img src="./img/player.png" alt="" style="display: none;" id="player_image">
 </body>
 <script src="./map-files/1.js"></script>
