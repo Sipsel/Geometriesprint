@@ -142,10 +142,9 @@ button::after{
     content: '';
     position: absolute;
     width:50px;
-    height: 25px;
+    height: 4vh;
     left:50%;
-    transform: translateX(-50%) translateY(-100%) scale(var(--scale));
-    --scale: 0;
+    transform: translateX(-50%) translateY(-110%) scale(1);
     transition: 150ms transform;
     transform-origin: bottom center;
 }
@@ -158,7 +157,6 @@ button::after{
     border-radius: .3rem;
     width: max-content;
     text-align: center;
-    --scale: 1;
 }
 
 .progress{

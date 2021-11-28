@@ -37,13 +37,13 @@ ownMap.style.display = 'none';
 ownSong.addEventListener('change', (event) => {
   const fileList= event.target.files;
   customSong = fileList[0];
-  customSongName = customSong.name;
+  customSongName = (customSong.name).substring(0,(customSong.name).length-4);
   const objectURL = URL.createObjectURL(customSong);
   localStorage['customSong'] = objectURL;
 
   labelOwnSong.style.display = 'none';
   songTitle.style.display = 'grid';
-  songTitle.innerHTML = customSong.name;
+  songTitle.innerHTML = customSongName;
   customMap.style.display = 'grid';
   ctx.canvas.width = document.getElementById('divContent').offsetWidth;
   ctx.canvas.style.display = 'grid';
@@ -265,8 +265,6 @@ function buildMap(duration) {
       if((built+1) % 3 == 0){
 
       if(sector == 0){
-
-        if(Math.round(Math.random())){
           for(let m = 0; m< secTwoArr.length; m++){
             if(secTwoArr[m].length/10 <= blocksLeft){
               tempArr.push(secTwoArr[m]);
@@ -274,17 +272,6 @@ function buildMap(duration) {
               m = secTwoArr.length;
             }
           }
-
-        }else{
-
-          for(let m = 0; m< secThrArr.length; m++){
-            if(secThrArr[m].length/10 <= blocksLeft){
-              tempArr.push(secThrArr[m]);
-            }else{
-              m = secThrArr.length;
-            }
-          }
-        }
       }else{
         for(let m = 0; m< secThrArr.length; m++){
           if(secThrArr[m].length/10 <= blocksLeft){
@@ -294,10 +281,6 @@ function buildMap(duration) {
           }
         }
       } 
-
-        
-
-
       }else{
         if(sector == 0){
           for(let m = 0; m< secOneArr.length; m++){
