@@ -1,5 +1,9 @@
 document.querySelector("#volume-slider").value = localStorage['volume'];
 
+var pic_string;
+
+
+
 const slideValue = document.querySelector("span");
 const inputSlider= document.querySelector("input");
 var img = new Image();
@@ -96,7 +100,7 @@ var defaultColorBack = localStorage['background-color'];
 const saveButton = document.querySelector("#saveButton");
 
 saveButton.addEventListener("click", () => {
-    localStorage['texturePack'] = img.src;
+    localStorage['texturePack'] = pic_string;
     localStorage['primary-color'] = styles.getPropertyValue('--primary-color');
     localStorage['secondary-color'] = styles.getPropertyValue('--secondary-color');
     localStorage['background-color'] = styles.getPropertyValue('--background-color');
@@ -113,10 +117,27 @@ texturePackInput.addEventListener('change', function(e){
     img.src = window.URL.createObjectURL(file);
 
     img.onload = function(){
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+    
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+    
+        var dataURL = canvas.toDataURL("image/png");
+    
+        pic_string = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+
+
+
+
+
+
+
+
+
         var width = img.naturalWidth;
         var height = img.naturalHeight;
-
-        window.URL.revokeObjectURL(img.src);
 
         if(width > 512 && height > 512)
         {

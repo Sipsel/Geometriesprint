@@ -21,6 +21,15 @@ var scale_by = 2;
 
 const particles_allowed = true;
 const audio_volume = 0.5;
+
+const map_id = Object.fromEntries(new URLSearchParams(window.location.search).entries()).map_id;
+
+let tile_map = JSON.parse(localStorage['customMaps'])[parseInt(map_id)]
+
+document.getElementById('player_image').src = (localStorage.getItem('texturePack'))?'data:image/png;base64,' +localStorage.getItem('texturePack'):"./img/player.png";
+const player_texture = document.getElementById('player_image');
+
+
 //canvas settings
 var margin_width = 2;
 var margin_height = 16;
@@ -38,6 +47,8 @@ if(window.screen.availWidth<400)
 }
 
 const tile_size = 16*scale_by;
+
+
 
 
 
@@ -60,9 +71,10 @@ const ctx = canvas.getContext("2d");
 canvas.height = `${screen_height*tile_size}`;
 canvas.width = `${screen_width*tile_size}`;
 
-const primary_color = '#00a2ff';
-const secondary_color = '#00ff9d';
-const background_color = '#171717';
+const primary_color = (localStorage.getItem('primary-color')) ? localStorage.getItem('primary-color'): '#00a2ff';
+const secondary_color = (localStorage.getItem('secondary-color')) ? localStorage.getItem('secondary-color'): '#00ff9d';
+
+const background_color = (localStorage.getItem('background-color'))? localStorage.getItem('background-color'):'#171717';
 
 //block_types 
 const block_types = [
@@ -111,5 +123,3 @@ const output_text = {
     
 }
 //
-const urlSearchParams = Object.fromEntries(new URLSearchParams(window.location.search).entries());
-

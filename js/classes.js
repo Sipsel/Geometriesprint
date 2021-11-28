@@ -189,8 +189,7 @@ class Map
         this.add_asset(new Player('player',0-5,this.height-2,1,1));
         this.player = this.assets[0];
 
-        let player_image = document.getElementById('player_image');
-        this.player.set_Image(player_image);
+        this.player.set_Image(player_texture);
           
         for(let y = 0;y<this.tiles.length;y++)
         {

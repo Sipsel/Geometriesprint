@@ -6,6 +6,7 @@ const showMapProgress = document.getElementById('mapProgress');
 const showMapAttempts = document.getElementById('mapAttempts');
 const showMapTime = document.getElementById('mapTime');
 const showMapID = document.getElementById('mapID');
+const new_game = document.getElementById('startGame');
 
 
 let whichMap = 0;
@@ -28,6 +29,10 @@ nextButton.addEventListener('click', function(e){
     showMap();
 });
 
+new_game.addEventListener('click', (e) =>
+{
+    new_game.href = `./game.html?map_id=${whichMap}`;
+})
 
 
 

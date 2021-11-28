@@ -73,11 +73,10 @@ saveMap.addEventListener('click', function(e){
 
   var retrievedItems = localStorage.getItem("customMaps");
   var customMaps = JSON.parse(retrievedItems);
-  console.log(mapLayout);
   customMaps[customMaps.length] = mapLayout;
   localStorage.setItem("customMaps", JSON.stringify(customMaps));
   
-  window.location.href = "/index.html";
+  window.location.href = "./index.html";
 });
 
  automap.addEventListener('click', function(e) {
@@ -224,7 +223,6 @@ function buildMap(duration) {
   var secOneSecondsLimit = Math.round(duration / 2);
   var secTwoSecondsLimit = Math.round(secOneSecondsLimit + ((duration - secOneSecondsLimit) / 2));
   var secThrSecondsLimit = duration;
-  console.log("secTwoSecondsLimit: " + secTwoSecondsLimit);
   let pointOfMap = 0;
   let sector;
   let blocksLeft;

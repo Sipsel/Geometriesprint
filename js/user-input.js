@@ -2,7 +2,6 @@
 //on keydown
 document.body.onkeydown = (e) => {
     //space, or arrowup
-    console.log(e)
     if(e.keyCode == 32 || e.keyCode == 38 && game.state == 1){
 
             game.map.player.jump_pressed = true;
