@@ -128,14 +128,6 @@ texturePackInput.addEventListener('change', function(e){
     
         pic_string = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
 
-
-
-
-
-
-
-
-
         var width = img.naturalWidth;
         var height = img.naturalHeight;
 

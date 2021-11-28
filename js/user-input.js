@@ -10,8 +10,10 @@ document.body.onkeydown = (e) => {
     {
         debug();
     }
-    if(e.keyCode == 82 && outputbox.display == false)
+    if(e.keyCode == 82)
     {
+        outputbox.display = false;
+        control_box.display = false;
         start_game(game);
     }
 };

@@ -24,10 +24,11 @@ const audio_volume = parseInt(localStorage.getItem('volume'))/100;
 
 const map_id = Object.fromEntries(new URLSearchParams(window.location.search).entries()).map_id;
 
-const tile_map = JSON.parse(localStorage['customMaps'])[parseInt(map_id)];
+const tile_maps = JSON.parse(localStorage['customMaps']);
+var tile_map = tile_maps[map_id];
 
 
-document.getElementById('player_image').src = (localStorage.getItem('texturePack'))?'data:image/png;base64,' +localStorage.getItem('texturePack'):"./img/player.png";
+document.getElementById('player_image').src = (localStorage.getItem('texturePack') != 'undefined')?'data:image/png;base64,' +localStorage.getItem('texturePack'):"./img/player.png";
 const player_texture = document.getElementById('player_image');
 
 var user_song;
@@ -115,7 +116,7 @@ const output_text = {
     0:
     {
         'title':'Start',
-        'text':'Zum Starten laden sie bitte ihren Song <button class="blink" id="game-start-button">hier</button> hoch'
+        'text':`Zum Starten laden sie bitte ihren Song für die Karte:<br> ${tile_map.songname} <br><button class="blink" id="game-start-button">hier hoch</button>`
     },
     1:
     {

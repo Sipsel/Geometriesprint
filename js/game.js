@@ -25,6 +25,10 @@ function mainloop(time)
     if(game.map.player.x > game.map.width && game.state !=3)
     {
         game.state = 3;
+        game.map.tile_map.progress = 100;
+        game.map.tile_map.attempts++;
+        tile_maps[map_id] = game.map.tile_map;
+        localStorage.setItem('customMaps', JSON.stringify(tile_maps));
         outputbox.change_box_text(game.win_message);
         outputbox.display = true;
         game.map.game_won_sound.play();

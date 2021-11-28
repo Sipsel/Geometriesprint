@@ -341,8 +341,13 @@ class Map
                     curr_part.set_color(secondary_color)
                 }
             }
-
-            this.gameover = true;
+                this.tile_map.attempts++;
+                let progress = Math.floor(this.player.x/this.width*100);
+                console.log(progress);
+                this.tile_map.progress = (this.tile_map.progress < progress)?progress:this.tile_map.progress;
+                tile_maps[map_id] = this.tile_map;
+                localStorage.setItem('customMaps', JSON.stringify(tile_maps));
+                this.gameover = true;
             }
             
         }
