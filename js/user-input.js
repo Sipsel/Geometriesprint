@@ -10,7 +10,7 @@ document.body.onkeydown = (e) => {
     {
         debug();
     }
-    if(e.keyCode == 82)
+    if(e.keyCode == 82 || e.keyCode == 32 && game.state == 4)
     {
         outputbox.display = false;
         control_box.display = false;
