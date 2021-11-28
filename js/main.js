@@ -10,7 +10,13 @@ function invertColor(hexTripletColor) {
 }
 
 window.addEventListener("load", initialize, false);
-//localStorage["initialization"] = 'false';
+function flushLocalstorage(){
+localStorage["initialization"] = 'false';
+initialize()
+}
+
+
+
 
 function initialize() {
     if(localStorage["initialization"] != 'true'){

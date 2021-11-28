@@ -33,6 +33,9 @@ document.getElementById('player_image').src = (localStorage.getItem('texturePack
 const player_texture = document.getElementById('player_image');
 
 var user_song;
+if(map_id<5){
+    user_song = "aud/"+ map_id +".mp3";
+}
 
 //canvas settings
 var margin_width = 2;
@@ -131,4 +134,3 @@ const output_text = {
     }
     
 }
-//

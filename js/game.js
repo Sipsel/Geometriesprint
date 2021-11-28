@@ -3,8 +3,13 @@
 //inital load
 var outputbox = new Output_box(document.getElementById('output'),true);
 var control_box = new Output_box(document.getElementById('controls'),true)
-
-outputbox.change_box_text(output_text[0]);
+if(map_id<5)
+{
+    outputbox.change_box_text(output_text[1]);
+    
+}else{
+    outputbox.change_box_text(output_text[0]);
+}
 
 const game = new Game(new Map(ctx,tile_map));
 
