@@ -1,0 +1,187 @@
+body,html,button
+{
+    margin: 0;
+    padding: 0;
+}
+button{
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+button:hover
+{
+    cursor: pointer;
+}
+
+/*
+    Responsive Breakppoints
+*/
+   /* Extra small devices (phones, 600px and down) */
+   @media only screen and (max-width: 600px) {
+    .responsive-title{font-size: 1.5rem;}
+    .responsive-text{font-size: 1rem}
+    .responsive-title{font-size: 2rem;}
+    .responsive-text{ font-size: 1rem}
+    #input-button-container{
+        display: grid;
+        z-index: 999;
+        grid-column: 1;
+        grid-row: 1;
+        margin: auto;
+    }
+   }
+   
+
+   /* Small devices (portrait tablets and large phones, 600px and up) */
+   @media only screen and (min-width: 600px) {
+    .responsive-title{font-size: 2rem;}
+    .responsive-text{ font-size: 1rem}
+    #input-button-container{
+        display: grid;
+        z-index: 999;
+        grid-column: 1;
+        grid-row: 1;
+        margin: auto;
+    }
+   }
+
+   /* Medium devices (landscape tablets, 768px and up) */
+   @media only screen and (min-width: 768px) {
+    .responsive-title{font-size: 3rem;}
+    .responsive-text{ font-size: 1rem}
+    
+   }
+
+   /* Large devices (laptops/desktops, 992px and up) */
+   @media only screen and (min-width: 992px) {
+       .responsive-title{font-size: 4rem;}
+       .responsive-text{ font-size: 1.5rem}
+       #input-button-container{display: none;}
+}
+
+   /* Extra large devices (large laptops and desktops, 1200px and up) */
+   @media only screen and (min-width: 1200px) {
+    .responsive-title{font-size: 5rem;}
+    .responsive-text{ font-size: 2.5rem;}
+    
+   }
+.container
+{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1;
+    grid-template-rows: 1;
+}
+
+ 
+
+.standard-font-color
+{
+    color:var(--primary-color);
+}
+.align-center
+{
+    margin: auto;
+}
+.blink {
+    animation: blinker 1.5s linear infinite;
+  }
+.blink:hover
+{
+    opacity: 1;
+}
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
+
+#canvas
+{
+    border: black solid;
+    background-image: url('../img/canvas_background.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-attachment: fixed;
+    image-rendering: optimizeSpeed;             /* Older versions of FF          */
+    image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+    image-rendering: -webkit-optimize-contrast; /* Safari                        */
+    image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+    image-rendering: pixelated;                 /* Awesome future-browsers       */
+    -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+    grid-column: 1;
+    grid-row: 1;
+}
+#score
+{
+    position: absolute;
+    top: 5%;
+    left:5%;
+    font-size: 2.5rem;
+    font-style: bold;
+    display: none;
+}
+
+#output-container
+{
+    display: grid;
+    z-index: 999;
+    grid-column: 1;
+    grid-row: 1;
+    margin: auto;
+    
+}
+#output-offset
+{
+    margin-top: -20vh;
+    
+}
+#output
+{
+    background-color: rgba(0,0,0,.5);
+    color:white;
+    text-align: center;
+    border-radius: 15px;
+}
+#output-title
+{
+    font-weight: bold;
+}
+#output-text
+{
+    font-weight: bold;
+}
+#controls-container
+{
+    background-color: rgba(0,0,0,.5);
+    display: grid;
+    text-align: center;
+    border-radius: 15px;
+}
+#controls
+{
+    margin: auto;
+    color: white;
+
+}
+#controls-title
+{
+    font-weight: bold;
+}
+
+#input-button
+{
+    background-color: var(--primary-color);
+    margin-top: 40vh;
+    
+}
+#jump-button
+{
+    font-size: 6rem;
+    color:var(--secondary-color);
+}
