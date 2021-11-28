@@ -199,7 +199,8 @@ class Map
                 if(this.tiles[y][x] !=0)
                 {
                     let block = get_object_by_id(block_types,this.tiles[y][x]);
-                    let block_above = get_object_by_id(block_types,this.tiles[y-1][x]);
+                    let block_above_y = (y-1 < 0)? 0 : y-1;
+                    let block_above = get_object_by_id(block_types,this.tiles[block_above_y][x]);
 
                     let width = (block.width) ? block.width:1; 
                     let height = (block.height) ? block.height:1;
