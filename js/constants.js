@@ -24,7 +24,9 @@ const audio_volume = 0.5;
 
 const map_id = Object.fromEntries(new URLSearchParams(window.location.search).entries()).map_id;
 
-let tile_map = JSON.parse(localStorage['customMaps'])[parseInt(map_id)]
+const tile_map = JSON.parse(localStorage['customMaps'])[parseInt(map_id)];
+
+const map_song = tile_map.song;
 
 document.getElementById('player_image').src = (localStorage.getItem('texturePack'))?'data:image/png;base64,' +localStorage.getItem('texturePack'):"./img/player.png";
 const player_texture = document.getElementById('player_image');

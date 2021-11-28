@@ -231,11 +231,11 @@ class Map
             }
 
         }
-        this.add_asset(new Rectangle("spawn-plattform",0-30,this.height-2,30,1,1,180));
+        this.add_asset(new Rectangle("spawn-plattform",0-30,this.height-1,30,1,1,180));
         this.assets.at(-1).set_color(primary_color);
 
 
-        this.add_asset(new Rectangle("floor",-30,this.height-1.01,this.width+30-1,this.height));
+        this.add_asset(new Rectangle("floor",-30,this.height-.01,this.width+30-1,this.height));
 
         
         this.reset_player();
@@ -304,7 +304,7 @@ class Map
 
             if(this.player.x > 0 && this.song == undefined)
             {
-                this.song = new Audio("aud/1.mp3");
+                this.song = new Audio(map_song);
                 this.song.volume = audio_volume;
                 this.song.play();
            

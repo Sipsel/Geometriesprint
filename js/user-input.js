@@ -57,3 +57,11 @@ document.getElementById('output-text').onmousedown = (e) =>
     control_box.display = false;
     start_game(game);
 }
+
+document.getElementById('ownSong').addEventListener('change', (e)=> {
+    const fileList= e.target.files;
+    customSong = fileList[0];
+    const objectURL = URL.createObjectURL(customSong);
+    var aud = new Audio(objectURL);
+    aud.play();
+  });

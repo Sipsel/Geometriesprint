@@ -58,7 +58,6 @@ inputMap.addEventListener('change', (e)=> {
   reader.onload = function (e){
     const text = e.target.result;
     const data = txtToArray(text);
-    var audio = new Audio(localStorage['customSong']);
     mapLayout = getMapTile(data, customSongName);
     showMap(data);
   };
@@ -146,7 +145,7 @@ function createMapTile(data, songname){
     rows: data.length,
     tsize: data[0].length * data.length,
     tiles: data,
-    song: localStorage["customSong"],
+    customSongBool: true,
     progress: 0,
     attempts: 0,
     songname: songname,
