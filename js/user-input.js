@@ -38,13 +38,13 @@ document.getElementById('jump-button').onmouseup = (e) =>
 
 function start_game(_game)
 {
-    last_time = 0;
-    
-    game.map.gameover = false;
-    game.state = 1;
-    game.map.reset_player();
-    game.map.reset_audio();
-    start();
+   
+        last_time = 0;
+        game.map.gameover = false;
+        game.state = 1;
+        game.map.reset_player();
+        game.map.reset_audio();
+        start();
 }
 function player_jump(_game,_state)
 {
@@ -53,15 +53,23 @@ function player_jump(_game,_state)
 
 document.getElementById('output-text').onmousedown = (e) =>
 {
-    outputbox.display = false;
-    control_box.display = false;
-    start_game(game);
+    if(user_song != undefined)
+    {
+        outputbox.display = false;
+        control_box.display = false;
+        start_game(game);
+    }
+    else
+    {
+        document.getElementById('ownSong').click();
+    }
+    
 }
 
 document.getElementById('ownSong').addEventListener('change', (e)=> {
     const fileList= e.target.files;
     customSong = fileList[0];
     const objectURL = URL.createObjectURL(customSong);
-    var aud = new Audio(objectURL);
-    aud.play();
+    user_song = objectURL;
+    outputbox.change_box_text(output_text[1]);
   });

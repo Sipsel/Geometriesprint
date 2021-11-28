@@ -304,7 +304,7 @@ class Map
 
             if(this.player.x > 0 && this.song == undefined)
             {
-                this.song = new Audio(map_song);
+                this.song = new Audio(user_song);
                 this.song.volume = audio_volume;
                 this.song.play();
            

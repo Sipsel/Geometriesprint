@@ -20,17 +20,17 @@ var scale_by = 2;
 //player settings
 
 const particles_allowed = true;
-const audio_volume = 0.5;
+const audio_volume = parseInt(localStorage.getItem('volume'))/100;
 
 const map_id = Object.fromEntries(new URLSearchParams(window.location.search).entries()).map_id;
 
 const tile_map = JSON.parse(localStorage['customMaps'])[parseInt(map_id)];
 
-const map_song = tile_map.song;
 
 document.getElementById('player_image').src = (localStorage.getItem('texturePack'))?'data:image/png;base64,' +localStorage.getItem('texturePack'):"./img/player.png";
 const player_texture = document.getElementById('player_image');
 
+var user_song;
 
 //canvas settings
 var margin_width = 2;
@@ -115,9 +115,14 @@ const output_text = {
     0:
     {
         'title':'Start',
-        'text':'Zum Starten bitte <button class="blink" id="game-start-button">hier</button> drücken'
+        'text':'Zum Starten laden sie bitte ihren Song <button class="blink" id="game-start-button">hier</button> hoch'
     },
     1:
+    {
+        'title':'Start',
+        'text':'Zum Starten bitte <button class="blink" id="game-start-button">hier</button> drücken'
+    },
+    2:
     {
         'title':'Gewonnen',
         'text':'Zum Neustarten bitte <button class="blink" id="game-start-button">hier</button> drücken'
