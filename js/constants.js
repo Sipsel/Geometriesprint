@@ -25,10 +25,11 @@ const audio_volume = parseInt(localStorage.getItem('volume'))/100;
 const map_id = Object.fromEntries(new URLSearchParams(window.location.search).entries()).map_id;
 
 const tile_maps = JSON.parse(localStorage['customMaps']);
-var tile_map = tile_maps[map_id];
+var tile_map = (tile_maps[map_id])?tile_maps[map_id]:'';
 
 
-document.getElementById('player_image').src = (localStorage.getItem('texturePack') != 'undefined')?'data:image/png;base64,' +localStorage.getItem('texturePack'):"./img/player.png";
+
+document.getElementById('player_image').src = (localStorage.getItem('texturePack') != 'undefined' && localStorage.getItem('texturePack'))?'data:image/png;base64,' +localStorage.getItem('texturePack'):"./img/player.png";
 const player_texture = document.getElementById('player_image');
 
 var user_song;
