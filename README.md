@@ -1,37 +1,92 @@
 # Geometriesprint
 
+***
+## Inhaltsverzeichnis
+1. [ Authoren ] (#Authoren)
+2. [ Beschreibung ] (#Beschreibung)
+3. [ Aktuelle Version] (#Aktuelle-Version)
+2. [ Installation ] (#Installation)
+2. [ Known Bugs ] (#Known-Bugs)
+2. [ Browserkompabilität ] (#Browserkompabilität)
+2. [ License ] (#License)
 
-## Table of Contents
-1. [ Authors] ()
-2. [ Description] ()
-3. [ Current Version] ()
-2. [ Description] ()
-2. [ Installation] ()
+## Authoren
 
-Description
-Current Verson 
-Installation
+Florian Koll und Daniel Reiner Franke(Sipsel)
 
-## Authors
+***
 
-Florian Koll and Daniel Reiner Franke(Sipsel)
+## Beschreibung
+Geometriesprint ist ein automatischer 2d-Sidescroll Jump'n'Run in Anlehnung an das Spiel Geometry Dash von Ropert Topala. Geometriesprint ist ein open-source Spiel das entwickelt wurde, um dem Spieler mehr mögliche personalisierungs Optionen zu bieten als das Spiel Geometry Dash. Zudem sollten Entwickler die Möglichkeit haben, selber basierend auf Geometriesprint herumzutüffteln.
 
-## Description
+***
 
-Geometriesprint(German for geometry dash) is an automatic 2D-Sidescroller Jump'n'Run that was inspired by the original game made by Robert Topala. Geometriesprint is a open source game that was developed to have more personalisation options than the original. Additionaly it should 
-serve as a sandbox for other developers to tinker with.
+## Aktuelle Version
 
+Die aktuelle Version 1.0 wurde am 29.11.2021 erstellt. 
 
-
-## Current Version
-
-The Current Version: 1.0 was created on 29.11.2021
-
-
+***
 
 ## Installation 
 
-To play the game you can open the Github pages link for the repository and play immediately.
-Otherwise you can also download the repository to you local machine, unzip the downloaded file and simply open the index.html. 
-For the second option we would recommend using the Live-server extension for visual studio code or to host the downloaded files on an apache server for maximum compatability as simply opening the index.html file might led to complications with the file system (more on that in the Bugs Section) 
+Das Spiel kann sofort über [Github pages](https://sipsel.github.io/Geometriesprint/) gespielt werden.
+Alternativ kann der Quellcode auch heruntergeladen, entpackt und über die Datei index.html geöffnet werden.
+Bei der zweiten Variante empfehlen wir den Erweiterung Live-Server von Visual Studio Code oder das hosten der Datei auf einem Server (z.B. Apache). Damit können Fehler durch fehleden Zugriff auf das Dateiensystme vermieden werden. 
+
 ***
+## Known Bugs
+
+### Existing Bugs
+
+1. Sollte während des Spiel der Browser minimiert werden, kann es zu Problem im Spiel kommen, so dass empfohlen wird das Spiel immer an einem Stück zu spielen. 
+2. Sollten zu große oder zu viele Karten hinzugefügt werden kann es zu Problemen beim Laden der Karte kommen. Dieser Fehler wird als schwerwiegend angesehen und dementsprechen das ganze Spiel zurückgesetzt werden. 
+
+### Fixing most bugs
+1. Um die meisten Fehler zu beheben sollte der Browser neugeladen werden. Danach sollte folgender Befehl in die [Entwicklerkonsole] (https://wise.com/de/help/articles/2954851/wie-offne-ich-die-konsole?origin=related-article-2491525) eingebene werden:
+```
+flushLocalstorage()
+```
+2. Sollte es zu weiteren Fehler kommen, bitten wir darum eine E-Mail an daniel.franke19(at)gmail.com zu schicken 
+
+***
+
+## Browserkompatibiltät
+
+Getestet (29.11.2019)
+
+### Desktop-Devices (Version)
+
+Chrome-Version  : 96.0.4664.45
+Microsoft Edge  : 96.0.1054.34   
+
+### Mobile-Devices (Version)
+
+Safari          :   15.0 (iOS)
+Chrome          :   96.0.4664.53 (iOS)
+Chrome          :   96.0.4664.45 (Anroid)	
+
+***
+
+## License
+
+MIT License
+
+Copyright (c) 2021 Florian Koll, Daniel Reiner Franke
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
