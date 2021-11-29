@@ -86,11 +86,6 @@ saveMap.addEventListener('click', function(e){
     secOneArr = splitAndSortArrays(secOne.mapTiles);
     secTwoArr = splitAndSortArrays(secTwo.mapTiles);
     secThrArr = splitAndSortArrays(secThr.mapTiles);
-
-
-    //getTextFromFile("csvMapTiles/secOne.txt", duration, 1);
-    //getTextFromFile("csvMapTiles/secTwo.txt", duration, 2);
-    //getTextFromFile("csvMapTiles/secThr.txt", duration, 3);
     var mapArr = buildMap(parseInt(duration*6.25));
     mapLayout = getMapTile(mapArr, customSongName);
     }
@@ -356,33 +351,6 @@ function buildMap(duration) {
   return mapArr;
 }
 
-
-
-
-function getTextFromFile(filePath, duration, whereToSave){
-  var mapArr = new Array(10);
-  for(let i = 0; i < 10; i++){
-    mapArr[i] = new Array(duration);
-  }
-  var rawFile = new XMLHttpRequest();
-  rawFile.open("GET", filePath, false);
-  rawFile.onreadystatechange = function() {
-     if (rawFile.readyState === 4) {
-        if (rawFile.status === 200 || rawFile.status == 0) {
-           var allText = rawFile.responseText;
-           if(whereToSave == 1){
-             secOneArr = splitAndSortArrays(allText);
-           } else if(whereToSave == 2){
-            secTwoArr = splitAndSortArrays(allText);
-           } else{
-            secThrArr = splitAndSortArrays(allText);
-           }
-           return;
-        }
-     }
-  }
-  rawFile.send(null);
-}
 
 function splitAndSortArrays(arr){
   var mapArr = []

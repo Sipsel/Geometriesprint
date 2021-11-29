@@ -53,7 +53,9 @@ class Game
     {
         return {
             "title":"Tod",
-            "text": `Du hast ${Math.floor((this.map.player.x+1)/this.map.width*100)}% der Karte geschaft.
+            "text": `Du hast ${Math.floor((this.map.player.x+1)/this.map.width*100)}% der Karte geschafft.<br>
+            Das war dein ${this.map.tile_map.attempts}. Versuch<br>
+            Dein Highscore liegt bei: ${this.map.tile_map.progress}%
             <br><button class="blink" id="game-start-button">Hier kannst du neu starten</button>`
         }
     }
@@ -61,7 +63,8 @@ class Game
     {
         return {
             "title":"Gewonnen!",
-            "text": `Du hast die Karte erfolgreich durch gespielt! Glückwunsch.
+            "text": `Du hast die Karte erfolgreich durch gespielt! Glückwunsch.<br>
+            Das war dein ${this.map.tile_map.attempts}. Versuch
             <br><button class="blink" id="game-start-button">Hier kannst du neu starten</button>`
         }
     }

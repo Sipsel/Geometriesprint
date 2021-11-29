@@ -35,6 +35,10 @@ function mainloop(time)
         tile_maps[map_id] = game.map.tile_map;
         localStorage.setItem('customMaps', JSON.stringify(tile_maps));
         outputbox.change_box_text(game.win_message);
+        if(window.screen.availWidth < 768)
+        {
+            document.getElementById('input-button-container').style.display = 'none';
+        }
         outputbox.display = true;
         game.map.game_won_sound.play();
     }
@@ -44,7 +48,10 @@ function mainloop(time)
         game.state = 4;
 
         outputbox.change_box_text(game.death_message);
-       
+        if(window.screen.availWidth < 768)
+        {
+            document.getElementById('input-button-container').style.display = 'none';
+        }
         outputbox.display = true;
         control_box.display = true;
     }

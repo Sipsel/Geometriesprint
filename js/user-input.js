@@ -59,6 +59,11 @@ document.getElementById('output-text').onmousedown = (e) =>
     {
         outputbox.display = false;
         control_box.display = false;
+        if(window.screen.availWidth < 768)
+        {
+            document.getElementById('input-button-container').style.display = 'grid';
+        }
+        
         start_game(game);
     }
     else

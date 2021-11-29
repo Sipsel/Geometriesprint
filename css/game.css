@@ -28,7 +28,7 @@ button:hover
     .responsive-title{font-size: 2rem;}
     .responsive-text{ font-size: 1rem}
     #input-button-container{
-        display: grid;
+        display: none;
         z-index: 999;
         grid-column: 1;
         grid-row: 1;
@@ -42,7 +42,7 @@ button:hover
     .responsive-title{font-size: 2rem;}
     .responsive-text{ font-size: 1rem}
     #input-button-container{
-        display: grid;
+        display: none;
         z-index: 999;
         grid-column: 1;
         grid-row: 1;
