@@ -2,6 +2,7 @@ const attempts = document.getElementById('attempts');
 const jumps = document.getElementById('jumps');
 const timeSpend = document.getElementById('timeSpend');
 const distance_traveled = document.getElementById('distance_traveled');
+const distance_per_attempt = document.getElementById('distance_per_attempt');
 
 let attemptsInt = 0;
 JSON.parse(localStorage.customMaps).forEach(map =>  {attemptsInt+=map.attempts});
@@ -18,4 +19,4 @@ attempts.innerHTML = "Versuche: " + attemptsInt;
 jumps.innerHTML ="Sprünge: " + jumpsInt;
 timeSpend.innerHTML ="Spielzeit: " + parseInt(timeSpendMinutes) + " Minuten und " + timeSpendSeconds.toFixed(2) + " Sekunden";
 distance_traveled.innerHTML="Blöcke gelaufen: " + distance_traveledInt;
-
+distance_per_attempt.innerHTML = "Blöcke pro Versuch: " + (distance_traveledInt/attemptsInt).toFixed(2);
