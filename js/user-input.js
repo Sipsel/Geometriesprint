@@ -29,12 +29,10 @@ document.body.onkeyup = (e) => {
 
 document.getElementById('jump-button').onmousedown = (e) =>
 {
+    console.log("pressed")
     game.map.player.jump_pressed = true;
 }
-document.getElementById('jump-button').onmouseup = (e) =>
-{
-    game.map.player.jump_pressed = false;
-}
+
 
 //main input function
 
