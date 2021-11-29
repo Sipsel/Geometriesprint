@@ -2,13 +2,13 @@
 
 
 ## Inhaltsverzeichnis
-1. [Authoren] (#authoren)
-2. [Beschreibung] (#beschreibung)
-3. [Aktuelle-Version] (#aktuelle-version)
-4. [Installation] (#installation)
-5. [Known-Bugs] (#known-bugs)
-6. [Browserkompabilität] (#browserkompabilität)
-7. [License] (#license)
+1. [Authoren](#authoren)
+2. [Beschreibung](#beschreibung)
+3. [Aktuelle-Version](#aktuelle-version)
+4. [Installation](#installation)
+5. [Known-Bugs](#known-bugs)
+6. [Browserkompabilität](#browserkompabilität)
+7. [License](#license)
 
 ## 1. Authoren
 
@@ -58,9 +58,14 @@ Safari          :   15.0 (iOS)
 Chrome          :   96.0.4664.53 (iOS)
 Chrome          :   96.0.4664.45 (Anroid)	
 
-
-
-## 7. License
+## 7. Third Party Contribution
+The Map Music is provided by:
+Map 1: [Lightfox - "Pluck"](https://www.youtube.com/watch?v=tKwnSVfxwwI)
+Map 2: [Cartoon - "On On"](https://www.youtube.com/watch?v=K4DyBUG242c)
+Map 3: [Ross Bugden - "The Game is On"](https://www.youtube.com/watch?v=5dasaVm7L-Y)
+Map 4:
+Map 5:
+## 8. License
 
 MIT License
 
