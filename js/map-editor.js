@@ -83,9 +83,14 @@ saveMap.addEventListener('click', function(e){
   var audio = new Audio(localStorage['customSong']);
   audio.onloadedmetadata = function() {
     let duration = parseInt(audio.duration);
-    getTextFromFile("csvMapTiles/secOne.txt", duration, 1);
-    getTextFromFile("csvMapTiles/secTwo.txt", duration, 2);
-    getTextFromFile("csvMapTiles/secThr.txt", duration, 3);
+    secOneArr = splitAndSortArrays(secOne.mapTiles);
+    secTwoArr = splitAndSortArrays(secTwo.mapTiles);
+    secThrArr = splitAndSortArrays(secThr.mapTiles);
+
+
+    //getTextFromFile("csvMapTiles/secOne.txt", duration, 1);
+    //getTextFromFile("csvMapTiles/secTwo.txt", duration, 2);
+    //getTextFromFile("csvMapTiles/secThr.txt", duration, 3);
     var mapArr = buildMap(parseInt(duration*6.25));
     mapLayout = getMapTile(mapArr, customSongName);
     }
