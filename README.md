@@ -1,31 +1,31 @@
 # Geometriesprint
 
-***
+
 ## Inhaltsverzeichnis
-1. [ Authoren ] (#Authoren)
-2. [ Beschreibung ] (#Beschreibung)
-3. [ Aktuelle Version] (#Aktuelle-Version)
-2. [ Installation ] (#Installation)
-2. [ Known Bugs ] (#Known-Bugs)
-2. [ Browserkompabilität ] (#Browserkompabilität)
-2. [ License ] (#License)
+1. [Authoren] (#Authoren)
+2. [Beschreibung] (#Beschreibung)
+3. [Aktuelle-Version] (#Aktuelle-Version)
+4. [Installation] (#Installation)
+5. [Known-Bugs] (#Known-Bugs)
+6. [Browserkompabilität] (#Browserkompabilität)
+7. [License] (#License)
 
 ## Authoren
 
 Florian Koll und Daniel Reiner Franke(Sipsel)
 
-***
+
 
 ## Beschreibung
 Geometriesprint ist ein automatischer 2d-Sidescroll Jump'n'Run in Anlehnung an das Spiel Geometry Dash von Ropert Topala. Geometriesprint ist ein open-source Spiel das entwickelt wurde, um dem Spieler mehr mögliche personalisierungs Optionen zu bieten als das Spiel Geometry Dash. Zudem sollten Entwickler die Möglichkeit haben, selber basierend auf Geometriesprint herumzutüffteln.
 
-***
+
 
 ## Aktuelle Version
 
 Die aktuelle Version 1.0 wurde am 29.11.2021 erstellt. 
 
-***
+
 
 ## Installation 
 
@@ -33,7 +33,7 @@ Das Spiel kann sofort über [Github pages](https://sipsel.github.io/Geometriespr
 Alternativ kann der Quellcode auch heruntergeladen, entpackt und über die Datei index.html geöffnet werden.
 Bei der zweiten Variante empfehlen wir den Erweiterung Live-Server von Visual Studio Code oder das hosten der Datei auf einem Server (z.B. Apache). Damit können Fehler durch fehleden Zugriff auf das Dateiensystme vermieden werden. 
 
-***
+
 ## Known Bugs
 
 ### Existing Bugs
@@ -48,7 +48,6 @@ flushLocalstorage()
 ```
 2. Sollte es zu weiteren Fehler kommen, bitten wir darum eine E-Mail an daniel.franke19(at)gmail.com zu schicken 
 
-***
 
 ## Browserkompatibiltät
 
@@ -65,7 +64,7 @@ Safari          :   15.0 (iOS)
 Chrome          :   96.0.4664.53 (iOS)
 Chrome          :   96.0.4664.45 (Anroid)	
 
-***
+
 
 ## License
 
