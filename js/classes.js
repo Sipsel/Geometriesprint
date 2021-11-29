@@ -218,14 +218,14 @@ class Map
                             yShift-=1-block_above.height;
                         }
                         this.add_asset(new Triangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x],degree));
-                        this.assets.at(-1).set_color(secondary_color);
+                        this.assets[this.assets.length-1].set_color(secondary_color);
                     }else
                     {
                         this.add_asset(new Rectangle(`${[x,y]}`,x+xShift,y+yShift,width,height,this.tiles[y][x],degree));
-                        this.assets.at(-1).set_color(primary_color);
+                        this.assets[this.assets.length-1].set_color(primary_color);
                     }
 
-                   //this.assets.at(-1).set_color(block.color? block.color:primary_color);
+                  
                 }
                 if(this.tiles[y][x] == 2 || this.tiles[y][x] == 6)
                 {
@@ -236,7 +236,7 @@ class Map
 
         }
         this.add_asset(new Rectangle("spawn-plattform",0-30,this.height-1,30,1,1,180));
-        this.assets.at(-1).set_color(primary_color);
+        this.assets[this.assets.length-1].set_color(primary_color);
 
 
         this.add_asset(new Rectangle("floor",-30,this.height-.01,this.width+30-1,this.height));
@@ -290,19 +290,20 @@ class Map
                 {
                     let particle_width=0.2;
                     let particle_height=0.2;
-                    let particle_time = 20;
+                    
                     let player_x = this.player.x-particle_width;
                     let player_y = this.player.y+this.player.width-particle_height+randomIntFromInterval(0,5)/100;
                     
                     this.particles.push(new Particle(i,player_x,player_y,0.2,0.2,99,0,randomIntFromInterval(0,30)));
-                 
-                    this.particles.at(-1).velocity.y = -randomIntFromInterval(0,10)/10;
-                    this.particles.at(-1).gravity = randomIntFromInterval(0,10)/50;
-                    this.particles.at(-1).on_ground = false;
-                    this.particles.at(-1).loaded = true;
+                    let latest_particle = this.particles[this.particles.length-1];
+
+                    latest_particle.velocity.y = -randomIntFromInterval(0,10)/10;
+                    latest_particle.gravity = randomIntFromInterval(0,10)/50;
+                    latest_particle.on_ground = false;
+                    latest_particle.loaded = true;
                    
 
-                    this.particles.at(-1).set_color(secondary_color)
+                    latest_particle.set_color(secondary_color)
                 }
             }
 
@@ -336,7 +337,7 @@ class Map
     
     
                     this.particles.push(new Particle(i,x+xShift,y+yShift,0.2,0.2,99,0,randomIntFromInterval(1,60)));
-                    let curr_part = this.particles.at(-1);
+                    let curr_part = this.particles[this.particles.length-1];
                     curr_part.gravity = 0;
                     curr_part.velocity.x = randomIntFromInterval(-dx,dx)/10;
                     curr_part.velocity.y = randomIntFromInterval(-dy,dy)/10;
