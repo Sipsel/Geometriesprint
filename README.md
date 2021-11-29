@@ -2,40 +2,34 @@
 
 
 ## Inhaltsverzeichnis
-1. [Authoren] (#Authoren)
-2. [Beschreibung] (#Beschreibung)
-3. [Aktuelle-Version] (#Aktuelle-Version)
-4. [Installation] (#Installation)
-5. [Known-Bugs] (#Known-Bugs)
-6. [Browserkompabilität] (#Browserkompabilität)
-7. [License] (#License)
+1. [Authoren] (#authoren)
+2. [Beschreibung] (#beschreibung)
+3. [Aktuelle-Version] (#aktuelle-version)
+4. [Installation] (#installation)
+5. [Known-Bugs] (#known-bugs)
+6. [Browserkompabilität] (#browserkompabilität)
+7. [License] (#license)
 
-<a name="Authoren"/>
 
 ## Authoren
 
 Florian Koll und Daniel Reiner Franke(Sipsel)
 
 
-<a name="Beschreibung"/>
+
 ## Beschreibung
 Geometriesprint ist ein automatischer 2d-Sidescroll Jump'n'Run in Anlehnung an das Spiel Geometry Dash von Ropert Topala. Geometriesprint ist ein open-source Spiel das entwickelt wurde, um dem Spieler mehr mögliche personalisierungs Optionen zu bieten als das Spiel Geometry Dash. Zudem sollten Entwickler die Möglichkeit haben, selber basierend auf Geometriesprint herumzutüffteln.
 
-
-<a name="Aktuelle-Version"/>
 ## Aktuelle Version
 
 Die aktuelle Version 1.0 wurde am 29.11.2021 erstellt. 
 
-
-<a name="Authoren"/>
 ## Installation 
 
 Das Spiel kann sofort über [Github pages](https://sipsel.github.io/Geometriesprint/) gespielt werden.
 Alternativ kann der Quellcode auch heruntergeladen, entpackt und über die Datei index.html geöffnet werden.
 Bei der zweiten Variante empfehlen wir den Erweiterung Live-Server von Visual Studio Code oder das hosten der Datei auf einem Server (z.B. Apache). Damit können Fehler durch fehleden Zugriff auf das Dateiensystme vermieden werden. 
 
-<a name="Authoren"/>
 ## Known Bugs
 
 ### Existing Bugs
@@ -50,7 +44,7 @@ flushLocalstorage()
 ```
 2. Sollte es zu weiteren Fehler kommen, bitten wir darum eine E-Mail an daniel.franke19(at)gmail.com zu schicken 
 
-<a name="Authoren"/>
+
 ## Browserkompatibiltät
 
 Getestet (29.11.2019)
@@ -67,7 +61,7 @@ Chrome          :   96.0.4664.53 (iOS)
 Chrome          :   96.0.4664.45 (Anroid)	
 
 
-<a name="Authoren"/>
+
 ## License
 
 MIT License
