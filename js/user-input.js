@@ -19,9 +19,7 @@ document.body.onkeydown = (e) => {
         control_box.display = false;
         start_game(game);
     }
-    if(e.keyCode == 27){
-        stop();
-    }
+   
 };
 //key up
 document.body.onkeyup = (e) => {
