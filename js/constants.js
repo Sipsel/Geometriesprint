@@ -19,7 +19,13 @@ var scale_by = 2;
 
 //player settings
 
-const particles_allowed = true;
+
+const particle_state =  parseInt(localStorage['particleState']);
+
+const particles_allowed = (particle_state != 0)? true:false;
+
+const max_particles = 150*particle_state;
+
 const audio_volume = parseInt(localStorage.getItem('volume'))/100;
 
 const map_id = Object.fromEntries(new URLSearchParams(window.location.search).entries()).map_id;
@@ -33,6 +39,13 @@ document.getElementById('player_image').src = (localStorage.getItem('texturePack
 const player_texture = document.getElementById('player_image');
 
 var user_song;
+
+
+
+
+
+
+
 if(map_id<5){
     user_song = "aud/"+ map_id +".mp3";
 }

@@ -12,9 +12,14 @@ document.body.onkeydown = (e) => {
     }
     if(e.keyCode == 82 || e.keyCode == 32 && game.state == 4)
     {
+        
         outputbox.display = false;
         control_box.display = false;
         start_game(game);
+    }
+    if(e.keyCode == 27 && game.state == 3 || game.state == 4 || game.state == 0)
+    {
+        window.location.href = "./newGame.html";
     }
 };
 //key up
@@ -32,13 +37,20 @@ document.getElementById('jump-button').onmousedown = (e) =>
     console.log("pressed")
     game.map.player.jump_pressed = true;
 }
+document.getElementById('jump-button').onmouseup = (e) =>
+{
+    game.map.player.jump_pressed = true;
+}
+
 
 
 //main input function
 
 function start_game(_game)
 {
-   
+
+
+        game.map.tile_map.attempts++;
         last_time = 0;
         game.map.gameover = false;
         game.state = 1;

@@ -250,6 +250,15 @@ class Map
     }
     play(dt)
     {
+        if(dt*1000 > 200)
+        {
+            if(dt*1000 > 500)
+            {
+                this.reset_player();
+                this.reset_audio();
+            }
+            dt = 200/1000;
+        }
         this.particles.forEach(particle => particle.move(dt));
        if(this.player.alive)
        {
@@ -285,26 +294,30 @@ class Map
 
             //add particles
             if(this.player.on_ground && particles_allowed)
-            {
-                for(let i = 0;i<1;i++)
+            {  
+                if(this.particles.length < max_particles)
                 {
-                    let particle_width=0.2;
-                    let particle_height=0.2;
-                    
-                    let player_x = this.player.x-particle_width;
-                    let player_y = this.player.y+this.player.width-particle_height+randomIntFromInterval(0,5)/100;
-                    
-                    this.particles.push(new Particle(i,player_x,player_y,0.2,0.2,99,0,randomIntFromInterval(0,30)));
-                    let latest_particle = this.particles[this.particles.length-1];
-
-                    latest_particle.velocity.y = -randomIntFromInterval(0,10)/10;
-                    latest_particle.gravity = randomIntFromInterval(0,10)/50;
-                    latest_particle.on_ground = false;
-                    latest_particle.loaded = true;
-                   
-
-                    latest_particle.set_color(secondary_color)
+                    for(let i = 0;i<1;i++)
+                    {
+                        let particle_width=0.2;
+                        let particle_height=0.2;
+                        
+                        let player_x = this.player.x-particle_width;
+                        let player_y = this.player.y+this.player.width-particle_height+randomIntFromInterval(0,5)/100;
+                        
+                        this.particles.push(new Particle(i,player_x,player_y,0.2,0.2,99,0,randomIntFromInterval(0,30*particle_state)));
+                        let latest_particle = this.particles[this.particles.length-1];
+    
+                        latest_particle.velocity.y = -randomIntFromInterval(0,10)/10;
+                        latest_particle.gravity = randomIntFromInterval(0,10)/50;
+                        latest_particle.on_ground = false;
+                        latest_particle.loaded = true;
+                       
+    
+                        latest_particle.set_color(secondary_color)
+                    }
                 }
+                
             }
 
             if(this.player.x > 0 && this.song == undefined)
@@ -314,12 +327,12 @@ class Map
                 this.song.play();
            
         }
-        
        }
        else
        {
         if(this.gameover == false)
         {
+            tile_map.distance_traveled += Math.round(game.map.player.x+2); 
             this.reset_audio();
             this.game_over_sound.play();
             if(particles_allowed)
@@ -327,7 +340,7 @@ class Map
                 let x = this.player.middlepoint.x;
                 let y = this.player.middlepoint.y;
     
-                for(let i = 0;i<40;i++)
+                for(let i = 0;i<20*particle_state;i++)
                 {
                     
                     let xShift = randomIntFromInterval(0,2)/100;
@@ -346,9 +359,8 @@ class Map
                     curr_part.set_color(secondary_color)
                 }
             }
-                this.tile_map.attempts++;
                 let progress = Math.floor(this.player.x/this.width*100);
-                console.log(progress);
+             
                 this.tile_map.progress = (this.tile_map.progress < progress)?progress:this.tile_map.progress;
                 tile_maps[map_id] = this.tile_map;
                 localStorage.setItem('customMaps', JSON.stringify(tile_maps));
@@ -580,6 +592,7 @@ class Player extends Asset
             this.jump_velocity = player_jump_height;
             this.velocity.y = -this.jump_velocity;
             this.jump_pressed = false;
+            tile_map.jump++;
         }
     }
 }

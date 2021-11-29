@@ -31,7 +31,8 @@ function mainloop(time)
     {
         game.state = 3;
         game.map.tile_map.progress = 100;
-        game.map.tile_map.attempts++;
+        tile_map.distance_traveled += Math.round(game.map.player.x+2);
+        
         tile_maps[map_id] = game.map.tile_map;
         localStorage.setItem('customMaps', JSON.stringify(tile_maps));
         outputbox.change_box_text(game.win_message);

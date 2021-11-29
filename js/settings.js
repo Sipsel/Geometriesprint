@@ -17,7 +17,38 @@ inputSlider.oninput = (()=>{
     slideValue.classList.add("show");
 });
 
+const particleState = document.getElementById('particleState');
+let particleStateInt = parseInt(localStorage['particleState']);
+particleHTMLState();
+particleState.addEventListener('click', function(e){
+    switch(particleStateInt){
+        case 0: 
+                particleStateInt = 1; 
+        break;
+        case 1: 
+                particleStateInt = 2;
+        break;
+        case 2: 
+                particleStateInt = 0;    
+        break;
+    }
+    particleHTMLState();
+    
+})
 
+function particleHTMLState(){
+    switch(particleStateInt){
+        case 0: 
+                particleState.innerHTML = "Partikeleffekte: Aus"
+        break;
+        case 1:
+                particleState.innerHTML = "Partikeleffekte: Wenig"
+        break;
+        case 2: 
+                particleState.innerHTML = "Partikeleffekte: Viel"
+        break;
+    }
+}
 /*
 *   Primäre Farbe kann variabel gewählt werden.
 */
@@ -106,6 +137,7 @@ saveButton.addEventListener("click", () => {
     localStorage['background-color'] = styles.getPropertyValue('--background-color');
     localStorage['invertedbackground'] = styles.getPropertyValue('--invertedbackground');
     localStorage['volume'] = document.querySelector("#volume-slider").value;
+    localStorage.setItem('particleState', particleStateInt);
 });
 
 

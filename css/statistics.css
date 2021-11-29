@@ -1,0 +1,19 @@
+.statistics{
+    font-size: 2vw;
+    margin-top: 4vh;
+    margin-bottom: 2vh;
+    border: 2px solid var(--invertedbackground);
+    border-radius: .3rem;
+    width:max-content;
+    align-self: center;
+    align-content: center;
+}
+
+.statisticValue{
+    background-image: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size:500%;
+    animation: animate 5s linear infinite;
+}
+

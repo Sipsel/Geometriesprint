@@ -38,17 +38,6 @@ function get_object_by_name(arr,name)
 }
 
 
-//tile map to array func
-function one_d_2_two_d_arr(arr, width)
-{
-    var nArr = [];
-    console.log(arr.length)
-    while(arr.length > 0) {
-        nArr.push(arr.splice(0,width));
-    }
-    console.log(nArr);
-    return nArr;
-}
 
 
 //graphical func
@@ -183,7 +172,6 @@ function collision(player,asset)
     //console.log(col_right)
     if(col_right || col_top || col_bottom && asset.type == obstacle_bottom.id)
     {
-        console.log("Collision")
         player.on_map = false;
         player.alive = false;
         return true;

@@ -7,6 +7,8 @@ var map0={
     customSongBool: false,
     progress: 0,
     attempts: 0,
+    jumps:0,
+    distance_traveled:0,
     songname: 'Pluck',
     getTile: function(col, row) {
       return this.tiles[row*this.cols + col];
@@ -20,6 +22,8 @@ var map1={
     customSongBool: false,
     progress: 0,
     attempts: 0,
+    jumps:0,
+    distance_traveled:0,
     songname: 'On On',
     getTile: function(col, row) {
       return this.tiles[row*this.cols + col];
@@ -34,6 +38,8 @@ var map2 = {
   customSongBool: false,
   progress: 0,
   attempts: 0,
+  jumps:0,
+  distance_traveled:0,
   songname: 'Map3',
   getTile: function(col, row) {
     return this.tiles[row*this.cols + col];
@@ -47,6 +53,8 @@ var map3 = {
   customSongBool: false,
   progress: 0,
   attempts: 0,
+  jumps:0,
+  distance_traveled:0,
   songname: 'Map4',
   getTile: function(col, row) {
     return this.tiles[row*this.cols + col];
@@ -60,6 +68,8 @@ var map4 = {
   customSongBool: false,
   progress: 0,
   attempts: 0,
+  jumps:0,
+  distance_traveled:0,
   songname: 'Map5',
   getTile: function(col, row) {
     return this.tiles[row*this.cols + col];

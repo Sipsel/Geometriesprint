@@ -38,6 +38,10 @@ function initialize() {
     localStorage.setItem("customMaps", JSON.stringify(normalMaps));
     localStorage['initialization'] = 'true'; 
     localStorage['texturePack'] = "";
+    localStorage.setItem('particleState', 2);
+    localStorage['overAllAttempts'] = 0;
+    localStorage['overAllJumps'] = 0;
+    localStorage['overAllDistanceTraveled'] = 0;
     }
 document.documentElement.style.setProperty('--primary-color', localStorage['primary-color']);
 document.documentElement.style.setProperty('--secondary-color', localStorage['secondary-color']);

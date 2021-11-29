@@ -109,3 +109,11 @@ canvas {
   #downloadMapCreator{
       font-size: 1.2vw;
   }
+
+  .songTitle{
+    background-image: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size:500%;
+    animation: animate 5s linear infinite;
+  }

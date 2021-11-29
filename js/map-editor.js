@@ -148,6 +148,8 @@ function createMapTile(data, songname){
     customSongBool: true,
     progress: 0,
     attempts: 0,
+    jumps:0,
+    distance_traveled:0,
     songname: songname,
     getTile: function(col, row) {
       return this.tiles[row*this.cols + col];
@@ -313,16 +315,17 @@ function buildMap(duration) {
 
       for(let z = 0; z< 9; z++){
         
-        for(let u = 0; u< 3; u++){
+        for(let u = 0; u< 4; u++){
           mapArr[z][pointOfMap+u] = "0";
         }
       }
       mapArr[9][pointOfMap] = "1";
       mapArr[9][pointOfMap+1] = "1";
       mapArr[9][pointOfMap+2] = "1";
+      mapArr[9][pointOfMap+3] = "1";
 
-      blocksLeft = blocksLeft - 3;
-      pointOfMap = pointOfMap + 3;
+      blocksLeft = blocksLeft - 4;
+      pointOfMap = pointOfMap + 4;
       
       if(tempArr.length){
         do{

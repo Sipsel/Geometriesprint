@@ -46,14 +46,9 @@ body{
     align-content: center;
     color: transparent;
     text-transform: uppercase;
-    background-image: var(--gradient);
-    background-size: 500%;
-    -webkit-background-size: 500%;
-    background-position: left;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: animate 5s linear infinite;
+    
     text-align: center;
+    height: max-content;
 }
 
 .links{

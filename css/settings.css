@@ -6,6 +6,7 @@
     "a"
     "b"
     "d"
+    "f"
     "e";
 }
 
@@ -21,6 +22,11 @@
     grid-template-areas:
     "a"
     "b";
+    background-image: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size:500%;
+    animation: animate 5s linear infinite;
 }
 
 .volumeText{
@@ -168,15 +174,6 @@
     animation: animate 5s linear infinite;
 }
 
-.settings{
-    background-image: var(--gradient);
-    background-size: 500%;
-    -webkit-background-size: 500%;
-    background-position: left;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: animate 5s linear infinite;
-}
 
 .primaryColorPicker .color-indicator {
     background-color: var(--primary-color);
@@ -224,4 +221,16 @@ label{
 
   input[type="file"]{
     display:none;
+}
+
+.particles{
+    grid-area: f;
+}
+
+.backgroundColorPicker{
+    background-image: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size:500%;
+    animation: animate 5s linear infinite;
 }
