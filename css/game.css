@@ -188,3 +188,14 @@ button:hover
     font-size: 6rem;
     color:var(--secondary-color);
 }
+#back-button
+{
+    position:absolute;
+    z-index: 9999;
+    cursor: pointer;
+    font-size: 2rem;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    color: var(--primary-color);
+}

@@ -1,5 +1,7 @@
 //player input
 //on keydown
+const back_button = document.getElementById('back-button');
+
 document.body.onkeydown = (e) => {
     //space, or arrowup
     if(e.keyCode == 32 || e.keyCode == 38 && game.state == 1){
@@ -48,7 +50,7 @@ document.getElementById('jump-button').onmouseup = (e) =>
 function start_game(_game)
 {
 
-
+    back_button.style.display = 'none';
         game.map.tile_map.attempts++;
         last_time = 0;
         game.map.gameover = false;
@@ -68,6 +70,7 @@ document.getElementById('output-text').onmousedown = (e) =>
     {
         outputbox.display = false;
         control_box.display = false;
+        
         if(window.screen.availWidth < 768)
         {
             document.getElementById('input-button-container').style.display = 'grid';
@@ -89,3 +92,7 @@ document.getElementById('ownSong').addEventListener('change', (e)=> {
     user_song = objectURL;
     outputbox.change_box_text(output_text[1]);
   });
+
+  back_button.addEventListener('click', (e) =>{
+      window.location.href ="./index.html";
+  })

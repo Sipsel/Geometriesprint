@@ -36,6 +36,7 @@ function mainloop(time)
         tile_maps[map_id] = game.map.tile_map;
         localStorage.setItem('customMaps', JSON.stringify(tile_maps));
         outputbox.change_box_text(game.win_message);
+        back_button.style.display = 'block';
         if(window.screen.availWidth < 768)
         {
             document.getElementById('input-button-container').style.display = 'none';
@@ -49,6 +50,7 @@ function mainloop(time)
         game.state = 4;
 
         outputbox.change_box_text(game.death_message);
+        back_button.style.display = 'block';
         if(window.screen.availWidth < 768)
         {
             document.getElementById('input-button-container').style.display = 'none';

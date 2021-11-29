@@ -8,7 +8,10 @@
 4. [Installation](#installation)
 5. [Known-Bugs](#known-bugs)
 6. [Browserkompabilität](#browserkompabilität)
-7. [License](#license)
+7. [Third-Party-Contribution](#Third-Party-Contribution) 
+8. [License](#license)
+9. [Anerkennung](#Anerkennung)
+
 
 ## 1. Authoren
 
@@ -18,15 +21,18 @@ Florian Koll und Daniel Reiner Franke(Sipsel)
 ## 2. Beschreibung
 Geometriesprint ist ein automatischer 2d-Sidescroll Jump'n'Run in Anlehnung an das Spiel Geometry Dash von Ropert Topala. Geometriesprint ist ein open-source Spiel das entwickelt wurde, um dem Spieler mehr mögliche personalisierungs Optionen zu bieten als das Spiel Geometry Dash. Zudem sollten Entwickler die Möglichkeit haben, selber basierend auf Geometriesprint herumzutüffteln.
 
+
 ## 3. Aktuelle Version
 
 Die aktuelle Version 1.0 wurde am 29.11.2021 erstellt. 
+
 
 ## 4. Installation 
 
 Das Spiel kann sofort über [Github pages](https://sipsel.github.io/Geometriesprint/) gespielt werden.
 Alternativ kann der Quellcode auch heruntergeladen, entpackt und über die Datei index.html geöffnet werden.
 Bei der zweiten Variante empfehlen wir den Erweiterung Live-Server von Visual Studio Code oder das hosten der Datei auf einem Server (z.B. Apache). Damit können Fehler durch fehleden Zugriff auf das Dateiensystme vermieden werden. 
+
 
 ## 5. Known Bugs
 
@@ -51,6 +57,8 @@ Getestet (29.11.2019)
 
 Chrome-Version  : 96.0.4664.45
 Microsoft Edge  : 96.0.1054.34   
+Firefox         : 94.0.2
+Opera           : 81.0.4196.60
 
 ### 6.2 Mobile-Devices (Version)
 
@@ -63,8 +71,10 @@ The Map Music is provided by:
 Map 1: [Lightfox - "Pluck"](https://www.youtube.com/watch?v=tKwnSVfxwwI)
 Map 2: [Cartoon - "On On"](https://www.youtube.com/watch?v=K4DyBUG242c)
 Map 3: [Ross Bugden - "The Game is On"](https://www.youtube.com/watch?v=5dasaVm7L-Y)
-Map 4:
-Map 5:
+Map 4: [Skeler - "Plume"](https://www.youtube.com/watch?v=0GM9XshEQ1s)
+Map 5: [Deaf Kev - "Invincible"](https://www.youtube.com/watch?v=J2X5mJ3HDYE)
+
+
 ## 8. License
 
 MIT License
@@ -88,3 +98,44 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+## 9. Anerkennung
+1. Florian Koll
+    - Musik Auswahl (alles außer game_over.wav && win.wav)
+    - Im CSS Ordner(alles außer game.css)
+    - csvMapTiles
+    - img
+        -favicon
+    - js
+        - autoMapMapTiles.js
+        - main.js
+        - map-editor.js
+        - newGame.js
+        - settings.js
+        - standards.js
+        - standardMaps.js
+        - statistics.js
+    - Map-Creator
+    - about.html
+    - editor.html
+    - index.html
+    - newGame.html
+    - settings.html
+    - statistics.html
+2. Daniel Franke
+    - Musik auswahl für das Spiel (game_over.wav und win.wav)
+    - css
+        - game.css
+    - img
+        - canvas_background.jpg
+        - player.png
+    - js 
+        - classes.js
+        - constants.js
+        - functions.js
+        - game.js
+        - user-input.js
+    - game.html
+    - LICENSE
+    - README.md
