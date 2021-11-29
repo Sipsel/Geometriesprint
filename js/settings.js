@@ -8,12 +8,10 @@ const slideValue = document.querySelector("span");
 const inputSlider= document.querySelector("input");
 var img = new Image();
 slideValue.textContent = localStorage['volume'];
-slideValue.style.left= (localStorage['volume']) + "%";
 
 inputSlider.oninput = (()=>{
     let value = inputSlider.value;
     slideValue.textContent = value;
-    slideValue.style.left= 50;
     slideValue.classList.add("show");
 });
 

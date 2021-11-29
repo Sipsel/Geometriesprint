@@ -57,7 +57,7 @@ function drawTo(ctx,vec1,vec2)
     ctx.lineWidth  = line_width;
 }
 //collision detection 
-function in_proximity(asset1,asset2)
+function in_proximity(asset1,asset2, _radius_from_asset1=0)
     {
         //http://cgp.wikidot.com/circle-to-circle-collision-detection
         //check if assets are in proximity
@@ -67,7 +67,7 @@ function in_proximity(asset1,asset2)
 
         p1x = asset1.x+asset1.width/2;
         p1y = asset1.y+asset1.height/2;
-        r1 = sqrt(pow(asset1.height,2)+pow(asset1.width,2))/2;
+        r1 = sqrt(pow(asset1.height+_radius_from_asset1,2)+pow(asset1.width+_radius_from_asset1,2))/2;
         //console.log(asset2.width,asset2.height)
         
         p2x = asset2.x+asset2.width/2;

@@ -56,7 +56,7 @@ function getTimeString(cols){
     let timeInSeconds = cols/6.25;
     if(timeInSeconds <= 60){
         return "Kurz";
-    } else if(timeInSeconds >60 && timeInSeconds <= 120){
+    } else if(timeInSeconds >60 && timeInSeconds <= 180){
         return "Mittel";
     } else{
         return "Lang";

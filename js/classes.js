@@ -115,10 +115,14 @@ class Map
         this.assets.forEach(asset => {
             if(asset.on_map == false && !(this.loaded == false))
             {
-                //this.assets.splice([this.assets.indexOf(asset)],1)
+                
             }else
             {
-                asset.draw(dt)
+                
+                if(in_proximity(this.player,asset,50))
+                {
+                    asset.draw(dt)
+                }
             }
         }
         );
@@ -170,7 +174,6 @@ class Map
             this.player.position.y = this.player.start_y;
             this.player.jump_pressed = false;
             this.player.degree = 0;
-            //
             this.player.alive = true;
             this.player.on_map = true;
             this.player.velocity = new Vector(player_speed,0);
@@ -252,11 +255,7 @@ class Map
     {
         if(dt*1000 > 200)
         {
-            if(dt*1000 > 500)
-            {
-                this.reset_player();
-                this.reset_audio();
-            }
+            
             dt = 200/1000;
         }
         this.particles.forEach(particle => particle.move(dt));

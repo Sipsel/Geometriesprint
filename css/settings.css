@@ -73,7 +73,8 @@
 }
 
 .slider::-moz-range-thumb:hover{
-    background-color: green;
+    background-color: var(--secondary-color);
+    border: 2px solid var(--primary-color);
 }
 
 .range .sliderValue{
