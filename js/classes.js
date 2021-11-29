@@ -592,7 +592,7 @@ class Player extends Asset
             this.jump_velocity = player_jump_height;
             this.velocity.y = -this.jump_velocity;
             this.jump_pressed = false;
-            tile_map.jump++;
+            tile_map.jumps++;
         }
     }
 }

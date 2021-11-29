@@ -17,7 +17,7 @@ document.body.onkeydown = (e) => {
         control_box.display = false;
         start_game(game);
     }
-    if(e.keyCode == 27 && game.state == 3 || game.state == 4 || game.state == 0)
+    if(e.keyCode == 27)
     {
         window.location.href = "./newGame.html";
     }

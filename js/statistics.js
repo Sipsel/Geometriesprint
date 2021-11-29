@@ -3,13 +3,19 @@ const jumps = document.getElementById('jumps');
 const timeSpend = document.getElementById('timeSpend');
 const distance_traveled = document.getElementById('distance_traveled');
 
-let attempts = 0;
-attempts += JSON.parse(localStorage.customMaps).forEach(map =>  {return map.attempts});
+let attemptsInt = 0;
+JSON.parse(localStorage.customMaps).forEach(map =>  {attemptsInt+=map.attempts});
 
+let jumpsInt = 0;
+JSON.parse(localStorage.customMaps).forEach(map =>  {jumpsInt+=map.jumps});
 
-let timeSpendMinutes = parseInt((parseInt(localStorage['overAllDistanceTraveled'])/6.25)/60);
-attempts.innerHTML = "Versuche: " + attempts;
-jumps.innerHTML ="Sprünge: " + localStorage['overAllJumps'];
-timeSpend.innerHTML ="Spielzeit: " + timeSpendMinutes + " Minuten";
-distance_traveled.innerHTML="Blöcke gelaufen: " + parseInt(localStorage['overAllDistanceTraveled']);
+let distance_traveledInt = 0;
+JSON.parse(localStorage.customMaps).forEach(map =>  {distance_traveledInt+=map.distance_traveled});
+
+let timeSpendMinutes = (distance_traveledInt/6.25)/60;
+let timeSpendSeconds = (timeSpendMinutes - parseInt(timeSpendMinutes))*60;
+attempts.innerHTML = "Versuche: " + attemptsInt;
+jumps.innerHTML ="Sprünge: " + jumpsInt;
+timeSpend.innerHTML ="Spielzeit: " + parseInt(timeSpendMinutes) + " Minuten und " + timeSpendSeconds.toFixed(2) + " Sekunden";
+distance_traveled.innerHTML="Blöcke gelaufen: " + distance_traveledInt;
 

@@ -12,7 +12,7 @@ function invertColor(hexTripletColor) {
 window.addEventListener("load", initialize, false);
 
 function flushLocalstorage(){
-localStorage["initialization"] = 'false';
+localStorage.clear();
 initialize()
 }
 
@@ -39,9 +39,6 @@ function initialize() {
     localStorage['initialization'] = 'true'; 
     localStorage['texturePack'] = "";
     localStorage.setItem('particleState', 2);
-    localStorage['overAllAttempts'] = 0;
-    localStorage['overAllJumps'] = 0;
-    localStorage['overAllDistanceTraveled'] = 0;
     }
 document.documentElement.style.setProperty('--primary-color', localStorage['primary-color']);
 document.documentElement.style.setProperty('--secondary-color', localStorage['secondary-color']);
