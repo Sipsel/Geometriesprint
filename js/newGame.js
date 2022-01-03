@@ -45,8 +45,8 @@ function showMap() {
     showSongName.setAttribute('data-tooltip',maps[whichMap].songname);
     showMapID.innerHTML = "Map-Id: " + maps[whichMap].id;
     showMapProgress.innerHTML = "Progress: " + maps[whichMap].progress +"%";
-    showMapAttempts.innerHTML = "Versuche: " + maps[whichMap].attempts;
-    showMapTime.innerHTML = "Map-Länge: " + getTimeString(maps[whichMap].cols);
+    showMapAttempts.innerHTML = "Attemps: " + maps[whichMap].attempts;
+    showMapTime.innerHTML = "Map-length: " + getTimeString(maps[whichMap].cols);
 }
 
 
@@ -55,10 +55,10 @@ showMap()
 function getTimeString(cols){
     let timeInSeconds = cols/6.25;
     if(timeInSeconds <= 60){
-        return "Kurz";
+        return "Short";
     } else if(timeInSeconds >60 && timeInSeconds <= 180){
-        return "Mittel";
+        return "Middle";
     } else{
-        return "Lang";
+        return "Long";
     }
 }
