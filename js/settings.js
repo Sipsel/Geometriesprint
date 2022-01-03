@@ -37,13 +37,13 @@ particleState.addEventListener('click', function(e){
 function particleHTMLState(){
     switch(particleStateInt){
         case 0: 
-                particleState.innerHTML = "Partikeleffekte: Aus"
+                particleState.innerHTML = "particle effects: off"
         break;
         case 1:
-                particleState.innerHTML = "Partikeleffekte: Wenig"
+                particleState.innerHTML = "particle effects: little"
         break;
         case 2: 
-                particleState.innerHTML = "Partikeleffekte: Viel"
+                particleState.innerHTML = "particle effects: many"
         break;
     }
 }
@@ -164,10 +164,10 @@ texturePackInput.addEventListener('change', function(e){
         if(width > 512 && height > 512)
         {
             texturePackInput.value = "";
-            alert("Das Bild darf nicht größer als 512px*512px sein!");
+            alert("Image may not be bigger than 512pxx512px!");
         }else if(width != height){
             texturePackInput.value = "";
-            alert("Die Höhe und die Breite des Bildes müssen identisch sein!");
+            alert("Height and Width of the image must be identical!");
         }
     }
 })

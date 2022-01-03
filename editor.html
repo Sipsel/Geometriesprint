@@ -27,25 +27,34 @@
         <div class="content" id="divContent">
             <label class="labelOwnSong" id = "labelOwnSong">
             <input type="file" accept="audio/*"  id="ownSong"> 
-                Eigenen Song hochladen
+                Upload own song
+                <!-- Eigenen Song hochladen-->
             </label>
             <div class="songTitle" id="songTitle"></div>
             <canvas id="showMap" width="1000vw" height="80vw"></canvas>
-            <button class="customMap" id="customMap">Eigene Map</button>
+            <button class="customMap" id="customMap">
+                Map
+                <!-- Eigene Karte-->
+            </button>
             <label class="decideAutoOrCustomMap" id="uploadCustomMap">
                 <input type="file" accept=".txt" id="csvMap">
-                hochladen
+                upload
+                <!-- Hochladen -->
             </label>
             <button class="decideAutoOrCustomMap" id="autoMap">
-                Automatische Map
+                automatic <map name=""></map>
+                <!-- Automatische Map-->
             </button>
             <a class="decideAutoOrCustomMap" download="Map-Creator.xlsm" id="downloadMapCreator">
                 Map-creator
             </a>
-            <button id="createMap">Map speichern</button>
+            <button id="createMap">
+                Save map
+            <!-- Map speichern-->
+            </button>
             
         </div>
-        <a href="./index.html" id="newGame" class="button">Hauptmenü</a>
+        <a href="./index.html" id="newGame" class="button">Menu</a>
 
     </div>
 <script src="./js/map-editor.js"></script>

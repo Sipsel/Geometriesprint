@@ -133,17 +133,17 @@ const output_text = {
     0:
     {
         'title':'Start',
-        'text':`Zum Starten laden sie bitte ihren Song für die Karte:<br> ${tile_map.songname} <br><button class="blink" id="game-start-button">hier hoch</button>`
+        'text':`Please upload the song for this map:<br> ${tile_map.songname} <br><button class="blink" id="game-start-button">here</button>`
     },
     1:
     {
         'title':'Start',
-        'text':'Zum Starten bitte <button class="blink" id="game-start-button">hier</button> drücken'
+        'text':'To start press <button class="blink" id="game-start-button">here</button>'
     },
     2:
     {
-        'title':'Gewonnen',
-        'text':'Zum Neustarten bitte <button class="blink" id="game-start-button">hier</button> drücken'
+        'title':'Win',
+        'text':'To restart press <button class="blink" id="game-start-button">here</button>'
     }
     
 }

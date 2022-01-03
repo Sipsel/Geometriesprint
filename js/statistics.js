@@ -15,8 +15,8 @@ JSON.parse(localStorage.customMaps).forEach(map =>  {distance_traveledInt+=map.d
 
 let timeSpendMinutes = (distance_traveledInt/6.25)/60;
 let timeSpendSeconds = (timeSpendMinutes - parseInt(timeSpendMinutes))*60;
-attempts.innerHTML = "Versuche: " + attemptsInt;
-jumps.innerHTML ="Sprünge: " + jumpsInt;
-timeSpend.innerHTML ="Spielzeit: " + parseInt(timeSpendMinutes) + " Minuten und " + timeSpendSeconds.toFixed(2) + " Sekunden";
-distance_traveled.innerHTML="Blöcke gelaufen: " + distance_traveledInt;
-distance_per_attempt.innerHTML = "Blöcke pro Versuch: " + (distance_traveledInt/attemptsInt).toFixed(2);
+attempts.innerHTML = "Attempts: " + attemptsInt;
+jumps.innerHTML ="Jumps: " + jumpsInt;
+timeSpend.innerHTML ="Gametime: " + parseInt(timeSpendMinutes) + " minutes and " + timeSpendSeconds.toFixed(2) + " seconds";
+distance_traveled.innerHTML="Blocks traveled: " + distance_traveledInt;
+distance_per_attempt.innerHTML = "Blocks per attempt: " + (distance_traveledInt/attemptsInt).toFixed(2);

@@ -52,20 +52,20 @@ class Game
     get death_message()
     {
         return {
-            "title":"Tod",
-            "text": `Du hast ${Math.floor((this.map.player.x+1)/this.map.width*100)}% der Karte geschafft.<br>
-            Das war dein ${this.map.tile_map.attempts}. Versuch<br>
-            Dein Highscore liegt bei: ${this.map.tile_map.progress}%
-            <br><button class="blink" id="game-start-button">Hier kannst du neu starten</button>`
+            "title":"Lost",
+            "text": `You completed ${Math.floor((this.map.player.x+1)/this.map.width*100)}% of the map.<br>
+            This was your ${this.map.tile_map.attempts}. attempt<br>
+            Your highscore is: ${this.map.tile_map.progress}%
+            <br><button class="blink" id="game-start-button">Press to start again</button>`
         }
     }
     get win_message()
     {
         return {
-            "title":"Gewonnen!",
-            "text": `Du hast die Karte erfolgreich durch gespielt! Glückwunsch.<br>
-            Das war dein ${this.map.tile_map.attempts}. Versuch
-            <br><button class="blink" id="game-start-button">Hier kannst du neu starten</button>`
+            "title":"Win!",
+            "text": `You completed this map! Congratulation.<br>
+            This was you ${this.map.tile_map.attempts}. attempt.
+            <br><button class="blink" id="game-start-button">Press to start again</button>`
         }
     }
 }
