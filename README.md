@@ -1,10 +1,12 @@
 # Geometriesprint
 
 ## Languages
-[English](#english)
-[German](#german)
-[License](#license)
-[Third-Party-Contribution](#Third-Party-Contribution) 
+
+- [English](#english)
+- [German](#german)
+- [Third-Party-Contribution](#Third-Party-Contribution) 
+- [License](#license)
+
 ## English
 
 ## Table of Contents
